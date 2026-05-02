@@ -21,11 +21,11 @@ description: "Task list for Scaffold Monorepo Foundation"
 
 **Purpose**: Monorepo root initialization — configs, workspace definition, tooling baseline. No user story label; all stories depend on this.
 
-- [ ] T001 Create root `package.json` with Bun workspace globs (`apps/*`, `packages/*`) in `package.json`
-- [ ] T002 Create root `tsconfig.base.json` with `strict: true`, no-`any` enforcement, and path aliases in `tsconfig.base.json`
-- [ ] T003 [P] Install and configure Vite Plus (`vite-plus`) at root — Vite Plus bundles oxlint (linting) and oxcfmt (formatting) as a single package; add `viteplus.config.ts` and wire `format` and `lint` scripts in root `package.json`
-- [ ] T004 [P] Create root `.env.example` and document required env variables in `.env.example`
-- [ ] T005 [P] Create `.gitignore` covering `node_modules`, `dist`, `.env`, `.env.local` — migration SQL files in `drizzle/migrations/` MUST be committed (they are version-controlled migration history) in `.gitignore`
+- [x] T001 Create root `package.json` with Bun workspace globs (`apps/*`, `packages/*`) in `package.json`
+- [x] T002 Create root `tsconfig.base.json` with `strict: true`, no-`any` enforcement, and path aliases in `tsconfig.base.json`
+- [x] T003 [P] Install and configure Vite Plus (`vite-plus`) at root — Vite Plus bundles oxlint (linting) and oxcfmt (formatting) as a single package; add `vite.config.ts` and wire `format` and `lint` scripts in root `package.json`
+- [x] T004 [P] Create root `.env.example` and document required env variables in `.env.example`
+- [x] T005 [P] Create `.gitignore` covering `node_modules`, `dist`, `.env`, `.env.local` — migration SQL files in `drizzle/migrations/` MUST be committed (they are version-controlled migration history) in `.gitignore`
 
 **Checkpoint**: Root workspace installs cleanly with `bun install` from repo root.
 
@@ -37,15 +37,15 @@ description: "Task list for Scaffold Monorepo Foundation"
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T006 Create `packages/shared/package.json`, `packages/shared/tsconfig.json` extending `tsconfig.base.json` in `packages/shared/`
-- [ ] T007 [P] Create `packages/shared/src/schemas/` directory and export barrel in `packages/shared/src/schemas/index.ts`
-- [ ] T008 [P] Create RFC 9457 Problem Details Zod schema in `packages/shared/src/schemas/problem-detail.ts`
-- [ ] T009 Create initial Drizzle schema baseline (empty `pgSchema` placeholder) in `drizzle/schema/index.ts`
-- [ ] T010 Create `drizzle.config.ts` pointing to `drizzle/schema/index.ts`, outputting to `drizzle/migrations/`, using `pg` driver in `drizzle.config.ts`
-- [ ] T011 [P] Create Zod-validated env schema for `apps/api` (DATABASE_URL, API_PORT) in `apps/api/src/env/index.ts`
-- [ ] T011b [P] Create `docker-compose.yml` with a `postgres` service (image `postgres:16-alpine`), port binding matching `DATABASE_URL` default in `.env.example`, volume mount for data persistence, and a `pg_isready` health check in `docker-compose.yml`
-- [ ] T012 [P] Create `scripts/dev/` directory with a `README.md` describing dev workflow conventions in `scripts/dev/README.md`
-- [ ] T013 Add root-level `bun run` scripts: `dev`, `build`, `format`, `lint`, `typecheck`, `db:generate`, `db:migrate`, `test:contract` in root `package.json`
+- [x] T006 Create `packages/shared/package.json`, `packages/shared/tsconfig.json` extending `tsconfig.base.json` in `packages/shared/`
+- [x] T007 [P] Create `packages/shared/src/schemas/` directory and export barrel in `packages/shared/src/schemas/index.ts`
+- [x] T008 [P] Create RFC 9457 Problem Details Zod schema in `packages/shared/src/schemas/problem-detail.ts`
+- [x] T009 Create initial Drizzle schema baseline (empty `pgSchema` placeholder) in `drizzle/schema/index.ts`
+- [x] T010 Create `drizzle.config.ts` pointing to `drizzle/schema/index.ts`, outputting to `drizzle/migrations/`, using `pg` driver in `drizzle.config.ts`
+- [x] T011 [P] Create Zod-validated env schema for `apps/api` (DATABASE_URL, API_PORT) in `apps/api/src/env/index.ts`
+- [x] T011b [P] Create `docker-compose.yml` with a `postgres` service (image `postgres:16-alpine`), port binding matching `DATABASE_URL` default in `.env.example`, volume mount for data persistence, and a `pg_isready` health check in `docker-compose.yml`
+- [x] T012 [P] Create `scripts/dev/` directory with a `README.md` describing dev workflow conventions in `scripts/dev/README.md`
+- [x] T013 Add root-level `bun run` scripts: `dev`, `build`, `format`, `lint`, `typecheck`, `db:generate`, `db:migrate`, `test:contract` in root `package.json`
 
 **Checkpoint**: Foundation ready — `bun install && bun run typecheck` passes; `docker compose up -d` starts Postgres; `bun run db:generate` generates initial migration artifact.
 
@@ -59,21 +59,21 @@ description: "Task list for Scaffold Monorepo Foundation"
 
 ### Validation for User Story 1
 
-- [ ] T014 [P] [US1] Verify `apps/api`, `apps/web`, `packages/shared`, `drizzle/` all exist with correct `package.json` and `tsconfig.json` in their respective paths
-- [ ] T015 [P] [US1] Run `bun run lint`, `bun run format`, `bun run typecheck` on all US1-touched files in `apps/api/`, `apps/web/`, `packages/shared/`
+- [x] T014 [P] [US1] Verify `apps/api`, `apps/web`, `packages/shared`, `drizzle/` all exist with correct `package.json` and `tsconfig.json` in their respective paths
+- [x] T015 [P] [US1] Run `bun run lint`, `bun run format`, `bun run typecheck` on all US1-touched files in `apps/api/`, `apps/web/`, `packages/shared/`
 
 ### Implementation for User Story 1
 
-- [ ] T016 [US1] Create `apps/api/package.json` with `elysia`, `@elysiajs/eden`, `drizzle-orm`, `zod` dependencies in `apps/api/package.json`
-- [ ] T017 [P] [US1] Create `apps/api/tsconfig.json` extending `../../tsconfig.base.json` in `apps/api/tsconfig.json`
-- [ ] T018 [P] [US1] Create `apps/web/package.json` with `react`, `react-dom`, `@elysiajs/eden`, `vite`, `@vitejs/plugin-react`, `zod` dependencies in `apps/web/package.json`
-- [ ] T019 [P] [US1] Create `apps/web/tsconfig.json` extending `../../tsconfig.base.json` in `apps/web/tsconfig.json`
-- [ ] T020 [P] [US1] Create Vite config with Rolldown and React plugin in `apps/web/vite.config.ts`
-- [ ] T021 [US1] Create base Elysia app instance with CORS and error plugin wired in `apps/api/src/app/index.ts` (depends on T016)
-- [ ] T022 [US1] Create RFC 9457 error handler middleware returning `application/problem+json` in `apps/api/src/middleware/error.ts`
-- [ ] T023 [US1] Implement `GET /api/health` route per contract in `apps/api/src/routes/health.ts`
-- [ ] T024 [US1] Register health route on base Elysia app and export typed `App` type in `apps/api/src/app/index.ts` (depends on T021, T023)
-- [ ] T025 [P] [US1] Create `apps/web/src/app/main.tsx` React entry point and `apps/web/index.html`
+- [x] T016 [US1] Create `apps/api/package.json` with `elysia`, `@elysiajs/eden`, `drizzle-orm`, `zod` dependencies in `apps/api/package.json`
+- [x] T017 [P] [US1] Create `apps/api/tsconfig.json` extending `../../tsconfig.base.json` in `apps/api/tsconfig.json`
+- [x] T018 [P] [US1] Create `apps/web/package.json` with `react`, `react-dom`, `@elysiajs/eden`, `vite`, `@vitejs/plugin-react`, `zod` dependencies in `apps/web/package.json`
+- [x] T019 [P] [US1] Create `apps/web/tsconfig.json` extending `../../tsconfig.base.json` in `apps/web/tsconfig.json`
+- [x] T020 [P] [US1] Create Vite config with Rolldown and React plugin in `apps/web/vite.config.ts`
+- [x] T021 [US1] Create base Elysia app instance with CORS and error plugin wired in `apps/api/src/app/index.ts` (depends on T016)
+- [x] T022 [US1] Create RFC 9457 error handler middleware returning `application/problem+json` in `apps/api/src/middleware/error.ts`
+- [x] T023 [US1] Implement `GET /api/health` route per contract in `apps/api/src/routes/health.ts`
+- [x] T024 [US1] Register health route on base Elysia app and export typed `App` type in `apps/api/src/app/index.ts` (depends on T021, T023)
+- [x] T025 [P] [US1] Create `apps/web/src/app/main.tsx` React entry point and `apps/web/index.html`
 
 **Checkpoint**: `bun run typecheck` passes; folder structure matches plan.md source tree; `bun run lint` and `bun run format` succeed on all generated files.
 
@@ -87,17 +87,17 @@ description: "Task list for Scaffold Monorepo Foundation"
 
 ### Validation for User Story 2
 
-- [ ] T026 [P] [US2] Contract smoke: `GET /api/scaffold/ping?name=dev` returns `{ message: "pong", echo: { name: "dev" } }` with status 200 in `apps/api/tests/contract/scaffold.test.ts`
-- [ ] T027 [P] [US2] Run `bun run typecheck` on `apps/web/src/treaty/` and `apps/api/src/routes/scaffold.ts`
+- [x] T026 [P] [US2] Contract smoke: `GET /api/scaffold/ping?name=dev` returns `{ message: "pong", echo: { name: "dev" } }` with status 200 in `apps/api/tests/contract/scaffold.test.ts`
+- [x] T027 [P] [US2] Run `bun run typecheck` on `apps/web/src/treaty/` and `apps/api/src/routes/scaffold.ts`
 
 ### Implementation for User Story 2
 
-- [ ] T028 [US2] Implement `GET /api/scaffold/ping` route with Zod query validation (`name?: string, max 60`) per contract in `apps/api/src/routes/scaffold.ts` (depends on T024)
-- [ ] T029 [US2] Register scaffold route on Elysia app and re-export updated `App` type in `apps/api/src/app/index.ts` (depends on T028)
-- [ ] T030 [US2] Set up Eden Treaty client typed from `App` in `apps/web/src/treaty/client.ts` (depends on T029)
-- [ ] T031 [US2] Create `apps/web/src/pages/ScaffoldDemo.tsx` that calls `/api/scaffold/ping` via Eden Treaty and renders response (depends on T030)
-- [ ] T032 [US2] Implement Elysia fullstack dev server pattern (serve web static in dev from api, single port) per https://elysiajs.com/patterns/fullstack-dev-server.html in `apps/api/src/app/index.ts` (depends on T029)
-- [ ] T033 [US2] Wire root `bun run dev` script to start the fullstack dev server via `apps/api/src/app/index.ts` in root `package.json` (depends on T032)
+- [x] T028 [US2] Implement `GET /api/scaffold/ping` route with Zod query validation (`name?: string, max 60`) per contract in `apps/api/src/routes/scaffold.ts` (depends on T024)
+- [x] T029 [US2] Register scaffold route on Elysia app and re-export updated `App` type in `apps/api/src/app/index.ts` (depends on T028)
+- [x] T030 [US2] Set up Eden Treaty client typed from `App` in `apps/web/src/treaty/client.ts` (depends on T029)
+- [x] T031 [US2] Create `apps/web/src/pages/ScaffoldDemo.tsx` that calls `/api/scaffold/ping` via Eden Treaty and renders response (depends on T030)
+- [x] T032 [US2] Implement Elysia fullstack dev server pattern (serve web static in dev from api, single port) per https://elysiajs.com/patterns/fullstack-dev-server.html in `apps/api/src/app/index.ts` (depends on T029)
+- [x] T033 [US2] Wire root `bun run dev` script to start the fullstack dev server via `apps/api/src/app/index.ts` in root `package.json` (depends on T032)
 
 **Checkpoint**: `bun run dev` starts without error; `curl http://localhost:$API_PORT/api/scaffold/ping?name=dev` returns correct JSON; Eden Treaty call in browser completes successfully.
 
@@ -111,18 +111,18 @@ description: "Task list for Scaffold Monorepo Foundation"
 
 ### Validation for User Story 3
 
-- [ ] T034 [P] [US3] Contract smoke: `GET /api/scaffold/protected` without auth header returns 401 `application/problem+json` per RFC 9457 in `apps/api/tests/contract/protected.test.ts`
-- [ ] T035 [P] [US3] Contract smoke: `GET /api/health` returns 200 `{ status: "ok" }` in `apps/api/tests/contract/health.test.ts`
-- [ ] T036 [US3] Run `bun run db:generate && bun run db:migrate` and confirm migration table created in local Docker Postgres
+- [x] T034 [P] [US3] Contract smoke: `GET /api/scaffold/protected` without auth header returns 401 `application/problem+json` per RFC 9457 in `apps/api/tests/contract/protected.test.ts`
+- [x] T035 [P] [US3] Contract smoke: `GET /api/health` returns 200 `{ status: "ok" }` in `apps/api/tests/contract/health.test.ts`
+- [x] T036 [US3] Run `bun run db:generate && bun run db:migrate` and confirm migration table created in local Docker Postgres
 
 ### Implementation for User Story 3
 
-- [ ] T037 [P] [US3] Create auth-ready guard middleware (placeholder bearer-token check, returns RFC 9457 401 on missing/invalid header) in `apps/api/src/middleware/auth.ts`
-- [ ] T038 [US3] Implement `GET /api/scaffold/protected` route using auth guard per contract in `apps/api/src/routes/scaffold.ts` (depends on T037)
-- [ ] T039 [US3] Register protected route on Elysia app in `apps/api/src/app/index.ts` (depends on T038)
-- [ ] T040 [P] [US3] Create React auth-ready hook stub (`useAuth`) in `apps/web/src/lib/auth.ts` for future provider wiring
-- [ ] T041 [US3] Add `test:contract` script running Vitest on `apps/api/tests/contract/` in root `package.json` (depends on T034, T035)
-- [ ] T042 [US3] Validate full quality-gate sequence: `bun run format && bun run lint && bun run typecheck && bun run test:contract` all exit 0
+- [x] T037 [P] [US3] Create auth-ready guard middleware (placeholder bearer-token check, returns RFC 9457 401 on missing/invalid header) in `apps/api/src/middleware/auth.ts`
+- [x] T038 [US3] Implement `GET /api/scaffold/protected` route using auth guard per contract in `apps/api/src/routes/scaffold.ts` (depends on T037)
+- [x] T039 [US3] Register protected route on Elysia app in `apps/api/src/app/index.ts` (depends on T038)
+- [x] T040 [P] [US3] Create React auth-ready hook stub (`useAuth`) in `apps/web/src/lib/auth.ts` for future provider wiring
+- [x] T041 [US3] Add `test:contract` script running Vitest on `apps/api/tests/contract/` in root `package.json` (depends on T034, T035)
+- [x] T042 [US3] Validate full quality-gate sequence: `bun run format && bun run lint && bun run typecheck && bun run test:contract` all exit 0
 
 **Checkpoint**: All user stories independently functional; `bun run test:contract` passes; auth guard returns RFC 9457 401; migration artifact committed to `drizzle/migrations/`.
 
@@ -132,9 +132,9 @@ description: "Task list for Scaffold Monorepo Foundation"
 
 **Purpose**: Documentation, final validation, and no-`any` audit.
 
-- [ ] T043 [P] Write `README.md` documenting scaffold structure, prerequisite setup, workspace commands, and quickstart.md reference in `README.md`
-- [ ] T044 Perform strict no-`any` audit: confirm `bun run typecheck` emits zero `any`-related errors across `apps/`, `packages/`, and `drizzle/`
-- [ ] T045 Run quickstart.md end-to-end validation: `bun install` → env setup → `db:generate` → `db:migrate` → `bun run dev` → quality gates all pass
+- [x] T043 [P] Write `README.md` documenting scaffold structure, prerequisite setup, workspace commands, and quickstart.md reference in `README.md`
+- [x] T044 Perform strict no-`any` audit: confirm `bun run typecheck` emits zero `any`-related errors across `apps/`, `packages/`, and `drizzle/`
+- [x] T045 Run quickstart.md end-to-end validation: `bun install` → env setup → `db:generate` → `db:migrate` → `bun run dev` → quality gates all pass
 
 ---
 
@@ -234,16 +234,16 @@ Task: "Implement GET /api/health"             # T023
 
 ## Summary
 
-| Metric | Value |
-|---|---|
-| Total tasks | 46 |
-| Phase 1 Setup | 5 tasks |
-| Phase 2 Foundational | 9 tasks (incl. T011b docker-compose) |
-| Phase 3 US1 (P1 — MVP) | 12 tasks |
-| Phase 4 US2 (P2) | 8 tasks |
-| Phase 5 US3 (P3) | 9 tasks |
-| Phase 6 Polish | 3 tasks |
-| Parallelizable tasks [P] | 24 tasks |
-| Format: all checklist | ✅ |
+| Metric                   | Value                                |
+| ------------------------ | ------------------------------------ |
+| Total tasks              | 46                                   |
+| Phase 1 Setup            | 5 tasks                              |
+| Phase 2 Foundational     | 9 tasks (incl. T011b docker-compose) |
+| Phase 3 US1 (P1 — MVP)   | 12 tasks                             |
+| Phase 4 US2 (P2)         | 8 tasks                              |
+| Phase 5 US3 (P3)         | 9 tasks                              |
+| Phase 6 Polish           | 3 tasks                              |
+| Parallelizable tasks [P] | 24 tasks                             |
+| Format: all checklist    | ✅                                   |
 
 **Suggested MVP scope**: Complete through Phase 3 (US1) for a validated scaffold baseline.

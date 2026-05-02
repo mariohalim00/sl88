@@ -26,26 +26,31 @@ Follow-up TODOs:
 ## Core Principles
 
 ### I. End-to-End Type Safety
+
 All production code MUST compile under strict typing rules, and the codebase MUST not introduce `any` in application, shared, test, or tooling code without an explicit constitution amendment. Types shared across backend, frontend, and integration surfaces MUST be derived from authoritative sources instead of duplicated by hand. The system MUST preserve typed request and response contracts across the ElysiaJS backend, Eden Treaty client usage, and React frontend.
 
 Rationale: This project is explicitly scoped as a strictly typed full-stack commerce system, so type drift is treated as a product risk rather than a style issue.
 
 ### II. Schema-Validated Boundaries
+
 Every untrusted boundary MUST be validated with Zod 4 before domain logic runs. This includes HTTP inputs, environment configuration, persisted payload reconstruction, and any cross-layer data crossing between browser, server, and database workflows. Validation schemas MUST drive typed parsing and error handling, and invalid data MUST fail fast with explicit user-safe or operator-safe responses.
 
 Rationale: Typed code without runtime validation still permits invalid production data; schema-first boundaries keep contracts enforceable under real traffic.
 
 ### III. Bun-Native Full-Stack Architecture
+
 The runtime baseline for this project MUST be Bun. Backend services MUST use ElysiaJS, frontend delivery MUST use React with Vite and Rolldown-based tooling, and full-stack local development MUST follow the Bun-compatible Elysia full-stack pattern adopted for this repository. Cross-layer API consumption MUST prefer Eden Treaty so transport contracts remain aligned with server definitions.
 
 Rationale: The selected stack is a project constraint, not an implementation preference, because the developer experience and contract-sharing model depend on it.
 
 ### IV. Drizzle-Managed Data Model
+
 Persistent data structures MUST be defined and evolved through Drizzle-managed schema artifacts and migrations. Database changes MUST be reviewable, reversible where practical, and traceable to a documented feature or defect. Application queries MUST flow through typed schema definitions instead of raw, untyped access patterns.
 
 Rationale: A commerce system depends on durable product and order data, so schema governance and migration discipline are required from the start.
 
 ### V. Enforced Quality Gates
+
 Every change MUST pass formatting, linting, and typechecking through the repository-standard Vite Plus toolchain before merge. Features MUST be delivered as independently testable slices, and plans/tasks MUST define the narrowest executable validation for each slice. Contract, integration, or workflow tests MUST be added whenever a change affects API boundaries, shared schemas, checkout flows, catalog behavior, or order-management behavior.
 
 Rationale: This repository favors fast iteration, but only behind automated gates that catch regressions in shared contracts and business-critical flows.

@@ -14,7 +14,7 @@
 - Q: What contract ownership model should the scaffold enforce? → A: Hybrid model with server-authoritative API surface and shared Zod domain schemas in `packages/shared`.
 - Q: How much authentication should be included in the scaffold? → A: Auth-ready scaffold only with protection hooks and middleware, without login UI or provider integration.
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Generate baseline workspace scaffold (Priority: P1)
 
@@ -72,7 +72,7 @@ As a developer, I can run validation and data-foundation workflows from day one 
 - How does the scaffold respond when required environment configuration is missing at startup?
 - What happens if a migration is applied against an out-of-sync local database state?
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -88,7 +88,7 @@ As a developer, I can run validation and data-foundation workflows from day one 
 - **FR-010**: The scaffold MUST include baseline documentation that explains setup, local development, and validation workflows.
 - **FR-011**: The scaffold MUST provide auth-ready backend and frontend seams (for protected routes and authorization checks) without implementing login UI or third-party provider integration.
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **Project Scaffold Blueprint**: The generated structure definition containing application areas, shared modules, configuration defaults, and workflow scripts.
 - **Shared Contract Definition**: The canonical typed request/response shapes consumed by frontend and backend integration points.
@@ -97,7 +97,7 @@ As a developer, I can run validation and data-foundation workflows from day one 
 - **Schema Migration Artifact**: Versioned data-evolution records that describe and apply database structure changes.
 - **Developer Workflow Command Set**: The defined setup, run, and quality commands used to operate the scaffolded project.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

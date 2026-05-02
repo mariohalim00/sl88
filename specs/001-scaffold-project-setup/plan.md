@@ -21,7 +21,7 @@ Scaffold a Bun-first monorepo for a carpet-commerce platform with `apps/web`, `a
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 ### Pre-Phase 0 Gate Review
 
@@ -95,4 +95,3 @@ scripts/
 ## Complexity Tracking
 
 No constitution violations requiring justification.
-
