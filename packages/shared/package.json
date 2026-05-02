@@ -11,6 +11,6 @@
     "./contracts": "./src/contracts/index.ts"
   },
   "dependencies": {
-    "zod": "^3.25.0"
+    "zod": "^4.0.0"
   }
 }
