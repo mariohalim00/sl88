@@ -31,7 +31,11 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- Strict typing approach is documented for backend, frontend, shared contracts, and tests, with explicit confirmation that no `any` will be introduced.
+- Zod 4 validation coverage is identified for every external boundary, including HTTP input, environment parsing, and cross-layer payloads.
+- The selected architecture uses Bun as runtime, ElysiaJS for backend services, React for frontend delivery, and Eden Treaty for typed client-server integration.
+- Drizzle ownership of schema definitions, migrations, and typed data access is documented wherever persistent data is involved.
+- Validation commands for formatting, linting, typechecking, and any required contract or integration tests are listed before implementation begins.
 
 ## Project Structure
 
@@ -92,7 +96,8 @@ ios/ or android/
 ```
 
 **Structure Decision**: [Document the selected structure and reference the real
-directories captured above]
+directories captured above. Explain how shared contracts, validation schemas,
+and data access code are organized to preserve constitutional compliance.]
 
 ## Complexity Tracking
 

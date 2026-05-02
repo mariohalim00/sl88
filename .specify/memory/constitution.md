@@ -1,50 +1,73 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+Version change: 0.0.0 -> 1.0.0
+Modified principles:
+- Added I. End-to-End Type Safety
+- Added II. Schema-Validated Boundaries
+- Added III. Bun-Native Full-Stack Architecture
+- Added IV. Drizzle-Managed Data Model
+- Added V. Enforced Quality Gates
+Added sections:
+- Technical Standards
+- Delivery Workflow
+Removed sections:
+- None
+Templates requiring updates:
+- ✅ updated /home/mariolin/Documents/personal/sl88/.specify/templates/plan-template.md
+- ✅ updated /home/mariolin/Documents/personal/sl88/.specify/templates/spec-template.md
+- ✅ updated /home/mariolin/Documents/personal/sl88/.specify/templates/tasks-template.md
+- ⚠ pending /home/mariolin/Documents/personal/sl88/.specify/templates/commands/*.md (directory not present)
+Follow-up TODOs:
+- None
+-->
+
+# SL88 Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. End-to-End Type Safety
+All production code MUST compile under strict typing rules, and the codebase MUST not introduce `any` in application, shared, test, or tooling code without an explicit constitution amendment. Types shared across backend, frontend, and integration surfaces MUST be derived from authoritative sources instead of duplicated by hand. The system MUST preserve typed request and response contracts across the ElysiaJS backend, Eden Treaty client usage, and React frontend.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+Rationale: This project is explicitly scoped as a strictly typed full-stack commerce system, so type drift is treated as a product risk rather than a style issue.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### II. Schema-Validated Boundaries
+Every untrusted boundary MUST be validated with Zod 4 before domain logic runs. This includes HTTP inputs, environment configuration, persisted payload reconstruction, and any cross-layer data crossing between browser, server, and database workflows. Validation schemas MUST drive typed parsing and error handling, and invalid data MUST fail fast with explicit user-safe or operator-safe responses.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+Rationale: Typed code without runtime validation still permits invalid production data; schema-first boundaries keep contracts enforceable under real traffic.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### III. Bun-Native Full-Stack Architecture
+The runtime baseline for this project MUST be Bun. Backend services MUST use ElysiaJS, frontend delivery MUST use React with Vite and Rolldown-based tooling, and full-stack local development MUST follow the Bun-compatible Elysia full-stack pattern adopted for this repository. Cross-layer API consumption MUST prefer Eden Treaty so transport contracts remain aligned with server definitions.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+Rationale: The selected stack is a project constraint, not an implementation preference, because the developer experience and contract-sharing model depend on it.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### IV. Drizzle-Managed Data Model
+Persistent data structures MUST be defined and evolved through Drizzle-managed schema artifacts and migrations. Database changes MUST be reviewable, reversible where practical, and traceable to a documented feature or defect. Application queries MUST flow through typed schema definitions instead of raw, untyped access patterns.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Rationale: A commerce system depends on durable product and order data, so schema governance and migration discipline are required from the start.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### V. Enforced Quality Gates
+Every change MUST pass formatting, linting, and typechecking through the repository-standard Vite Plus toolchain before merge. Features MUST be delivered as independently testable slices, and plans/tasks MUST define the narrowest executable validation for each slice. Contract, integration, or workflow tests MUST be added whenever a change affects API boundaries, shared schemas, checkout flows, catalog behavior, or order-management behavior.
+
+Rationale: This repository favors fast iteration, but only behind automated gates that catch regressions in shared contracts and business-critical flows.
+
+## Technical Standards
+
+- The canonical stack is Bun, ElysiaJS, React, Vite, Vite Plus, Rolldown, Zod 4, Eden Treaty, and Drizzle.
+- Specifications MUST stay implementation-agnostic except where repository governance requires naming fixed stack constraints; concrete tool selections belong in plans and tasks.
+- Shared contracts, schema definitions, and validation logic SHOULD be organized so backend and frontend consume the same authoritative shapes.
+- New dependencies MUST be justified in the implementation plan when existing stack primitives already solve the problem.
+- Node-only runtime assumptions, duplicate client/server contract definitions, and raw unvalidated boundary access are non-compliant unless an amendment explicitly permits them.
+
+## Delivery Workflow
+
+- Each feature MUST start with a specification that defines independently testable user stories and measurable outcomes.
+- Each implementation plan MUST include a Constitution Check that confirms strict typing, Zod boundary coverage, Bun-native stack alignment, Drizzle schema ownership, and required validation commands.
+- Each task list MUST include work for schema changes, typed API surfaces, frontend/backend integration, and quality-gate execution whenever those concerns are affected by the feature.
+- Code review and self-review MUST verify constitutional compliance before merge, including explicit confirmation that no `any` was introduced and that validation exists at changed boundaries.
+- When a change cannot satisfy a principle, the deviation MUST be documented in the plan's Complexity Tracking section and approved as a constitution exception before implementation proceeds.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes conflicting local practice for this repository. Amendments require updating this document, recording the version impact in the Sync Impact Report, and synchronizing affected templates in the same change whenever possible. Versioning follows semantic rules: MAJOR for incompatible governance changes or principle removal, MINOR for new principles or materially expanded obligations, and PATCH for clarifications that do not alter required behavior. Compliance reviews occur during planning, task generation, implementation validation, and code review. Every pull request or equivalent review artifact MUST verify that constitutional gates were satisfied or that an approved exception was documented before merge.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-05-02 | **Last Amended**: 2026-05-02
