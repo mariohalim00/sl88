@@ -1,4 +1,4 @@
-import { ScaffoldDemo } from "../pages/ScaffoldDemo.js";
+import { ScaffoldDemo } from "../pages/ScaffoldDemo";
 
 export function App() {
   return (

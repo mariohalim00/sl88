@@ -3,10 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "scripts": {
-    "build": "vp build",
-    "preview": "vp preview"
-  },
   "dependencies": {
     "@elysiajs/eden": "^1.4.9",
     "@sl88/shared": "workspace:*",

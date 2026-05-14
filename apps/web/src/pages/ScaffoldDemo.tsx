@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { api } from "../treaty/client.js";
+import { api } from "../treaty/client";
 
 type PingResult =
   | { status: "idle" }

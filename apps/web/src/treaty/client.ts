@@ -1,5 +1,5 @@
 import { treaty } from "@elysiajs/eden";
-import type { App } from "@api/app/index.js";
+import type { App } from "@api/app/index";
 
 /**
  * Eden Treaty typed client for the SL88 API.

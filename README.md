@@ -86,7 +86,7 @@ sl88/
 
 ## Architecture notes
 
-- **Single port dev server**: `bun run dev` starts ElysiaJS which serves the React app via `@elysiajs/static`. No separate Vite dev server needed.
+- **Single port dev server**: `bun run dev` starts ElysiaJS which serves the React app via `@elysia/static`. No separate Vite dev server needed.
 - **Eden Treaty**: The frontend imports `typeof app` from `apps/api` via tsconfig path alias `@api/*`, giving end-to-end type safety without code generation.
 - **RFC 9457 error format**: All non-2xx API responses use `application/problem+json` with `type`, `title`, `status`, `detail`, and `instance` fields.
 - **Zod at boundaries**: All external input is validated with `safeParse()` at the system boundary (env vars, incoming request bodies, etc.).
