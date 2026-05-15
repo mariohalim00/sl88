@@ -10,6 +10,7 @@ build/
 .env
 .env.local
 .env.*.local
+.env*
 
 # Drizzle generated files (keep migrations/ committed — they are migration history)
 drizzle/migrations/*.snap
@@ -36,3 +37,6 @@ Thumbs.db
 *.log
 npm-debug.log*
 bun-debug.log*
+coverage/
+*.tmp
+*.swp
