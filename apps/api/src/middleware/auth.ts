@@ -18,7 +18,7 @@ export const authGuard = new Elysia({ name: "authGuard" }).macro({
       if (auth == null || !auth.startsWith("Bearer ")) {
         set.status = 401;
         set.headers["content-type"] = "application/problem+json";
-        return createProblemDetail("https://sl88.dev/errors/unauthorized", "Unauthorized", 401, {
+        return createProblemDetail("https://example.dev/problems/unauthorized", "Unauthorized", 401, {
           detail: "A valid Bearer token is required.",
         });
       }

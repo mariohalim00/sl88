@@ -3,12 +3,14 @@ import { app } from "../../src/app/index.js";
 
 describe("GET /api/health", () => {
   it("returns 200 with status ok", async () => {
-    const res = await app
-      .handle(new Request("http://localhost/api/health"))
-      .then((r) => r.json() as Promise<{ status: string; service: string; timestamp: string }>);
+    const res = await app.handle(new Request("http://localhost/api/health"));
 
-    expect(res.status).toBe("ok");
-    expect(res.service).toBe("api");
-    expect(typeof res.timestamp).toBe("string");
+    expect(res.status).toBe(200); // Assert HTTP status code
+
+    const body = await res.json() as { status: string; service: string; timestamp: string };
+
+    expect(body.status).toBe("ok");
+    expect(body.service).toBe("api");
+    expect(typeof body.timestamp).toBe("string");
   });
 });

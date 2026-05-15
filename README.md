@@ -45,7 +45,8 @@ bun run db:migrate    # apply to the database
 
 ```sh
 bun run dev
-# → http://localhost:3000  (API + frontend on a single port)
+# → API: http://localhost:3000
+# → Frontend (Vite): http://localhost:5173
 ```
 
 ---
@@ -72,7 +73,7 @@ sl88/
 
 | Command                 | Description                                     |
 | ----------------------- | ----------------------------------------------- |
-| `bun run dev`           | Start Bun fullstack dev server (API + frontend) |
+| `bun run dev`           | Start API + Vite dev server in parallel          |
 | `bun run format`        | Format all files with oxfmt via vite-plus       |
 | `bun run lint`          | Lint with oxlint + tsgolint via vite-plus       |
 | `bun run typecheck`     | TypeScript type-check only                      |
@@ -86,7 +87,7 @@ sl88/
 
 ## Architecture notes
 
-- **Single port dev server**: `bun run dev` starts ElysiaJS which serves the React app via `@elysia/static`. No separate Vite dev server needed.
+- **Two-process dev workflow**: `bun run dev` starts ElysiaJS on port 3000 and Vite on port 5173. In development, Vite proxies `/api` requests to the backend.
 - **Eden Treaty**: The frontend imports `typeof app` from `apps/api` via tsconfig path alias `@api/*`, giving end-to-end type safety without code generation.
 - **RFC 9457 error format**: All non-2xx API responses use `application/problem+json` with `type`, `title`, `status`, `detail`, and `instance` fields.
 - **Zod at boundaries**: All external input is validated with `safeParse()` at the system boundary (env vars, incoming request bodies, etc.).

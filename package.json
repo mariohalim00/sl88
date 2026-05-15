@@ -23,6 +23,7 @@
     "test:contract": "bun test apps/api/tests/contract"
   },
   "devDependencies": {
+    "concurrently": "latest",
     "drizzle-kit": "latest",
     "typescript": "^6.0.3",
     "vite-plus": "latest"

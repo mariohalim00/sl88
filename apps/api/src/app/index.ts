@@ -22,16 +22,13 @@ const app = new Elysia()
 if (import.meta.main) {
   const { staticPlugin } = await import("@elysia/static");
 
-  app.get("/", () => Bun.file(indexHtmlPath));
-
-  app
-  // .use()
-  .use(
-    await staticPlugin({
-      assets: staticAssets,
-      prefix: "/assets",
-    }),
-  );
+  app.get("/", () => Bun.file(indexHtmlPath))
+    .use(
+      await staticPlugin({
+        assets: staticAssets,
+        prefix: "/assets",
+      }),
+    );
 
   app.listen(env.API_PORT, ({ hostname, port }) => {
     console.log(`[api] Listening on http://${hostname}:${port}`);

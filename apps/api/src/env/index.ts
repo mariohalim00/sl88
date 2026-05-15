@@ -1,10 +1,8 @@
 import { z } from "zod";
 
-const envSchema = z.object({
-  DATABASE_URL: z
-    .string()
-    .min(1, "DATABASE_URL is required")
-    .describe("PostgreSQL connection string"),
+const DEFAULT_DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/sl88_dev";
+
+const runtimeEnvSchema = z.object({
   API_PORT: z.coerce
     .number()
     .int()
@@ -14,14 +12,33 @@ const envSchema = z.object({
     .describe("Port the API server listens on"),
 });
 
-const result = envSchema.safeParse(process.env);
+const runtimeResult = runtimeEnvSchema.safeParse(process.env);
 
-if (!result.success) {
+if (!runtimeResult.success) {
   console.error("[env] Invalid environment configuration:");
-  for (const [field, messages] of Object.entries(result.error.flatten().fieldErrors)) {
+  for (const [field, messages] of Object.entries(runtimeResult.error.flatten().fieldErrors)) {
     console.error(`  ${field}: ${messages?.join(", ")}`);
   }
   process.exit(1);
 }
 
-export const env = result.data;
+const databaseUrlSchema = z
+  .string()
+  .min(1, "DATABASE_URL is required")
+  .describe("PostgreSQL connection string");
+
+export const env = runtimeResult.data;
+
+export const getDatabaseUrl = (): string => {
+  const candidate = process.env["DATABASE_URL"] ?? DEFAULT_DATABASE_URL;
+  const result = databaseUrlSchema.safeParse(candidate);
+
+  if (result.success) {
+    return result.data;
+  }
+
+  const messages = result.error.flatten().formErrors.join(", ") || "Invalid DATABASE_URL";
+  throw new Error(`[env] ${messages}`);
+};
+
+export { DEFAULT_DATABASE_URL };
