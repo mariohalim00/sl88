@@ -92,6 +92,7 @@ sl88/
 - **RFC 9457 error format**: All non-2xx API responses use `application/problem+json` with `type`, `title`, `status`, `detail`, and `instance` fields.
 - **Zod at boundaries**: All external input is validated with `safeParse()` at the system boundary (env vars, incoming request bodies, etc.).
 - **No `any`**: The entire codebase uses `noImplicitAny: true` and `exactOptionalPropertyTypes: true`.
+- **Frontend architecture discipline**: Prefer shadcn primitives before custom UI, keep React features modular instead of monolithic TSX files, and use TanStack for advanced client-side state management (no Redux by default).
 
 ---
 

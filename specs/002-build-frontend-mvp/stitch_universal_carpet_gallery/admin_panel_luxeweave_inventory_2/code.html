@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Atelier Admin - Inventory Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&amp;family=Noto+Serif:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#5f5e5e",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#ffdbd2",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "on-background": "#1c1c15",
+                        "on-primary-fixed-variant": "#5d4200",
+                        "outline-variant": "#d4c4ac",
+                        "on-tertiary-container": "#902709",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "tertiary-fixed-dim": "#ffb4a1",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#f1eee3",
+                        "primary": "#7a5900",
+                        "on-tertiary-fixed-variant": "#872103",
+                        "on-surface-variant": "#504533",
+                        "on-secondary-container": "#636262",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f7f4e9",
+                        "surface-variant": "#e5e2d8",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-surface": "#1c1c15",
+                        "inverse-on-surface": "#f4f1e6",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#474746",
+                        "primary-fixed": "#ffdea3",
+                        "on-tertiary-fixed": "#3c0800",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#261900",
+                        "on-primary-container": "#654800",
+                        "inverse-surface": "#31312a",
+                        "secondary-container": "#e2dfde",
+                        "outline": "#827560",
+                        "background": "#fcf9ee",
+                        "tertiary-container": "#ffa993",
+                        "inverse-primary": "#fdbc13",
+                        "surface-tint": "#7a5900",
+                        "surface-container-highest": "#e5e2d8",
+                        "surface-container-high": "#ebe8dd",
+                        "surface-bright": "#fcf9ee",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#a8381a",
+                        "error": "#ba1a1a",
+                        "primary-container": "#f4b400",
+                        "primary-fixed-dim": "#fdbc13",
+                        "surface-dim": "#dddacf",
+                        "surface": "#fcf9ee"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "base": "8px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "container-max": "1280px",
+                        "section-padding": "80px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Manrope", "sans-serif"],
+                        "label-md": ["Manrope", "sans-serif"],
+                        "display-lg": ["Noto Serif", "serif"],
+                        "body-lg": ["Manrope", "sans-serif"],
+                        "headline-lg": ["Noto Serif", "serif"],
+                        "headline-md": ["Noto Serif", "serif"],
+                        "label-lg": ["Manrope", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "500" }],
+                        "label-lg": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased flex min-h-screen">
+<!-- SideNavBar (Shared Component) -->
+<nav class="bg-slate-900 dark:bg-black text-[#F4B400] font-sans text-sm font-semibold tracking-wide border-r border-slate-800 shadow-xl fixed left-0 top-0 h-full flex flex-col py-8 w-64 z-50">
+<div class="px-6 mb-8 flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<img alt="Admin User Profile" class="w-10 h-10 rounded-full object-cover border border-slate-700" data-alt="A close up portrait of a professional man in his late 30s with short dark hair and a neat beard, wearing a tailored navy blazer. The lighting is soft and corporate, creating a trustworthy and polished appearance. The background is a slightly blurred, modern office setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnrK2QPJ2NJcSATDIxRo1jFvh9eynkfm-mgOxi1I9Tw2wVsLn1cno203pb3LMelQRl0cyFbM1KYBE4T6muiSRzBVLqP2LfP7Wgs88F0PA2cusm5mUE7sZY_yUpYVxQQ0K4PevMbEMEYTUJY2NIPWtM1pygPvIeBQ1kqVcHU2X6nhFaa5-zs0AAwijLnewUgjgztjXGym4kuX1RgLA8WpIuuXWOZjLmoK5zrtqX6W4OeWN4kExsMWt6QsIQOWBZrBrmJVEZQ-nuQJQ"/>
+<div>
+<h2 class="text-white text-base font-bold">Atelier Admin</h2>
+<p class="text-slate-400 text-xs font-normal">Master Curator</p>
+</div>
+</div>
+<div class="font-serif text-white mt-4 pb-4 border-b border-slate-800"><img alt="LuxeWeave Logo" class="h-12 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0uh6wOiJh7qg4QAZ57e9H3u6I0jwP6MMUA2wlsYJYwC1yXuN5HeqSmh-9VbwLtjcySiFzwPT7lIfHXGdpAowmMCnReyD0vKbPPDYLXsnGV4-hPQODsYFQ0ajlotlRiCRB-3J5DScrmpk8Fw58I9QKrOH-RHuCiE785IVWURw874-c-3HuZXWxNCRGW2TiXQ_VpWd3c48QcG7V19VEHRgLReB3TSOdNjgUVZ1zg0vj-Zot1NSxIlZ_oYbwvzlKf36u-SD2Yc6I9wj8Q"/></div>
+</div>
+<div class="flex-1 overflow-y-auto px-4 flex flex-col gap-2">
+<!-- Inactive -->
+<a class="flex items-center gap-3 px-4 py-3 rounded text-slate-400 hover:bg-slate-800 hover:text-white transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- Active: Inventory -->
+<a class="flex items-center gap-3 px-4 py-3 rounded bg-slate-800 text-[#F4B400] border-r-4 border-[#F4B400] transition-all duration-200 ease-in-out translate-x-1" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">layers</span>
+<span>Inventory</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-3 px-4 py-3 rounded text-slate-400 hover:bg-slate-800 hover:text-white transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+<span>Order Management</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-3 px-4 py-3 rounded text-slate-400 hover:bg-slate-800 hover:text-white transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+<span>Customer Analytics</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-3 px-4 py-3 rounded text-slate-400 hover:bg-slate-800 hover:text-white transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span>Storefront Settings</span>
+</a>
+</div>
+<div class="px-4 mt-auto pt-8 border-t border-slate-800 flex flex-col gap-2">
+<button class="w-full bg-[#F4B400] text-slate-900 py-2 rounded font-bold hover:bg-opacity-90 transition-colors flex items-center justify-center gap-2 mb-4">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                 Add New Carpet
+             </button>
+<a class="flex items-center gap-3 px-4 py-2 rounded text-slate-400 hover:bg-slate-800 hover:text-white transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[18px]">help</span>
+<span>Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 rounded text-slate-400 hover:bg-slate-800 hover:text-white transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-64 p-8 md:p-12 max-w-container-max mx-auto w-full bg-surface-bright min-h-screen">
+<!-- Header Section -->
+<header class="flex justify-between items-end mb-12">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-background mb-2">Inventory Management</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Curate and manage your collection of fine carpets.</p>
+</div>
+<button class="bg-primary-container text-on-primary-container px-6 py-3 rounded flex items-center gap-2 font-label-lg text-label-lg hover:bg-opacity-90 transition-colors shadow-sm hover:shadow">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+                Add New Product
+            </button>
+</header>
+<!-- Summary Cards (Bento Grid Style) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest border border-surface-variant p-6 rounded-lg shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-primary">inventory_2</span>
+</div>
+<h3 class="font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider">Total Products</h3>
+<div class="font-display-lg text-display-lg text-on-background leading-none">1,248</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest border border-surface-variant p-6 rounded-lg shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-primary">category</span>
+</div>
+<h3 class="font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider">Active Categories</h3>
+<div class="font-display-lg text-display-lg text-on-background leading-none">12</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-error-container border border-error p-6 rounded-lg shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-error">warning</span>
+</div>
+<h3 class="font-label-lg text-label-lg text-on-error-container uppercase tracking-wider">Low Stock Alerts</h3>
+<div class="font-display-lg text-display-lg text-on-error-container leading-none">7</div>
+</div>
+</div>
+<!-- Filters & Search -->
+<div class="flex justify-between items-center mb-6 bg-surface-container-lowest p-4 rounded-lg border border-surface-variant shadow-sm">
+<div class="flex gap-2">
+<button class="px-4 py-2 rounded-full border border-primary bg-primary-container text-on-primary-container font-label-md text-label-md transition-colors">All Products</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant hover:border-outline font-label-md text-label-md transition-colors bg-surface-container-low">Persian</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant hover:border-outline font-label-md text-label-md transition-colors bg-surface-container-low">Modern</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant hover:border-outline font-label-md text-label-md transition-colors bg-surface-container-low">Silk</button>
+</div>
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary outline-none font-body-md text-body-md text-on-background placeholder-on-surface-variant transition-all" placeholder="Search inventory..." type="text"/>
+</div>
+</div>
+<!-- Data Table -->
+<div class="bg-surface-container-lowest border border-surface-variant rounded-lg shadow-sm overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead class="bg-slate-900 text-white font-label-lg text-label-lg uppercase tracking-wider">
+<tr>
+<th class="py-4 px-6 font-medium w-24">Image</th>
+<th class="py-4 px-6 font-medium">Name &amp; SKU</th>
+<th class="py-4 px-6 font-medium">Category</th>
+<th class="py-4 px-6 font-medium text-right">Price</th>
+<th class="py-4 px-6 font-medium text-center">Stock</th>
+<th class="py-4 px-6 font-medium text-right w-32">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-variant font-body-md text-body-md text-on-background">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-4 px-6">
+<img alt="Isfahan Medallion Carpet" class="w-16 h-16 object-cover rounded border border-outline-variant shadow-sm" data-alt="A close-up shot of a luxurious, intricately woven Persian carpet. The dominant colors are deep reds, golds, and creams in a classic medallion pattern. The texture is rich and detailed, shot under warm, even studio lighting to highlight the craftsmanship. Minimalist background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3FAJ0EBDg80kSE0xMyb2_EaFgAyvSqiwhUrzuCZHilpqgxA9w8YZH5TbFUdGKMED2q4RJiMRVEwtAcq5UggjaiZVf-l9gAr4MXToktpfGBy70VS9LR8-wBAXomaYCED-9p7JJazRHcW4JmKdi8SRKFJSD7djrGThtv_N0yd_sFzKAMdU16X2EUb2bxUdes3rv3FhQpSyAA5EiSEv84nL_Wnu4cSJLqEk6jU3jHl_klOvWciG2rgu_abO_zpDwPjJQgVKt3mTVfNE"/>
+</td>
+<td class="py-4 px-6">
+<div class="font-headline-md text-headline-md text-on-background text-lg leading-tight mb-1">Isfahan Medallion</div>
+<div class="font-label-md text-label-md text-on-surface-variant font-mono">SKU: PER-ISF-001</div>
+</td>
+<td class="py-4 px-6 text-on-surface-variant">Persian Wool</td>
+<td class="py-4 px-6 text-right font-medium text-on-background">$4,200.00</td>
+<td class="py-4 px-6 text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#E8F5E9] text-[#2E7D32] font-label-md text-label-md border border-[#C8E6C9]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#2E7D32]"></span> In Stock (12)
+                            </span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error-container rounded transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-4 px-6">
+<img alt="Modern Abstract Silk" class="w-16 h-16 object-cover rounded border border-outline-variant shadow-sm" data-alt="A macro detail of a contemporary silk carpet featuring an abstract design. Swirls of slate grey, muted teal, and soft off-white blend seamlessly. The lighting catches the subtle sheen of the silk fibers, emphasizing a high-end, modern minimalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_TSkiYItx1aOXclkWnSKNp4ceqCp8IIbUDr3T-NRhCxPykL940ixmiLcOFNuw-vYCw-65k-dlWCUke0-6L5fyaryerptmgAIgGfLYQQ4OUcpGrPtJvtENZT3zLx4OJot-XqkD-TFtxSMzXje_iWeeXvJ8w115XuGJckN7o9orJLdcdzxN-CIKPB1X3xDPoMyEpUZsSl_fL0j_H4kQZLGQtjcXx4RTRQq8fBuSHcK6uXJsFuBnQ5sxlbV71Fw0-NqXm8LjWXO9Pt8"/>
+</td>
+<td class="py-4 px-6">
+<div class="font-headline-md text-headline-md text-on-background text-lg leading-tight mb-1">Slate Flow Silk</div>
+<div class="font-label-md text-label-md text-on-surface-variant font-mono">SKU: MOD-SLK-042</div>
+</td>
+<td class="py-4 px-6 text-on-surface-variant">Modern Silk</td>
+<td class="py-4 px-6 text-right font-medium text-on-background">$6,850.00</td>
+<td class="py-4 px-6 text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-md text-label-md border border-[#ffb4a1]">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> Low Stock (2)
+                            </span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error-container rounded transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-4 px-6">
+<img alt="Vintage Kilim Runner" class="w-16 h-16 object-cover rounded border border-outline-variant shadow-sm" data-alt="A segment of a vintage Kilim runner rug, showing flat-weave geometric patterns in faded indigo, rust red, and ochre yellow. The texture is coarse and authentic, presented on a pure white surface under bright, natural daylight to convey heritage and craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7UAepm_jN1pb9oxQ1BTv2REO0IanUynsO0NNwy_pvXVItlNboqDDz2Q5Yavxf93IFDONM7EQfo5uFZowq41uyR2RZSMhO9c9lonShzXaGf2_lWIB1xbRxjtbva22MENb3eLQbQuRoi7fmtfLqEfiFu-SQyP2u7Sb6Yb6ICfRL7c3pYugXUXS7ZXXxN6SP5rudT_y3P6wcj67oE5TkqbM_idadfTcc34Flxkxmsdi6nQJ-wCCIsOZJwweZ8XRSqyPwEYX-lC6TWyw"/>
+</td>
+<td class="py-4 px-6">
+<div class="font-headline-md text-headline-md text-on-background text-lg leading-tight mb-1">Anatolian Runner</div>
+<div class="font-label-md text-label-md text-on-surface-variant font-mono">SKU: VNT-KLM-105</div>
+</td>
+<td class="py-4 px-6 text-on-surface-variant">Vintage Kilim</td>
+<td class="py-4 px-6 text-right font-medium text-on-background">$1,150.00</td>
+<td class="py-4 px-6 text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#E8F5E9] text-[#2E7D32] font-label-md text-label-md border border-[#C8E6C9]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#2E7D32]"></span> In Stock (8)
+                            </span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error-container rounded transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination Footer -->
+<div class="bg-surface-container-lowest border-t border-surface-variant px-6 py-4 flex items-center justify-between">
+<div class="font-label-md text-label-md text-on-surface-variant">
+                    Showing 1 to 3 of 1,248 entries
+                </div>
+<div class="flex gap-1">
+<button class="p-2 text-outline hover:text-on-background hover:bg-surface-container rounded transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded bg-primary-container text-on-primary-container font-label-md text-label-md flex items-center justify-center">1</button>
+<button class="w-8 h-8 rounded hover:bg-surface-container text-on-surface-variant font-label-md text-label-md flex items-center justify-center transition-colors">2</button>
+<button class="w-8 h-8 rounded hover:bg-surface-container text-on-surface-variant font-label-md text-label-md flex items-center justify-center transition-colors">3</button>
+<span class="w-8 h-8 flex items-center justify-center text-on-surface-variant">...</span>
+<button class="p-2 text-on-surface-variant hover:text-on-background hover:bg-surface-container rounded transition-colors">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

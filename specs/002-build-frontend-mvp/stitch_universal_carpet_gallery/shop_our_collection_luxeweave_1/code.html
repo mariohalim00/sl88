@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LuxeWeave - Product Listing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&amp;family=Noto+Serif:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#5f5e5e",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#ffdbd2",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "on-background": "#1c1c15",
+                        "on-primary-fixed-variant": "#5d4200",
+                        "outline-variant": "#d4c4ac",
+                        "on-tertiary-container": "#902709",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "tertiary-fixed-dim": "#ffb4a1",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#f1eee3",
+                        "primary": "#7a5900",
+                        "on-tertiary-fixed-variant": "#872103",
+                        "on-surface-variant": "#504533",
+                        "on-secondary-container": "#636262",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f7f4e9",
+                        "surface-variant": "#e5e2d8",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-surface": "#1c1c15",
+                        "inverse-on-surface": "#f4f1e6",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#474746",
+                        "primary-fixed": "#ffdea3",
+                        "on-tertiary-fixed": "#3c0800",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#261900",
+                        "on-primary-container": "#654800",
+                        "inverse-surface": "#31312a",
+                        "secondary-container": "#e2dfde",
+                        "outline": "#827560",
+                        "background": "#fcf9ee",
+                        "tertiary-container": "#ffa993",
+                        "inverse-primary": "#fdbc13",
+                        "surface-tint": "#7a5900",
+                        "surface-container-highest": "#e5e2d8",
+                        "surface-container-high": "#ebe8dd",
+                        "surface-bright": "#fcf9ee",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#a8381a",
+                        "error": "#ba1a1a",
+                        "primary-container": "#f4b400",
+                        "primary-fixed-dim": "#fdbc13",
+                        "surface-dim": "#dddacf",
+                        "surface": "#fcf9ee"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "base": "8px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "container-max": "1280px",
+                        "section-padding": "80px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Manrope", "sans-serif"],
+                        "label-md": ["Manrope", "sans-serif"],
+                        "display-lg": ["Noto Serif", "serif"],
+                        "body-lg": ["Manrope", "sans-serif"],
+                        "headline-lg": ["Noto Serif", "serif"],
+                        "headline-md": ["Noto Serif", "serif"],
+                        "label-lg": ["Manrope", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "500" }],
+                        "label-lg": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-white/90 backdrop-blur-md dark:bg-slate-900/90 fixed top-0 w-full z-50 flex justify-between items-center px-16 max-w-[1280px] mx-auto h-20 border-b border-slate-200 dark:border-slate-800 transition-all duration-300">
+<div class="text-2xl font-serif tracking-tighter text-slate-900 dark:text-slate-50">LuxeWeave</div>
+<nav class="hidden md:flex gap-8">
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors font-label-lg text-label-lg hover:opacity-80 duration-300" href="#">Collections</a>
+<a class="text-[#F4B400] border-b-2 border-[#F4B400] pb-1 font-label-lg text-label-lg hover:opacity-80 transition-all duration-300" href="#">Shop All</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors font-label-lg text-label-lg hover:opacity-80 duration-300" href="#">Our Heritage</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors font-label-lg text-label-lg hover:opacity-80 duration-300" href="#">Sustainability</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors font-label-lg text-label-lg hover:opacity-80 duration-300" href="#">Bespoke</a>
+</nav>
+<div class="flex gap-4">
+<button class="text-slate-900 dark:text-slate-50 hover:opacity-80 transition-all duration-300 flex items-center justify-center h-10 w-10">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+<button class="text-slate-900 dark:text-slate-50 hover:opacity-80 transition-all duration-300 flex items-center justify-center h-10 w-10">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+<button class="text-slate-900 dark:text-slate-50 hover:opacity-80 transition-all duration-300 flex items-center justify-center h-10 w-10">
+<span class="material-symbols-outlined">person</span>
+</button>
+</div>
+</header>
+<!-- Main Content Layout -->
+<div class="flex-grow pt-20 mt-8 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full flex gap-gutter">
+<!-- Sidebar Filters -->
+<aside class="w-64 hidden lg:flex flex-col gap-8 sticky top-28 h-fit self-start shrink-0 pr-6 border-r border-outline-variant/30">
+<div class="flex flex-col gap-4">
+<h3 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wider">Categories</h3>
+<div class="flex flex-col gap-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox h-4 w-4 text-primary-container border-outline-variant rounded-sm focus:ring-primary-container bg-surface transition-colors" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Kitchen</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox h-4 w-4 text-primary-container border-outline-variant rounded-sm focus:ring-primary-container bg-surface transition-colors" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Welcome Mats</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox h-4 w-4 text-primary-container border-outline-variant rounded-sm focus:ring-primary-container bg-surface transition-colors" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Car</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox h-4 w-4 text-primary-container border-outline-variant rounded-sm focus:ring-primary-container bg-surface transition-colors" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Office</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox h-4 w-4 text-primary-container border-outline-variant rounded-sm focus:ring-primary-container bg-surface transition-colors" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Outdoor</span>
+</label>
+</div>
+</div>
+<div class="h-px w-full bg-outline-variant/30"></div>
+<div class="flex flex-col gap-4">
+<h3 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wider">Price Range</h3>
+<div class="flex flex-col gap-4">
+<input class="w-full accent-primary-container h-1 bg-surface-variant rounded-full appearance-none cursor-pointer" max="5000" min="0" type="range"/>
+<div class="flex justify-between font-label-md text-label-md text-on-surface-variant">
+<span>$0</span>
+<span>$5000+</span>
+</div>
+</div>
+</div>
+<div class="h-px w-full bg-outline-variant/30"></div>
+<div class="flex flex-col gap-4">
+<h3 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wider">Material</h3>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 py-1.5 border border-outline-variant rounded font-label-md text-label-md text-on-surface-variant hover:border-primary-container hover:text-primary-container transition-colors">Wool</button>
+<button class="px-3 py-1.5 border border-primary-container bg-primary-container/10 rounded font-label-md text-label-md text-primary-container transition-colors">Silk</button>
+<button class="px-3 py-1.5 border border-outline-variant rounded font-label-md text-label-md text-on-surface-variant hover:border-primary-container hover:text-primary-container transition-colors">Cotton</button>
+<button class="px-3 py-1.5 border border-outline-variant rounded font-label-md text-label-md text-on-surface-variant hover:border-primary-container hover:text-primary-container transition-colors">Jute</button>
+</div>
+</div>
+</aside>
+<!-- Main Product Area -->
+<main class="flex-grow w-full pb-section-padding">
+<!-- Sort and Top Bar -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Shop All</h1>
+<div class="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
+<button class="lg:hidden flex items-center gap-2 border border-outline-variant px-4 py-2 rounded font-label-md text-label-md text-on-surface">
+<span class="material-symbols-outlined text-base">tune</span>
+                        Filters
+                    </button>
+<div class="relative">
+<select class="appearance-none bg-surface border border-outline-variant text-on-surface font-body-md text-body-md py-2 pl-4 pr-10 rounded focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container cursor-pointer">
+<option>Recommended</option>
+<option>Newest Arrivals</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-gutter">
+<!-- Product Card 1 -->
+<article class="group flex flex-col bg-white border border-outline-variant/30 rounded hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300 cursor-pointer">
+<div class="aspect-[4/5] relative overflow-hidden rounded-t bg-surface-container-low">
+<img alt="Product Image" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A meticulously hand-woven Persian rug displayed flat on a clean, bright, white studio floor. The lighting is soft and diffused, highlighting the rich, deep crimson, navy, and gold intricate floral motifs. The aesthetic is extremely high-end, minimal, and gallery-like, focusing entirely on the craftsmanship and texture of the textile in a light-mode corporate luxury setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQ5zG3UutLFvhKHIqzWpoLNRb8RRtngAl98-MzOtfZrfmWxCmHp1Y_Id37sHdeBJdt46TgnlyRYuLTTNOkQTQ2wleXJnFL7xksDV0T5YHz9Rl_EwCG2cvJjhDzL0bLzt6M9AIlI87619Ricp2x4_QdnjlBNZNxuCFweM_eYdpvBFnnxqx6GYs7x__Fj6KiHtnvrhiuthdERR9UYQm2RUs0x_2KFoQBmr2SjO4ZnzfUiwbpFmTbr72dP_lpuAGA8W-xbZRAx31AfFg"/>
+<button class="absolute top-4 right-4 h-10 w-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-on-surface hover:text-primary-container transition-colors opacity-0 group-hover:opacity-100 duration-300">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-6 flex flex-col gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Kitchen</span>
+<h2 class="font-headline-md text-headline-md text-on-surface leading-tight">The Azure Medallion</h2>
+<div class="mt-2 flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface-variant">Hand-knotted Wool</span>
+<span class="font-body-lg text-body-lg text-on-surface font-semibold">$1,250</span>
+</div>
+</div>
+</article>
+<!-- Product Card 2 -->
+<article class="group flex flex-col bg-white border border-outline-variant/30 rounded hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300 cursor-pointer">
+<div class="aspect-[4/5] relative overflow-hidden rounded-t bg-surface-container-low">
+<img alt="Product Image" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A contemporary, minimalist wool area rug featuring abstract geometric patterns in soft beige, slate, and charcoal tones, laid out in a spacious, light-filled modern living room mockup. The environment is bright and airy, with large windows casting soft, natural light over the plush texture of the rug. The mood is serene, sophisticated, and aligns perfectly with a high-end, modern luxury digital storefront." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnDMEvZJ8pHJEflmOsMptfAsm7lsAfKKFxevT9xLo2GtytGTjOVdki6SOyKnSiVxELHS_igwZ-8EzBBiNhwbGVku8H2piWdBaBKudF8kLkMFn-BtYgS2iY4VJ76IIUAUFkMwq058WpTWun4WxQMVByh69ZO3S5vsjCKgPNARxE5BEo5wsivBfwrJqgOaTqX71YAYaa4oJRKsRDJa_KnpZKNDmLx5y7ZACzwZHmKlublwrOK_YGHM5KmoDYFUxexNwzZBRtwjq6vYM"/>
+<button class="absolute top-4 right-4 h-10 w-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-on-surface hover:text-primary-container transition-colors opacity-0 group-hover:opacity-100 duration-300">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-6 flex flex-col gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Office</span>
+<h2 class="font-headline-md text-headline-md text-on-surface leading-tight">Dune Shift Runner</h2>
+<div class="mt-2 flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface-variant">Pure Silk &amp; Wool</span>
+<span class="font-body-lg text-body-lg text-on-surface font-semibold">$2,800</span>
+</div>
+</div>
+</article>
+<!-- Product Card 3 -->
+<article class="group flex flex-col bg-white border border-outline-variant/30 rounded hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300 cursor-pointer">
+<div class="aspect-[4/5] relative overflow-hidden rounded-t bg-surface-container-low">
+<img alt="Product Image" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A close-up, macro shot of a highly textured, hand-woven jute welcome mat. The camera focus is razor-sharp on the intricate, earthy woven fibers, while the background gently blurs out into a bright, white studio backdrop. The lighting is crisp and even, emphasizing the organic, tactile nature of the material while maintaining a clean, premium, light-mode e-commerce aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjN2_7Po5ceFaph7NOV8z-jWyQNzkXbKfEMTPmnzIykSxOc0SAT-qqRdbgl9YrVoPWvSnP8pThPX6wFchvMobB0r2bcgEc-XC4PTuVmvm6o7fVcz0lJAhX7RkQuP9Y7stY-DGB-ocxP0RvPGwlq_1k25DSo59GH0Z4XPaalf6pnstcNaY7B_iGtd-pqe_aerX2wKibd2Oa-Y9XHBkctPgrsC1YtuxyvpKpknzUsaSxjL6YA-3xmQ3aq0g3hbLGrGkHd0U4SlqalEw"/>
+<button class="absolute top-4 right-4 h-10 w-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-on-surface hover:text-primary-container transition-colors opacity-0 group-hover:opacity-100 duration-300">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-6 flex flex-col gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Welcome Mats</span>
+<h2 class="font-headline-md text-headline-md text-on-surface leading-tight">Organic Jute Weave</h2>
+<div class="mt-2 flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface-variant">Natural Jute</span>
+<span class="font-body-lg text-body-lg text-on-surface font-semibold">$180</span>
+</div>
+</div>
+</article>
+<!-- Product Card 4 -->
+<article class="group flex flex-col bg-white border border-outline-variant/30 rounded hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300 cursor-pointer">
+<div class="aspect-[4/5] relative overflow-hidden rounded-t bg-surface-container-low">
+<img alt="Product Image" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A luxurious, thick-pile shaggy rug in a soft, creamy off-white color. The rug is styled on a flawless, light oak hardwood floor in a sun-drenched, minimalist room. The high-key lighting creates a soft, inviting atmosphere, perfectly capturing the plush, cloud-like texture of the rug. The overall composition is spacious, modern, and aligned with a premium digital atelier design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYXuZ6YFVoWC3ZSYw16lQBaQW8Ds2U58OLH3-h92lHOWS8xN_H3Q8EcmJYWQ_pQWB7bukyBMrfV5FeruUJJJ9wZs761FZacojiq1hVzRrE3vUYEsihigBeJ_dqNWWFctNAjS1aSvtdoHZSotDtNlutGUejmcSjaxZ0DJS0YZ01KMHfzgGC_zNQieDfKdNET0Y7h2naFv0uDZGxBa6rIBxA1JgQew2ANePyFkM_ZnK2hT7_UqnffFqM3cJBNgxTlY8E-jF2QTXhPyA"/>
+<button class="absolute top-4 right-4 h-10 w-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-on-surface hover:text-primary-container transition-colors opacity-0 group-hover:opacity-100 duration-300">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-6 flex flex-col gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Outdoor</span>
+<h2 class="font-headline-md text-headline-md text-on-surface leading-tight">Cloud Step Plush</h2>
+<div class="mt-2 flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface-variant">Synthetic Blend</span>
+<span class="font-body-lg text-body-lg text-on-surface font-semibold">$450</span>
+</div>
+</div>
+</article>
+</div>
+<!-- Pagination (Implicit for list) -->
+<div class="mt-16 flex justify-center w-full">
+<button class="border border-on-surface text-on-surface hover:bg-on-surface hover:text-surface px-8 py-3 rounded font-label-lg text-label-lg transition-colors duration-300">
+                    Load More Artifacts
+                </button>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="w-full py-16 px-16 max-w-[1280px] mx-auto flex flex-col md:flex-row justify-between border-t mt-20 bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-900">
+<div class="flex flex-col gap-4 mb-8 md:mb-0">
+<span class="text-lg font-serif text-slate-900 dark:text-slate-100">LuxeWeave</span>
+<p class="font-sans text-xs uppercase tracking-widest text-slate-500">© 2024 LuxeWeave Digital Atelier. All Rights Reserved.</p>
+</div>
+<nav class="flex flex-wrap gap-6 items-center">
+<a class="font-sans text-xs uppercase tracking-widest text-slate-500 text-slate-400 hover:text-[#F4B400] hover:text-slate-900 dark:hover:text-white transition-colors opacity-100 hover:opacity-70" href="#">Privacy Policy</a>
+<a class="font-sans text-xs uppercase tracking-widest text-slate-500 text-slate-400 hover:text-[#F4B400] hover:text-slate-900 dark:hover:text-white transition-colors opacity-100 hover:opacity-70" href="#">Terms of Service</a>
+<a class="font-sans text-xs uppercase tracking-widest text-slate-500 text-slate-400 hover:text-[#F4B400] hover:text-slate-900 dark:hover:text-white transition-colors opacity-100 hover:opacity-70" href="#">Shipping &amp; Returns</a>
+<a class="font-sans text-xs uppercase tracking-widest text-slate-500 text-slate-400 hover:text-[#F4B400] hover:text-slate-900 dark:hover:text-white transition-colors opacity-100 hover:opacity-70" href="#">Carpet Care Guide</a>
+</nav>
+</footer>
+</body></html>

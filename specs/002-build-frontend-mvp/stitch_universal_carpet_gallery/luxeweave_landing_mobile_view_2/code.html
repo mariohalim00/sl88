@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LuxeWeave - The Art of Living, Woven for You</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&amp;family=Noto+Serif:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#5f5e5e",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#ffdbd2",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "on-background": "#1c1c15",
+                        "on-primary-fixed-variant": "#5d4200",
+                        "outline-variant": "#d4c4ac",
+                        "on-tertiary-container": "#902709",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "tertiary-fixed-dim": "#ffb4a1",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#f1eee3",
+                        "primary": "#7a5900",
+                        "on-tertiary-fixed-variant": "#872103",
+                        "on-surface-variant": "#504533",
+                        "on-secondary-container": "#636262",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f7f4e9",
+                        "surface-variant": "#e5e2d8",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-surface": "#1c1c15",
+                        "inverse-on-surface": "#f4f1e6",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#474746",
+                        "primary-fixed": "#ffdea3",
+                        "on-tertiary-fixed": "#3c0800",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#261900",
+                        "on-primary-container": "#654800",
+                        "inverse-surface": "#31312a",
+                        "secondary-container": "#e2dfde",
+                        "outline": "#827560",
+                        "background": "#fcf9ee",
+                        "tertiary-container": "#ffa993",
+                        "inverse-primary": "#fdbc13",
+                        "surface-tint": "#7a5900",
+                        "surface-container-highest": "#e5e2d8",
+                        "surface-container-high": "#ebe8dd",
+                        "surface-bright": "#fcf9ee",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#a8381a",
+                        "error": "#ba1a1a",
+                        "primary-container": "#f4b400",
+                        "primary-fixed-dim": "#fdbc13",
+                        "surface-dim": "#dddacf",
+                        "surface": "#fcf9ee"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "base": "8px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "container-max": "1280px",
+                        "section-padding": "80px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Manrope", "sans-serif"],
+                        "label-md": ["Manrope", "sans-serif"],
+                        "display-lg": ["Noto Serif", "serif"],
+                        "body-lg": ["Manrope", "sans-serif"],
+                        "headline-lg": ["Noto Serif", "serif"],
+                        "headline-md": ["Noto Serif", "serif"],
+                        "label-lg": ["Manrope", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "label-lg": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar to match minimalist aesthetic */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fcf9ee;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d4c4ac;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #827560;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col pt-16 md:pt-20">
+<!-- TopNavBar (Shared Component) -->
+<nav class="bg-white/90 backdrop-blur-md dark:bg-slate-900/90 border-b border-slate-200 dark:border-slate-800 fixed top-0 w-full z-50 flex justify-between items-center px-4 md:px-16 max-w-[1280px] mx-auto h-16 md:h-20 transition-all duration-300 left-0 right-0">
+<!-- Hamburger Menu (Mobile) -->
+<button class="md:hidden text-slate-900 dark:text-slate-50 hover:text-[#F4B400] transition-all duration-300">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<!-- Brand Logo -->
+<a class="text-xl md:text-2xl font-serif tracking-tighter text-slate-900 dark:text-slate-50 font-headline-md hover:opacity-80 transition-all duration-300" href="#"><img alt="LuxeWeave Logo" class="h-8 md:h-10 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0uh6wOiJh7qg4QAZ57e9H3u6I0jwP6MMUA2wlsYJYwC1yXuN5HeqSmh-9VbwLtjcySiFzwPT7lIfHXGdpAowmMCnReyD0vKbPPDYLXsnGV4-hPQODsYFQ0ajlotlRiCRB-3J5DScrmpk8Fw58I9QKrOH-RHuCiE785IVWURw874-c-3HuZXWxNCRGW2TiXQ_VpWd3c48QcG7V19VEHRgLReB3TSOdNjgUVZ1zg0vj-Zot1NSxIlZ_oYbwvzlKf36u-SD2Yc6I9wj8Q"/></a>
+<!-- Navigation Links (Desktop) -->
+<div class="hidden md:flex space-x-8">
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors font-label-lg hover:opacity-80 duration-300" href="#">Collections</a>
+<a class="text-[#F4B400] border-b-2 border-[#F4B400] pb-1 font-label-lg hover:opacity-80 transition-all duration-300 active:scale-95 duration-200" href="#">Shop All</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors font-label-lg hover:opacity-80 duration-300" href="#">Our Heritage</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors font-label-lg hover:opacity-80 duration-300" href="#">Sustainability</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors font-label-lg hover:opacity-80 duration-300" href="#">Bespoke</a>
+</div>
+<!-- Trailing Icon Actions -->
+<div class="flex items-center space-x-4 md:space-x-6">
+<!-- Language Switcher -->
+<button class="flex items-center text-slate-900 dark:text-slate-50 hover:text-[#F4B400] hover:opacity-80 transition-all duration-300">
+<span class="font-label-md mr-1">EN</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+<button class="hidden md:block text-slate-900 dark:text-slate-50 hover:text-[#F4B400] hover:opacity-80 transition-all duration-300 active:scale-95">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="hidden md:block text-slate-900 dark:text-slate-50 hover:text-[#F4B400] hover:opacity-80 transition-all duration-300 active:scale-95">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</button>
+<button class="hidden md:block text-slate-900 dark:text-slate-50 hover:text-[#F4B400] hover:opacity-80 transition-all duration-300 active:scale-95">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+<button class="text-slate-900 dark:text-slate-50 hover:text-[#F4B400] hover:opacity-80 transition-all duration-300 active:scale-95 relative">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span class="absolute -top-1 -right-2 bg-primary-container text-on-primary-container text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-label-md">2</span>
+</button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-4 md:px-margin-desktop overflow-hidden">
+<!-- Hero Section -->
+<section class="py-8 md:py-section-padding relative overflow-hidden flex flex-col md:flex-row items-center justify-between min-h-auto md:min-h-[819px] gap-8 md:gap-gutter">
+<!-- Text Content -->
+<div class="w-full md:w-1/2 z-10 space-y-4 md:space-y-6 text-center md:text-left mt-4 md:mt-0">
+<h1 class="text-4xl md:text-6xl font-display-lg text-on-surface leading-tight">The Art of Living, <br/><span class="text-primary-container">Woven for You.</span></h1>
+<p class="font-body-lg text-on-surface-variant max-w-md mx-auto md:mx-0">Experience the epitome of luxury beneath your feet. Our handcrafted carpets blend timeless tradition with modern minimalist design, transforming your spaces into galleries of comfort.</p>
+<div class="pt-2 md:pt-4 flex flex-col sm:flex-row justify-center md:justify-start space-y-3 sm:space-y-0 sm:space-x-4">
+<button class="bg-primary-container text-slate-900 font-label-lg px-6 md:px-8 py-3 rounded hover:bg-opacity-90 transition-all duration-300 active:scale-95 shadow-sm w-full sm:w-auto">Explore Collections</button>
+<button class="border border-slate-900 text-slate-900 font-label-lg px-6 md:px-8 py-3 rounded hover:bg-slate-50 transition-all duration-300 active:scale-95 w-full sm:w-auto">View Bespoke</button>
+</div>
+</div>
+<!-- Imagery -->
+<div class="w-full md:w-1/2 h-[300px] sm:h-[400px] md:h-[600px] relative rounded-xl overflow-hidden shadow-xl md:shadow-2xl shadow-slate-200/50 order-first md:order-last">
+<img alt="Luxury interior" class="absolute inset-0 w-full h-full object-cover object-center" data-alt="A luxurious, minimalist living room setting bathed in soft, natural sunlight from a large window. The focal point is a stunning, intricately woven large area rug in muted tones of cream, taupe, and subtle gold, resting on pale hardwood floors. A sleek, modern sofa and a glass coffee table sit elegantly on the carpet. The overall mood is serene, high-end, and perfectly aligned with a light-mode minimalist corporate aesthetic, emphasizing the craftsmanship of the rug." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCScIoPvzwHKo5Pep6Pokunvngg3MdR3j0rfRkuCOPBvoUAu-A0CQrXuv4jOvOFGXSKaNRVGHjJ-VbU9uFJUEQXJ9qJMgFaV6UQEgsHmDrGdV9qbRw0XoJDpKfEuG4ZHeA0IBstiJ73JwY94OOWxPivQfv-He4ggaA4PzYc_PM1V4-DbKLx-dQtxFH8YiPhR9I0BrRwI1WF64ugNImQiERZJjK-vsLBU9Lf4milvRVV6kqxBka5ydxHeJfL_gpx8dziFFn5441if80"/>
+<!-- Decorative element -->
+<div class="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-background/80 to-transparent"></div>
+</div>
+</section>
+<!-- Category Highlights (Bento Grid Style) -->
+<section class="py-12 md:py-section-padding space-y-8 md:space-y-12">
+<div class="text-center space-y-3 md:space-y-4">
+<h2 class="text-3xl md:text-4xl font-headline-lg text-on-surface">Curated Collections</h2>
+<p class="font-body-md text-on-surface-variant max-w-2xl mx-auto px-4">Explore our distinct categories, each designed with a specific space and aesthetic in mind.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 h-auto md:h-[600px]">
+<!-- Kitchen Carpets (Tall) -->
+<a class="group relative rounded-xl overflow-hidden md:row-span-2 shadow-sm hover:shadow-md transition-shadow duration-300 h-[300px] md:h-auto block" href="#">
+<img alt="Kitchen Carpet" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" data-alt="A modern, high-end minimalist kitchen interior featuring sleek white cabinetry and marble countertops. On the light oak floor lies a stylish, durable runner rug in subtle geometric patterns of grey and golden yellow. Soft natural light floods the space, creating a clean, inviting atmosphere that perfectly illustrates the functional elegance of a luxury kitchen carpet." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2yCQFSVkJrujFwwzmkO9diuP0QodGZXJ2_-5NDnRtDxTnY5YHmwh5aQqPPYLeJ0fItj618nbj0r0oqDHAa_nrtTahQI2BsPrwWw3UQ10NUzwsMROMo_Mr-z00sGeFidlhIAV8atK9tGOoLmliVAEVQY8GByW4wnLOxaSwxKbWVmQSaJl2YM2IBWyujmsFcEwXnVAYByzzCwwXGqRhoWqL0drmcmXYjoYKvhgTfogU24ObuHI4HiW1qCZLV9Q1cyQ9hq1pD-3kgQA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-6 md:p-8 w-full">
+<h3 class="text-xl md:text-2xl font-headline-md text-white mb-2">Kitchen Carpets</h3>
+<p class="font-body-md text-white/80 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 transform md:translate-y-4 md:group-hover:translate-y-0">Durable elegance for culinary spaces.</p>
+</div>
+</a>
+<!-- Welcome Mats (Square) -->
+<a class="group relative rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 h-[250px] md:h-auto block" href="#">
+<img alt="Welcome Mat" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" data-alt="A sophisticated front entryway featuring a solid oak door. A beautifully textured, premium coir welcome mat with a minimalist black border sits on the polished concrete porch. The lighting is bright and welcoming, emphasizing the high-quality texture of the mat against the clean architectural lines of the home exterior." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhRkrxOYKq3bup1QF0fnR8crOQ4utEmJlkGin-byrbn4imyBTv7r2ri3tgA2J_9PxJmH3N9XzjIkHqfCEqHfHH_zocw64M9pJ9aY7uDcqgOXCFMlZXp59OTZZ4k9hG2bGjQZflnF0pzpjl-trbEMMgd_zwzPMc0MUiVUGpVHBV42G7EOGm3SbkmU2KGPSInlRslaUULgrLSZVvzijExUQElXSQaUYRmzWPjLAJ4y-7qgp7-YhFDXnqBVMXazP7DgMxTPFTnGQSbzc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-6 w-full">
+<h3 class="text-xl md:text-2xl font-headline-md text-white mb-1">Welcome Mats</h3>
+<p class="font-body-md text-white/80 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">The first impression.</p>
+</div>
+</a>
+<!-- Car Carpets (Square) -->
+<a class="group relative rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 h-[250px] md:h-auto block" href="#">
+<img alt="Car Carpets" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" data-alt="The luxurious interior footwell of a high-end vintage sports car, featuring rich cream leather upholstery. A custom-fitted, deep-pile luxury car mat in a matching cream color rests perfectly on the floor, detailed with subtle golden stitching. The shot is tightly cropped to highlight the material quality and bespoke fit, lit with soft, diffused studio lighting to emphasize luxury." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA24MSxRx5eE-JPbt_ur5puVCu4IaQb-SJl-8pJobxafPvfkUQPO_LSwWwJLyBlLDJVfE7wedrq5g_zi_T9875vk56uCXDfR5hvKx-5i8iDqK1VArO5UQ9rwZXgt-bYzYD-usqqKzK16VbtyXHw0abpqbvsEC-nnXGaxPEEmGxz6FjLW4JdpXMvcn--4FJOp4yLxe5XD3conScZs0kI8iJuq7LOaIOq9wpGpsSO-1zexJsE9-lH1WG2QuqsKGPBkhO2kOdgewid3Xc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-6 w-full">
+<h3 class="text-xl md:text-2xl font-headline-md text-white mb-1">Car Carpets</h3>
+<p class="font-body-md text-white/80 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">Luxury in motion.</p>
+</div>
+</a>
+<!-- Bespoke Collection (Wide) -->
+<a class="group relative rounded-xl overflow-hidden md:col-span-2 shadow-sm hover:shadow-md transition-shadow duration-300 h-[250px] md:h-auto block" href="#">
+<img alt="Bespoke Collection" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" data-alt="An expansive, abstract close-up of a bespoke carpet design showing intricate, modern geometric patterns blending deep slate greys with vibrant golden yellow (#F4B400) accents. The texture of the silk threads is highly visible, creating a luxurious sheen. The lighting highlights the peaks and valleys of the weave, presenting it as a piece of modern tactile art." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBt5c2NFj1J8sZIt3l0sv7r9YAVgsCbYyodiZWT0MZnweWBZDosBUmaoLOWefJ44iWPEfg5tDRjYr5dDy1vIIZcBd1fnPMuh_70Mc9Y5LfCDDguq-2BP8kBK_HmyiLcY0KaPUBeDW46kxaprpYvii-0UwMzbSPAXR4GagM4c5-mgrEbEfG5yXBGMCT62O7OORLgem6vMscBZi4Qb5hjCgTsgwYDy1-W-5ERsWItYNU_w-EJqEjvuqsaEiho7QbHTMHTIM6uWpuJ5MI"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-6 md:p-8 w-full flex justify-between items-end">
+<div>
+<h3 class="text-xl md:text-2xl font-headline-md text-white mb-2">Bespoke Collection</h3>
+<p class="font-body-md text-white/80 max-w-md block md:block">Commission a masterpiece tailored exclusively to your unique vision and space requirements.</p>
+</div>
+<span class="bg-primary-container text-slate-900 p-3 rounded-full hidden md:flex opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg items-center justify-center">
+<span class="material-symbols-outlined">arrow_outward</span>
+</span>
+</div>
+</a>
+</div>
+</section>
+<!-- About Us Section -->
+<section class="py-12 md:py-section-padding flex flex-col md:flex-row-reverse items-center justify-between gap-8 md:gap-gutter border-t border-surface-variant">
+<!-- Imagery -->
+<div class="w-full md:w-1/2 h-[300px] sm:h-[400px] md:h-[500px] relative rounded-xl overflow-hidden">
+<img alt="Artisanal weaving" class="absolute inset-0 w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-700" data-alt="A close-up, high-resolution shot of an artisan's hands carefully weaving threads on a traditional wooden loom. The image focuses on the tactile texture of the wool and silk fibers in soft whites and deep golden yellows. The lighting is dramatic yet soft, highlighting the skill and heritage of the craftsmanship. The background is slightly blurred to keep the focus on the intricate weaving process, maintaining a sophisticated, editorial photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCldSvOeUbOhfYmk3NN4oRhUYagbhpKIvjxcwFcT6kBqedI3u2C5CTXBHSEdVxsvmV7i25CPfpWoNXL3crB7zWC3zfo8gV1QyqiXmFrK8y00vaAH0Obs_epPTbmDxAg4w4PuekJ3WlYJaY-yBPGh1TW2AO8XRStDz1fh6LBD9mgkLP3ZEtykwlk195jSkBTP3stwcXNzjmIjuzjeQ5ApF0Dx0KVOu0tJGLuEbGkN2DAk4OVGlF4S431rx3SePNIpuASFdkCw3DtuAI"/>
+</div>
+<!-- Text Content -->
+<div class="w-full md:w-1/2 space-y-4 md:space-y-6 pr-0 md:pr-12 text-center md:text-left">
+<h2 class="text-3xl md:text-4xl font-headline-lg text-on-surface">Heritage &amp; Craftsmanship</h2>
+<div class="w-16 h-1 bg-primary-container mx-auto md:mx-0"></div>
+<p class="font-body-lg text-on-surface-variant">For over three generations, LuxeWeave has preserved the ancient art of carpet making. Every knot is a testament to the dedication of our master artisans, working in harmony to create pieces that transcend mere decor.</p>
+<p class="font-body-md text-on-surface-variant">We source only the finest natural fibers—ethically gathered wool and pure silk—ensuring each creation not only looks breathtaking but endures through generations, becoming a treasured family heirloom.</p>
+<button class="text-on-surface font-label-lg uppercase tracking-widest border-b border-surface-variant hover:border-slate-900 pb-1 transition-all duration-300 mt-4 flex items-center justify-center md:justify-start group mx-auto md:mx-0 w-fit">
+                    Discover Our Story 
+                    <span class="material-symbols-outlined ml-2 transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- Contact Us Section -->
+<section class="py-12 md:py-section-padding border-t border-surface-variant">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-gutter bg-surface-container-low rounded-xl overflow-hidden shadow-sm border border-surface-variant p-6 sm:p-8 md:p-12">
+<!-- Contact Form -->
+<div class="space-y-6 md:space-y-8 order-last md:order-first">
+<div>
+<h2 class="text-2xl md:text-3xl font-headline-lg text-on-surface mb-2 text-center md:text-left">Visit the Atelier</h2>
+<p class="font-body-md text-on-surface-variant text-center md:text-left">Schedule a private viewing or consult with our master weavers.</p>
+</div>
+<form class="space-y-4 md:space-y-6">
+<div class="space-y-1">
+<label class="font-label-md text-on-surface-variant uppercase tracking-wide" for="name">Full Name</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-colors py-3 px-4 font-body-md text-on-surface outline-none" id="name" placeholder="Jane Doe" type="text"/>
+</div>
+<div class="space-y-1">
+<label class="font-label-md text-on-surface-variant uppercase tracking-wide" for="email">Email Address</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-colors py-3 px-4 font-body-md text-on-surface outline-none" id="email" placeholder="jane@example.com" type="email"/>
+</div>
+<div class="space-y-1">
+<label class="font-label-md text-on-surface-variant uppercase tracking-wide" for="message">Inquiry</label>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-colors py-3 px-4 font-body-md text-on-surface outline-none resize-none" id="message" placeholder="How can we assist you?" rows="4"></textarea>
+</div>
+<button class="w-full bg-slate-900 text-white font-label-lg py-4 rounded hover:bg-slate-800 transition-colors active:scale-95 duration-200" type="button">
+                            Send Message
+                        </button>
+</form>
+</div>
+<!-- Map Visual -->
+<div class="h-[300px] sm:h-[400px] md:h-auto relative rounded-lg overflow-hidden bg-surface-container border border-surface-variant order-first md:order-last">
+<!-- Conceptual map representation using an image with location data -->
+<img alt="Store Location Map" class="absolute inset-0 w-full h-full object-cover grayscale opacity-80" data-alt="A stylized, minimalist street map view of an upscale shopping district in Milan. The map uses a sophisticated color palette of light greys, soft whites, and subtle beige to match a corporate minimalist aesthetic. A single, elegant location pin colored in golden yellow (#F4B400) marks the spot of the LuxeWeave Atelier, standing out cleanly against the muted background." data-location="Milan, Italy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0m5HpVQOueGiauHZG2P3tLgBq8tKD6bRerEr_YdccyiAo1fTjaa9l1LUnf6Uipa9H2nqiF7jzrmiCzEp7NBbNqMXFqdPLLJunRogg_4SRf4H3BENEKAb6r8yUJfrOx1sx8Zleizdew27bEM_fxwieB71eG4Tx1Z6vvh700VF0lW5zLax8xOgrS_oidxmq2HecV8adfFxFL7kGhIOL78D7aJOG5zOYPrJqq8_ty7KWl97AxsFnudAI5Dp0YDcH_Tju1I9CvCsjbTc"/>
+<!-- Overlay card for address -->
+<div class="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 bg-white/95 backdrop-blur p-4 sm:p-6 rounded shadow-lg border border-slate-100">
+<div class="flex items-start space-x-3 sm:space-x-4">
+<span class="material-symbols-outlined text-primary-container text-2xl sm:text-3xl mt-1 sm:mt-0">location_on</span>
+<div>
+<h4 class="text-lg md:text-xl font-headline-md text-slate-900 mb-1">LuxeWeave Flagship</h4>
+<p class="font-body-md text-slate-600 text-sm sm:text-base">Via Monte Napoleone 24<br/>20121 Milano MI, Italy</p>
+<a class="font-label-md text-primary mt-2 inline-block hover:underline" href="#">Get Directions</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="bg-white dark:bg-slate-950 full-width border-t mt-12 md:mt-20 border-t border-slate-100 dark:border-slate-900 w-full py-12 md:py-16 px-6 md:px-16 max-w-[1280px] mx-auto flex flex-col md:flex-row justify-between items-center md:items-start text-center md:text-left">
+<!-- Left Side: Logo & Copyright -->
+<div class="flex flex-col space-y-3 md:space-y-4 mb-8 md:mb-0">
+<span class="text-xl md:text-lg font-serif text-slate-900 dark:text-slate-100 font-headline-md">
+                LuxeWeave
+            </span>
+<span class="font-sans text-[10px] md:text-xs uppercase tracking-widest text-slate-500 font-label-md max-w-[250px] mx-auto md:mx-0">
+                © 2024 LuxeWeave Digital Atelier. All Rights Reserved.
+            </span>
+</div>
+<!-- Right Side: Links -->
+<div class="flex flex-col sm:flex-row flex-wrap justify-center md:justify-end gap-x-6 md:gap-x-8 gap-y-4">
+<a class="font-sans text-[10px] md:text-xs uppercase tracking-widest text-slate-500 text-slate-400 hover:text-[#F4B400] hover:text-slate-900 dark:hover:text-white transition-colors opacity-100 hover:opacity-70 font-label-md" href="#">Privacy Policy</a>
+<a class="font-sans text-[10px] md:text-xs uppercase tracking-widest text-slate-500 text-slate-400 hover:text-[#F4B400] hover:text-slate-900 dark:hover:text-white transition-colors opacity-100 hover:opacity-70 font-label-md" href="#">Terms of Service</a>
+<a class="font-sans text-[10px] md:text-xs uppercase tracking-widest text-slate-500 text-slate-400 hover:text-[#F4B400] hover:text-slate-900 dark:hover:text-white transition-colors opacity-100 hover:opacity-70 font-label-md" href="#">Shipping &amp; Returns</a>
+<a class="font-sans text-[10px] md:text-xs uppercase tracking-widest text-slate-500 text-slate-400 hover:text-[#F4B400] hover:text-slate-900 dark:hover:text-white transition-colors opacity-100 hover:opacity-70 font-label-md" href="#">Carpet Care Guide</a>
+</div>
+</footer>
+</body></html>

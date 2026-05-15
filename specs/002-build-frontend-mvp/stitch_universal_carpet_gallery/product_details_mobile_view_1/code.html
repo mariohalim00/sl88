@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LuxeWeave - Product Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&amp;family=Noto+Serif:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary": "#5f5e5e",
+                      "on-error-container": "#93000a",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-fixed": "#ffdbd2",
+                      "secondary-fixed-dim": "#c8c6c5",
+                      "on-background": "#1c1c15",
+                      "on-primary-fixed-variant": "#5d4200",
+                      "outline-variant": "#d4c4ac",
+                      "on-tertiary-container": "#902709",
+                      "on-secondary-fixed": "#1c1b1b",
+                      "tertiary-fixed-dim": "#ffb4a1",
+                      "on-secondary": "#ffffff",
+                      "surface-container": "#f1eee3",
+                      "primary": "#7a5900",
+                      "on-tertiary-fixed-variant": "#872103",
+                      "on-surface-variant": "#504533",
+                      "on-secondary-container": "#636262",
+                      "on-error": "#ffffff",
+                      "surface-container-low": "#f7f4e9",
+                      "surface-variant": "#e5e2d8",
+                      "secondary-fixed": "#e5e2e1",
+                      "on-surface": "#1c1c15",
+                      "inverse-on-surface": "#f4f1e6",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed-variant": "#474746",
+                      "primary-fixed": "#ffdea3",
+                      "on-tertiary-fixed": "#3c0800",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-fixed": "#261900",
+                      "on-primary-container": "#654800",
+                      "inverse-surface": "#31312a",
+                      "secondary-container": "#e2dfde",
+                      "outline": "#827560",
+                      "background": "#fcf9ee",
+                      "tertiary-container": "#ffa993",
+                      "inverse-primary": "#fdbc13",
+                      "surface-tint": "#7a5900",
+                      "surface-container-highest": "#e5e2d8",
+                      "surface-container-high": "#ebe8dd",
+                      "surface-bright": "#fcf9ee",
+                      "on-primary": "#ffffff",
+                      "tertiary": "#a8381a",
+                      "error": "#ba1a1a",
+                      "primary-container": "#f4b400",
+                      "primary-fixed-dim": "#fdbc13",
+                      "surface-dim": "#dddacf",
+                      "surface": "#fcf9ee"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "base": "8px",
+                      "gutter": "24px",
+                      "margin-desktop": "64px",
+                      "container-max": "1280px",
+                      "section-padding": "80px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "manrope"
+                      ],
+                      "label-md": [
+                              "manrope"
+                      ],
+                      "display-lg": [
+                              "notoSerif"
+                      ],
+                      "body-lg": [
+                              "manrope"
+                      ],
+                      "headline-lg": [
+                              "notoSerif"
+                      ],
+                      "headline-md": [
+                              "notoSerif"
+                      ],
+                      "label-lg": [
+                              "manrope"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-lg": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+          .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+          }
+          .material-symbols-outlined.fill {
+            font-variation-settings:
+            'FILL' 1,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+          }
+          .hide-scrollbar::-webkit-scrollbar {
+              display: none;
+          }
+          .hide-scrollbar {
+              -ms-overflow-style: none;
+              scrollbar-width: none;
+          }
+      </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md antialiased pt-16 md:pt-20">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-4 md:px-16 max-w-[1280px] mx-auto h-16 md:h-20 bg-white/90 backdrop-blur-md border-b border-slate-200">
+<div class="flex items-center gap-4 md:gap-6">
+<button class="md:hidden flex items-center justify-center hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="text-xl md:text-2xl font-serif tracking-tighter text-slate-900 font-headline-md">LuxeWeave</span>
+</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="font-serif text-slate-900 text-slate-600 hover:text-slate-900 transition-colors font-headline-md text-headline-md" href="#" style="font-size: 16px;">Collections</a>
+<a class="font-serif text-[#F4B400] border-b-2 border-[#F4B400] pb-1 font-headline-md text-headline-md" href="#" style="font-size: 16px;">Shop All</a>
+<a class="font-serif text-slate-900 text-slate-600 hover:text-slate-900 transition-colors font-headline-md text-headline-md" href="#" style="font-size: 16px;">Our Heritage</a>
+<a class="font-serif text-slate-900 text-slate-600 hover:text-slate-900 transition-colors font-headline-md text-headline-md" href="#" style="font-size: 16px;">Sustainability</a>
+<a class="font-serif text-slate-900 text-slate-600 hover:text-slate-900 transition-colors font-headline-md text-headline-md" href="#" style="font-size: 16px;">Bespoke</a>
+</div>
+<div class="flex items-center gap-4 text-slate-900">
+<button class="hover:opacity-80 transition-all duration-300 active:scale-95 duration-200"><span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span></button>
+<button class="hover:opacity-80 transition-all duration-300 active:scale-95 duration-200 hidden md:block"><span class="material-symbols-outlined" data-icon="favorite">favorite</span></button>
+<button class="hover:opacity-80 transition-all duration-300 active:scale-95 duration-200 hidden md:block"><span class="material-symbols-outlined" data-icon="person">person</span></button>
+</div>
+</nav>
+<main class="max-w-[1280px] mx-auto px-4 md:px-margin-desktop py-8 md:py-section-padding">
+<!-- Product Main Section -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-gutter mb-12 md:mb-section-padding">
+<!-- Left: Gallery -->
+<div class="flex flex-col gap-base">
+<div class="w-full aspect-[4/5] bg-surface-container rounded overflow-hidden shadow-sm border border-outline-variant">
+<img alt="Main Product Image" class="w-full h-full object-cover" data-alt="A highly detailed close-up shot of a luxurious, hand-woven Persian carpet. The carpet features an intricate, traditional floral pattern in a rich palette of deep crimson, navy blue, and golden yellow. The texture of the wool and silk blend is palpable, illuminated by soft, natural studio lighting that highlights the craftsmanship. The setting is minimal to draw full attention to the carpet's artisanal quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFvadWfKrOKKbexbhwLPaFj8fKwfF3HLLobDvUI1bCtIhg5_8SH532VdPonyo4hpqUTE67ZAeggdfhn7s6FbEeFNB1oVReXIDsBUhZ0-FTjc63QJSEyZVg9Hb5xnHTGkaoUytMZOtUiPzDrxTkXMYeVkuGwS_J0gDW1I86sEdFDVK50puOVPXs2d4CQv6NezbGB-EGNFXVrGpho4nvW8fuKHYOxuvtedKIfAZGhBWh0ut6ylLq0bo2RaTqLpDSRNzBey0XzenQawg"/>
+</div>
+<div class="grid grid-cols-4 gap-2 md:gap-base">
+<div class="aspect-square bg-surface-container rounded overflow-hidden border-2 border-primary cursor-pointer">
+<img alt="Thumbnail 1" class="w-full h-full object-cover" data-alt="A close-up thumbnail of the intricate corner detailing of a premium hand-woven Persian carpet, showing tight knots and rich crimson and golden yellow threads under soft, diffused lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8UtM8IDSPhZ6d8sdDNIZDjrUq3r98AGk2kHSIR2iIKNTrqXVSOTiyzr4du5dJdXnpy2hpyM4Z25ubmZ-HOQzNmVPRXhcMIYsSwzQU4KgyhTzBonLGSxHxsofhPGpeFFVAYzMcIFZ6IlgSG9xYsJWnP4_VRnLjSUOjRpvhgd3eN9SqqaLHCWkqP_4ej7i0IUOpcCeCKRQMMHJBAexc3L_BCeg3hvnt6tNaHIw242Ut-Ztnje5l8jh9H9FtbhTXn2XiRXcsClOqF9E"/>
+</div>
+<div class="aspect-square bg-surface-container rounded overflow-hidden border border-outline-variant hover:border-primary transition-colors cursor-pointer opacity-70 hover:opacity-100">
+<img alt="Thumbnail 2" class="w-full h-full object-cover" data-alt="A macro photography shot highlighting the dense, soft pile texture of a luxury wool carpet. The side lighting emphasizes the varying heights of the weave and the subtle sheen of silk accents woven throughout." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6TUoBIAqnatwkDLP3mYH5lDRJN_hLf1cZHuM511K_7hM5DmHkQb4OiySbyHSOmySTaKLnhQ12spLWHjaS22oAVYVF04__XQ5C60t8xxg9hw2alGoYuP4gimGk472wX2SHpy4Iol7vyAI9MBmgCzPCy_fhQbioyJks7dHGE2_pvh9ISSMtc1IKrtage_13sw7Ok4D8njNsEhsXS9XWK_LskHIOsCR9OQV--GoumnbW88wy9xo5EAhhvBgyays4h_RVrWVXPhQucwI"/>
+</div>
+<div class="aspect-square bg-surface-container rounded overflow-hidden border border-outline-variant hover:border-primary transition-colors cursor-pointer opacity-70 hover:opacity-100">
+<img alt="Thumbnail 3" class="w-full h-full object-cover" data-alt="An lifestyle image showing the edge of a rich red and blue traditional carpet resting on a polished light oak hardwood floor, demonstrating scale and edge finishing quality in a well-lit, minimalist room setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzH5CdI0rIRFJzF00JT14Qj8CrgiSc2UEyJJoaVBvtUzdeiejg65cdlDhsWAoo_CSdCqdHnRz6YEk4YhTyZsEBe2Xhcx1pUfxNENRTQ9J9nh8vEr6Tm3hvQ8iIN5LUXcDCeUXFsZrZ3UNLPUEyOQMCmuXzgcXWh0ncLI4kPArSpzNni955osff3LX8Uhz20NtbkkT_xfHtc-u2CF8AMh2DFLTFRRl7mNoVaH_hYnCWBsO_C5e9GR5w_CZ-WZwS3HfWpQAwDNtkpRY"/>
+</div>
+<div class="aspect-square bg-surface-container rounded overflow-hidden border border-outline-variant hover:border-primary transition-colors cursor-pointer opacity-70 hover:opacity-100 flex items-center justify-center bg-surface-variant">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="play_circle" style="font-size: 32px;">play_circle</span>
+</div>
+</div>
+</div>
+<!-- Right: Details -->
+<div class="flex flex-col px-0 md:px-8 pt-6 md:pt-8">
+<div class="mb-4">
+<span class="inline-block px-3 py-1 bg-surface-container-high border border-outline-variant text-on-surface-variant font-label-md text-label-md rounded-full mb-4">Hand-Knotted Wool &amp; Silk</span>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">The Isfahan Crimson Heritage</h1>
+<div class="flex items-end gap-4 mb-6">
+<span class="font-headline-md text-headline-md text-primary">$4,250</span>
+<span class="font-label-md text-label-md text-on-surface-variant line-through pb-1">$5,000</span>
+</div>
+</div>
+<div class="flex items-center gap-2 mb-6 text-primary">
+<span class="material-symbols-outlined fill" data-icon="check_circle" style="font-size: 18px;">check_circle</span>
+<span class="font-label-lg text-label-lg">In Stock - Ready to Ship</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 border-l-2 border-outline-variant pl-4">
+                    Woven over six months by master artisans, this exceptional piece brings the timeless elegance of traditional Persian motifs into the modern home. The dense wool pile is accented with luminous silk, creating a dynamic surface that shifts in color depending on the light.
+                </p>
+<div class="flex flex-col gap-4 mb-12">
+<button class="w-full py-4 bg-primary-container text-on-primary-container font-label-lg text-label-lg rounded hover:opacity-90 transition-opacity active:scale-95 duration-200">
+                        Add to Bag
+                    </button>
+<button class="w-full py-4 bg-transparent border border-on-surface text-on-surface font-label-lg text-label-lg rounded hover:bg-surface-variant transition-colors">
+                        Inquire Now
+                    </button>
+</div>
+<!-- Tabs -->
+<div class="border-t border-outline-variant pt-6">
+<div class="flex gap-6 md:gap-8 border-b border-outline-variant mb-6 overflow-x-auto whitespace-nowrap hide-scrollbar">
+<button class="pb-2 border-b-2 border-primary text-primary font-label-lg text-label-lg">Specifications</button>
+<button class="pb-2 border-b-2 border-transparent text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg transition-colors">Care Instructions</button>
+<button class="pb-2 border-b-2 border-transparent text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg transition-colors">Shipping</button>
+</div>
+<div class="font-body-md text-body-md text-on-surface-variant grid grid-cols-2 gap-y-4">
+<div class="font-label-lg text-label-lg text-on-surface">Origin:</div>
+<div>Isfahan, Iran</div>
+<div class="font-label-lg text-label-lg text-on-surface">Dimensions:</div>
+<div>8' x 10' (244cm x 305cm)</div>
+<div class="font-label-lg text-label-lg text-on-surface">Material:</div>
+<div>80% Wool, 20% Silk</div>
+<div class="font-label-lg text-label-lg text-on-surface">Knot Density:</div>
+<div>400 KPSI</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Related Products Section -->
+<section class="mt-8 md:mt-section-padding pt-8 md:pt-section-padding border-t border-outline-variant">
+<h2 class="font-headline-lg text-headline-lg text-on-surface text-center mb-8 md:mb-12">You May Also Like</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-gutter">
+<!-- Card 1 -->
+<div class="group cursor-pointer">
+<div class="w-full aspect-[3/4] bg-surface-container rounded overflow-hidden mb-4 border border-outline-variant relative">
+<img alt="Related Product 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A modern minimalist living room featuring a large, neutral-toned abstract carpet. The carpet has subtle, organic patterns in shades of cream, beige, and light grey. Soft, diffused daylight fills the room, highlighting the plush texture of the rug against a polished concrete floor. The aesthetic is clean, bright, and highly sophisticated." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAa6qMC1J9FLy9V17gSmlBSUMcLbx_Ouk6jA8Vh93aumDAAsa-1DsWYJcPr9jI1DN1HnHsH1eujUVwTOmahmJi0fzelgWf7sN3V7N7OStkVlmogteSGdHGcSvSrD_XmZ_X1fAVxBAaWn8S7eeArrfbtTVoGbPR7RWkDZnh3ojfKal8JyYUcJjdqgCO53FWm00w-PmfJ6tTNpDEGRfdJu35cQcSHv0Ap12vbFdTYbljC08ccIYORN2BRCAZj5kBYmtbG8XdE6n9fPco"/>
+<div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="px-6 py-2 bg-white text-on-surface font-label-md text-label-md rounded shadow-sm">Quick View</span>
+</div>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface text-base mb-1">The Anatolian Cloud</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">$3,800</p>
+</div>
+<!-- Card 2 -->
+<div class="group cursor-pointer">
+<div class="w-full aspect-[3/4] bg-surface-container rounded overflow-hidden mb-4 border border-outline-variant relative">
+<img alt="Related Product 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An elegant detail shot of a vintage-style washed runner rug. The rug features faded traditional geometric patterns in muted terracotta and soft blue tones. The texture appears deliberately distressed for a heritage look. It is laid out in a brightly lit hallway with white wainscoting, embodying a refined, relaxed luxury aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYenlVvLYkfVsAWD1Gc9mGpLpiLRbWnGHjLkfCs99EVjSD7ME4-m7QlAl9FMkCqMLHNvSCgNB3OSk0hHvP8_afLoH7V5O8qOIyYb2f8w-dKqNzO-5jGVw4tFejHK2AwszCfwh_oWWeWzjKmiz55i3cEn0cszMcs1hL93vUiQNJAqUebb3yXbxmYlrh-v52ua3AAbit_fi0AoiPiKxk4HSvr9Mzms-lVWLmfCDv-RvXakP6VcxsywnzZ1KS56xdUvxGDTRLn1cDO8g"/>
+<div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="px-6 py-2 bg-white text-on-surface font-label-md text-label-md rounded shadow-sm">Quick View</span>
+</div>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface text-base mb-1">Vintage Terracotta Runner</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">$1,200</p>
+</div>
+<!-- Card 3 -->
+<div class="group cursor-pointer">
+<div class="w-full aspect-[3/4] bg-surface-container rounded overflow-hidden mb-4 border border-outline-variant relative">
+<img alt="Related Product 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A top-down view of a contemporary tufted wool rug. The rug has a bold, asymmetric geometric design using stark contrasts of deep navy, ochre yellow, and stark white. The lighting is crisp and even, emphasizing the precise cut of the pile. The style is modern art-deco, conveying a sense of artistic flair and premium quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtzY0wu238RBwTyBcqE-syiWuslSDKFSSrjGfx1GBvx8KOIg3GmejPy2qi03Ew1elo9yqOjd3af-K6LRLM3EI5OawaAcS1YeXp_jH98b077NCKqlUehFZ2ihhXLi6QVrVUB4ejIxLPY6OcRm-Bkw2yeH39pwPsX0666HaGAQF0F1JlB-uEChHpHpV6l8-LrdIE9eZu1DAQNIZKFF3tSFWcs_Ic7OUSBBL_cDwDJ1fAzlcW1Io5qFW7vIiqjdnzz07tOFX6xtiMNqQ"/>
+<div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="px-6 py-2 bg-white text-on-surface font-label-md text-label-md rounded shadow-sm">Quick View</span>
+</div>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface text-base mb-1">Geo Ochre Modern</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">$2,450</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-8 md:py-16 px-4 md:px-16 max-w-[1280px] mx-auto flex flex-col md:flex-row justify-between border-t border-t border-slate-100 dark:border-slate-900 mt-12 md:mt-20 bg-white dark:bg-slate-950">
+<div class="mb-8 md:mb-0">
+<span class="text-lg font-serif text-slate-900 dark:text-slate-100 block mb-4">LuxeWeave</span>
+<p class="font-sans text-xs uppercase tracking-widest text-slate-500 text-[#F4B400]">© 2024 LuxeWeave Digital Atelier. All Rights Reserved.</p>
+</div>
+<div class="flex flex-col md:flex-row gap-4 md:gap-12">
+<a class="font-sans text-xs uppercase tracking-widest text-slate-500 text-slate-400 hover:text-[#F4B400] hover:text-slate-900 dark:hover:text-white transition-colors opacity-100 hover:opacity-70" href="#">Privacy Policy</a>
+<a class="font-sans text-xs uppercase tracking-widest text-slate-500 text-slate-400 hover:text-[#F4B400] hover:text-slate-900 dark:hover:text-white transition-colors opacity-100 hover:opacity-70" href="#">Terms of Service</a>
+<a class="font-sans text-xs uppercase tracking-widest text-slate-500 text-slate-400 hover:text-[#F4B400] hover:text-slate-900 dark:hover:text-white transition-colors opacity-100 hover:opacity-70" href="#">Shipping &amp; Returns</a>
+<a class="font-sans text-xs uppercase tracking-widest text-slate-500 text-slate-400 hover:text-[#F4B400] hover:text-slate-900 dark:hover:text-white transition-colors opacity-100 hover:opacity-70" href="#">Carpet Care Guide</a>
+</div>
+</footer>
+</body></html>
