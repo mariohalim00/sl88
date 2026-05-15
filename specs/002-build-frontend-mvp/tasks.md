@@ -11,10 +11,10 @@
 
 **Purpose**: Prepare page-map scope, styling authority, and route scaffolding inputs.
 
-- [ ] T001 Create canonical route-source map in apps/web/src/lib/route-variant-map.ts
-- [ ] T002 Create typed feature flags with default-disabled commerce toggles in apps/web/src/lib/feature-flags.ts
-- [ ] T003 [P] Add Artisan Loom token variables and typography foundations in apps/web/src/app/styles.css
-- [ ] T004 [P] Add page-level manual validation checklist scaffold in specs/002-build-frontend-mvp/checklists/ui-fidelity.md
+- [X] T001 Create canonical route-source map in apps/web/src/lib/route-variant-map.ts
+- [X] T002 Create typed feature flags with default-disabled commerce toggles in apps/web/src/lib/feature-flags.ts
+- [X] T003 [P] Add Artisan Loom token variables and typography foundations in apps/web/src/app/styles.css
+- [X] T004 [P] Add page-level manual validation checklist scaffold in specs/002-build-frontend-mvp/checklists/ui-fidelity.md
 
 ---
 
@@ -24,15 +24,15 @@
 
 **⚠️ CRITICAL**: No user story implementation should begin before this phase is complete.
 
-- [ ] T005 Add `react-router-dom` dependency in apps/web/package.json
-- [ ] T006 Add route contract mapping and exports in apps/web/src/types/routes.ts
-- [ ] T007 Wire React Router route shell for `/`, `/shop/all`, `/products/:productId`, and `/admin` in apps/web/src/app/App.tsx
-- [ ] T008 Create app-level responsive layout shell and shared navigation frame in apps/web/src/components/layout/AppShell.tsx
-- [ ] T009 [P] Create typed mock product/collection schemas and parsers in apps/web/src/features/catalog/model/schemas.ts
-- [ ] T010 [P] Create typed mock catalog/admin datasets in apps/web/src/features/catalog/data/mock-catalog.ts
-- [ ] T011 Add catalog selectors and route-param-safe lookup helpers in apps/web/src/features/catalog/model/selectors.ts
-- [ ] T012 Create reusable visual primitives wrappers (hero section, metric card, product tile) in apps/web/src/components/sections/shared/SectionFrame.tsx
-- [ ] T050 Add no-backend-dependency guard utility for primary routes in apps/web/src/lib/runtime-guards.ts
+- [X] T005 Add `react-router-dom` dependency in apps/web/package.json
+- [X] T006 Add route contract mapping and exports in apps/web/src/types/routes.ts
+- [X] T007 Wire React Router route shell for `/`, `/shop/all`, `/products/:productId`, and `/admin` in apps/web/src/app/App.tsx
+- [X] T008 Create app-level responsive layout shell and shared navigation frame in apps/web/src/components/layout/AppShell.tsx
+- [X] T009 [P] Create typed mock product/collection schemas and parsers in apps/web/src/features/catalog/model/schemas.ts
+- [X] T010 [P] Create typed mock catalog/admin datasets in apps/web/src/features/catalog/data/mock-catalog.ts
+- [X] T011 Add catalog selectors and route-param-safe lookup helpers in apps/web/src/features/catalog/model/selectors.ts
+- [X] T012 Create reusable visual primitives wrappers (hero section, metric card, product tile) in apps/web/src/components/sections/shared/SectionFrame.tsx
+- [X] T050 Add no-backend-dependency guard utility for primary routes in apps/web/src/lib/runtime-guards.ts
 
 **Checkpoint**: Foundation ready; route stories can now be developed independently.
 
@@ -46,16 +46,16 @@
 
 ### Validation for User Story 1
 
-- [ ] T013 [P] [US1] Add landing route fidelity checklist entries in specs/002-build-frontend-mvp/checklists/ui-fidelity.md
-- [ ] T014 [P] [US1] Record landing responsive checkpoints and expected outcomes in specs/002-build-frontend-mvp/quickstart.md
-- [ ] T015 [P] [US1] Run lint/typecheck/format validation for landing touched files via package scripts in package.json
+- [X] T013 [P] [US1] Add landing route fidelity checklist entries in specs/002-build-frontend-mvp/checklists/ui-fidelity.md
+- [X] T014 [P] [US1] Record landing responsive checkpoints and expected outcomes in specs/002-build-frontend-mvp/quickstart.md
+- [X] T015 [P] [US1] Run lint/typecheck/format validation for landing touched files via package scripts in package.json
 
 ### Implementation for User Story 1
 
-- [ ] T016 [P] [US1] Create landing hero and CTA section components in apps/web/src/components/sections/landing/LandingHero.tsx
-- [ ] T017 [US1] Implement LandingPage route component in apps/web/src/pages/LandingPage.tsx
-- [ ] T018 [US1] Connect LandingPage to app routing in apps/web/src/app/App.tsx
-- [ ] T019 [US1] Apply Artisan Loom spacing/typography tokens to landing layout in apps/web/src/app/styles.css
+- [X] T016 [P] [US1] Create landing hero and CTA section components in apps/web/src/components/sections/landing/LandingHero.tsx
+- [X] T017 [US1] Implement LandingPage route component in apps/web/src/pages/LandingPage.tsx
+- [X] T018 [US1] Connect LandingPage to app routing in apps/web/src/app/App.tsx
+- [X] T019 [US1] Apply Artisan Loom spacing/typography tokens to landing layout in apps/web/src/app/styles.css
 
 **Checkpoint**: Landing page is independently functional and reviewable.
 
@@ -69,18 +69,18 @@
 
 ### Validation for User Story 2
 
-- [ ] T020 [P] [US2] Add shop-all route fidelity checklist entries in specs/002-build-frontend-mvp/checklists/ui-fidelity.md
-- [ ] T021 [P] [US2] Add repeatable interaction script (filter/sort/cart updates) in specs/002-build-frontend-mvp/quickstart.md
-- [ ] T022 [P] [US2] Run lint/typecheck/format validation for shop-all touched files via package scripts in package.json
+- [X] T020 [P] [US2] Add shop-all route fidelity checklist entries in specs/002-build-frontend-mvp/checklists/ui-fidelity.md
+- [X] T021 [P] [US2] Add repeatable interaction script (filter/sort/cart updates) in specs/002-build-frontend-mvp/quickstart.md
+- [X] T022 [P] [US2] Run lint/typecheck/format validation for shop-all touched files via package scripts in package.json
 
 ### Implementation for User Story 2
 
-- [ ] T023 [P] [US2] Create shop-all filter bar and collection header components in apps/web/src/components/sections/shop-all/ShopAllFilterBar.tsx
-- [ ] T024 [P] [US2] Create responsive product grid and card composition in apps/web/src/features/catalog/components/ProductGrid.tsx
-- [ ] T025 [US2] Implement local cart interaction hook with reset-on-reload behavior in apps/web/src/features/catalog/hooks/useCartState.ts
-- [ ] T026 [US2] Implement ShopAllPage route component in apps/web/src/pages/ShopAllPage.tsx
-- [ ] T027 [US2] Connect ShopAllPage route and mock data selectors in apps/web/src/app/App.tsx
-- [ ] T051 [US2] Add explicit mock-mode disclosure UI for catalog/cart flows in apps/web/src/components/sections/shop-all/MockModeNotice.tsx
+- [X] T023 [P] [US2] Create shop-all filter bar and collection header components in apps/web/src/components/sections/shop-all/ShopAllFilterBar.tsx
+- [X] T024 [P] [US2] Create responsive product grid and card composition in apps/web/src/features/catalog/components/ProductGrid.tsx
+- [X] T025 [US2] Implement local cart interaction hook with reset-on-reload behavior in apps/web/src/features/catalog/hooks/useCartState.ts
+- [X] T026 [US2] Implement ShopAllPage route component in apps/web/src/pages/ShopAllPage.tsx
+- [X] T027 [US2] Connect ShopAllPage route and mock data selectors in apps/web/src/app/App.tsx
+- [X] T051 [US2] Add explicit mock-mode disclosure UI for catalog/cart flows in apps/web/src/components/sections/shop-all/MockModeNotice.tsx
 
 **Checkpoint**: Shop-all page is independently functional and testable.
 
@@ -94,16 +94,16 @@
 
 ### Validation for User Story 3
 
-- [ ] T028 [P] [US3] Add product-details fidelity checklist entries in specs/002-build-frontend-mvp/checklists/ui-fidelity.md
-- [ ] T029 [P] [US3] Add valid/invalid product route manual test script in specs/002-build-frontend-mvp/quickstart.md
-- [ ] T030 [P] [US3] Run lint/typecheck/format validation for product-details touched files via package scripts in package.json
+- [X] T028 [P] [US3] Add product-details fidelity checklist entries in specs/002-build-frontend-mvp/checklists/ui-fidelity.md
+- [X] T029 [P] [US3] Add valid/invalid product route manual test script in specs/002-build-frontend-mvp/quickstart.md
+- [X] T030 [P] [US3] Run lint/typecheck/format validation for product-details touched files via package scripts in package.json
 
 ### Implementation for User Story 3
 
-- [ ] T031 [P] [US3] Create product gallery and detail info modules in apps/web/src/components/sections/product-details/ProductGallery.tsx
-- [ ] T032 [US3] Add typed route-param parser and fallback resolver in apps/web/src/features/catalog/model/route-params.ts
-- [ ] T033 [US3] Implement ProductDetailsPage route component in apps/web/src/pages/ProductDetailsPage.tsx
-- [ ] T034 [US3] Connect ProductDetailsPage route in apps/web/src/app/App.tsx
+- [X] T031 [P] [US3] Create product gallery and detail info modules in apps/web/src/components/sections/product-details/ProductGallery.tsx
+- [X] T032 [US3] Add typed route-param parser and fallback resolver in apps/web/src/features/catalog/model/route-params.ts
+- [X] T033 [US3] Implement ProductDetailsPage route component in apps/web/src/pages/ProductDetailsPage.tsx
+- [X] T034 [US3] Connect ProductDetailsPage route in apps/web/src/app/App.tsx
 
 **Checkpoint**: Product details page is independently functional and testable.
 
@@ -117,16 +117,16 @@
 
 ### Validation for User Story 4
 
-- [ ] T035 [P] [US4] Add admin-page fidelity checklist entries in specs/002-build-frontend-mvp/checklists/ui-fidelity.md
-- [ ] T036 [P] [US4] Add admin action-flag verification script in specs/002-build-frontend-mvp/quickstart.md
-- [ ] T037 [P] [US4] Run lint/typecheck/format validation for admin touched files via package scripts in package.json
+- [X] T035 [P] [US4] Add admin-page fidelity checklist entries in specs/002-build-frontend-mvp/checklists/ui-fidelity.md
+- [X] T036 [P] [US4] Add admin action-flag verification script in specs/002-build-frontend-mvp/quickstart.md
+- [X] T037 [P] [US4] Run lint/typecheck/format validation for admin touched files via package scripts in package.json
 
 ### Implementation for User Story 4
 
-- [ ] T038 [P] [US4] Create admin inventory table and status badge modules in apps/web/src/components/sections/admin/AdminInventoryTable.tsx
-- [ ] T039 [US4] Implement AdminPage route component in apps/web/src/pages/AdminPage.tsx
-- [ ] T040 [US4] Wire feature-flag-gated non-priority actions in apps/web/src/components/sections/admin/AdminActions.tsx
-- [ ] T041 [US4] Connect AdminPage route in apps/web/src/app/App.tsx
+- [X] T038 [P] [US4] Create admin inventory table and status badge modules in apps/web/src/components/sections/admin/AdminInventoryTable.tsx
+- [X] T039 [US4] Implement AdminPage route component in apps/web/src/pages/AdminPage.tsx
+- [X] T040 [US4] Wire feature-flag-gated non-priority actions in apps/web/src/components/sections/admin/AdminActions.tsx
+- [X] T041 [US4] Connect AdminPage route in apps/web/src/app/App.tsx
 
 **Checkpoint**: Admin page is independently functional and testable.
 
@@ -140,16 +140,16 @@
 
 ### Validation for User Story 5
 
-- [ ] T042 [P] [US5] Add architecture quality checklist (component boundaries/no-any/shadcn usage) in specs/002-build-frontend-mvp/checklists/ui-fidelity.md
-- [ ] T043 [P] [US5] Run full repository quality gate (`bun run check`) and record result in specs/002-build-frontend-mvp/quickstart.md
-- [ ] T052 [P] [US5] Add component size threshold checks (250-line route pages, 180-line shared components) to specs/002-build-frontend-mvp/checklists/ui-fidelity.md
-- [ ] T053 [P] [US5] Add acceptance-scenario coverage matrix and pass-rate log (>=95%) in specs/002-build-frontend-mvp/checklists/ui-fidelity.md
+- [X] T042 [P] [US5] Add architecture quality checklist (component boundaries/no-any/shadcn usage) in specs/002-build-frontend-mvp/checklists/ui-fidelity.md
+- [X] T043 [P] [US5] Run full repository quality gate (`bun run check`) and record result in specs/002-build-frontend-mvp/quickstart.md
+- [X] T052 [P] [US5] Add component size threshold checks (250-line route pages, 180-line shared components) to specs/002-build-frontend-mvp/checklists/ui-fidelity.md
+- [X] T053 [P] [US5] Add acceptance-scenario coverage matrix and pass-rate log (>=95%) in specs/002-build-frontend-mvp/checklists/ui-fidelity.md
 
 ### Implementation for User Story 5
 
-- [ ] T044 [P] [US5] Consolidate shared route UI modules in apps/web/src/components/sections/shared/PageHeader.tsx
-- [ ] T045 [US5] Refactor repeated page logic into typed hooks in apps/web/src/features/catalog/hooks/useCatalogViewState.ts
-- [ ] T046 [US5] Add route-level source mapping notes for documented deviations in apps/web/src/lib/route-variant-map.ts
+- [X] T044 [P] [US5] Consolidate shared route UI modules in apps/web/src/components/sections/shared/PageHeader.tsx
+- [X] T045 [US5] Refactor repeated page logic into typed hooks in apps/web/src/features/catalog/hooks/useCatalogViewState.ts
+- [X] T046 [US5] Add route-level source mapping notes for documented deviations in apps/web/src/lib/route-variant-map.ts
 
 **Checkpoint**: Architecture constraints are satisfied across the full page scope.
 
@@ -159,11 +159,11 @@
 
 **Purpose**: Final consistency, docs sync, and full-scope validation.
 
-- [ ] T047 [P] Update final route-to-source mapping notes in specs/002-build-frontend-mvp/contracts/ui-routes.md
-- [ ] T048 [P] Run end-to-end manual quickstart verification for all 4 routes in specs/002-build-frontend-mvp/quickstart.md
-- [ ] T049 Perform final code cleanup and remove dead scaffolding in apps/web/src/pages/ScaffoldDemo.tsx
-- [ ] T054 [P] Verify primary route runtime does not require production API endpoints and record evidence in specs/002-build-frontend-mvp/quickstart.md
-- [ ] T055 [P] Verify runtime i18n infrastructure is not introduced in this MVP scope and record evidence in specs/002-build-frontend-mvp/quickstart.md
+- [X] T047 [P] Update final route-to-source mapping notes in specs/002-build-frontend-mvp/contracts/ui-routes.md
+- [X] T048 [P] Run end-to-end manual quickstart verification for all 4 routes in specs/002-build-frontend-mvp/quickstart.md
+- [X] T049 Perform final code cleanup and remove dead scaffolding in apps/web/src/pages/ScaffoldDemo.tsx
+- [X] T054 [P] Verify primary route runtime does not require production API endpoints and record evidence in specs/002-build-frontend-mvp/quickstart.md
+- [X] T055 [P] Verify runtime i18n infrastructure is not introduced in this MVP scope and record evidence in specs/002-build-frontend-mvp/quickstart.md
 
 ---
 
