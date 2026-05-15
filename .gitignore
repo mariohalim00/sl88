@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+.output/
+
+# Environment files — never commit secrets
+.env
+.env.local
+.env.*.local
+
+# Drizzle generated files (keep migrations/ committed — they are migration history)
+drizzle/migrations/*.snap
+
+# Vite / Vite+ cache
+.vite/
+.vp/
+
+# TypeScript incremental builds
+*.tsbuildinfo
+
+# Bun lockfile is committed; generated artifacts are not
+# bun.lockb is tracked
+
+# OS artefacts
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/settings.json
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+bun-debug.log*

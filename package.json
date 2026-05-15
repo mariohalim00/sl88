@@ -1,0 +1,30 @@
+{
+  "name": "sl88",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "bunx concurrently -k -n api,web -c cyan,green \"bun run dev:api\" \"bun run dev:web\"",
+    "dev:api": "bun --watch apps/api/src/app/index.ts",
+    "dev:web": "cd apps/web && vp dev",
+    "dev:static": "vp build && bun run apps/api/src/app/index.ts",
+    "build": "cd apps/web && vp build",
+    "preview": "cd apps/web && vp preview",
+    "format": "vp fmt",
+    "lint": "vp lint",
+    "typecheck": "vp check --no-fmt --no-lint",
+    "check": "vp check",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "test:contract": "bun test apps/api/tests/contract"
+  },
+  "devDependencies": {
+    "drizzle-kit": "latest",
+    "typescript": "^6.0.3",
+    "vite-plus": "latest"
+  }
+}

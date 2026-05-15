@@ -1,0 +1,20 @@
+{
+  "name": "@sl88/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@elysiajs/cors": "^1.4.2",
+    "@elysia/static": "^1.4.10",
+    "@sl88/shared": "workspace:*",
+    "drizzle-orm": "^0.45.2",
+    "elysia": "^1.4.28",
+    "pg": "^8.20.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.20.0",
+    "bun-types": "latest",
+    "typescript": "^6.0.3"
+  }
+}
