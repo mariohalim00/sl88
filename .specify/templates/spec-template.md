@@ -89,6 +89,10 @@
 - **FR-003**: Users MUST be able to [key interaction, e.g., "reset their password"]
 - **FR-004**: System MUST [data requirement, e.g., "persist user preferences"]
 - **FR-005**: System MUST [behavior, e.g., "log all security events"]
+- **FR-006**: Frontend implementations MUST remain strictly typed, avoid `any`, and decompose non-trivial UI into maintainable components/modules.
+- **FR-007**: For advanced client state, system MUST use TanStack-based patterns and MUST NOT introduce Redux without an approved exception.
+- **FR-008**: UI implementation MUST prefer existing shadcn primitives and document any justified deviations.
+- **FR-009**: When a design specification exists, delivered UI MUST be faithful to it, with any intentional differences explicitly documented.
 
 _Example of marking unclear requirements:_
 
@@ -128,3 +132,4 @@ _Example of marking unclear requirements:_
 - [Assumption about scope boundaries, e.g., "Mobile support is out of scope for v1"]
 - [Assumption about data/environment, e.g., "Existing authentication system will be reused"]
 - [Dependency on existing system/service, e.g., "Requires access to the existing user profile API"]
+- [Assumption about design artifacts, e.g., "Approved design specification exists and is the source of truth for UI fidelity"]

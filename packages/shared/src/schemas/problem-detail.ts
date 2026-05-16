@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 /**
  * RFC 9457 Problem Details schema for non-2xx HTTP responses.

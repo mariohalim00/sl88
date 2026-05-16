@@ -1,5 +1,6 @@
-import { treaty } from "@elysiajs/eden";
-import type { App } from "@api/app/index";
+import { treaty } from '@elysiajs/eden';
+
+import type { App } from '@api/app/index';
 
 /**
  * Eden Treaty typed client for the SL88 API.
@@ -8,5 +9,7 @@ import type { App } from "@api/app/index";
  * request/response shapes remain aligned with the server definition.
  */
 export const api = treaty<App>(
-  typeof window !== "undefined" ? window.location.origin : "http://localhost:3000",
+  typeof window !== 'undefined'
+    ? window.location.origin
+    : 'http://localhost:3000',
 );

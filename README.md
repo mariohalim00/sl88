@@ -71,17 +71,17 @@ sl88/
 
 ## Key commands
 
-| Command                 | Description                                     |
-| ----------------------- | ----------------------------------------------- |
-| `bun run dev`           | Start API + Vite dev server in parallel          |
-| `bun run format`        | Format all files with oxfmt via vite-plus       |
-| `bun run lint`          | Lint with oxlint + tsgolint via vite-plus       |
-| `bun run typecheck`     | TypeScript type-check only                      |
-| `bun run check`         | Format + lint + typecheck in one pass           |
-| `bun run test:contract` | Run contract smoke tests                        |
-| `bun run db:generate`   | Generate Drizzle migrations from schema         |
-| `bun run db:migrate`    | Apply pending migrations                        |
-| `bun run build`         | Production build for `apps/web`                 |
+| Command                 | Description                               |
+| ----------------------- | ----------------------------------------- |
+| `bun run dev`           | Start API + Vite dev server in parallel   |
+| `bun run format`        | Format all files with oxfmt via vite-plus |
+| `bun run lint`          | Lint with oxlint + tsgolint via vite-plus |
+| `bun run typecheck`     | TypeScript type-check only                |
+| `bun run check`         | Format + lint + typecheck in one pass     |
+| `bun run test:contract` | Run contract smoke tests                  |
+| `bun run db:generate`   | Generate Drizzle migrations from schema   |
+| `bun run db:migrate`    | Apply pending migrations                  |
+| `bun run build`         | Production build for `apps/web`           |
 
 ---
 
@@ -92,6 +92,7 @@ sl88/
 - **RFC 9457 error format**: All non-2xx API responses use `application/problem+json` with `type`, `title`, `status`, `detail`, and `instance` fields.
 - **Zod at boundaries**: All external input is validated with `safeParse()` at the system boundary (env vars, incoming request bodies, etc.).
 - **No `any`**: The entire codebase uses `noImplicitAny: true` and `exactOptionalPropertyTypes: true`.
+- **Frontend architecture discipline**: Prefer shadcn primitives before custom UI, keep React features modular instead of monolithic TSX files, and use TanStack for advanced client-side state management (no Redux by default).
 
 ---
 

@@ -1,14 +1,14 @@
-import { Elysia, t } from "elysia";
-import { authGuard } from "../middleware/auth.js";
+import { Elysia, t } from 'elysia';
+import { authGuard } from '../middleware/auth.js';
 
-export const scaffoldRoute = new Elysia({ prefix: "/api/scaffold" })
+export const scaffoldRoute = new Elysia({ prefix: '/api/scaffold' })
   .use(authGuard)
   .get(
-    "/ping",
+    '/ping',
     ({ query }) => ({
-      message: "pong" as const,
+      message: 'pong' as const,
       echo: {
-        name: query.name ?? "world",
+        name: query.name ?? 'world',
       },
     }),
     {
@@ -18,9 +18,9 @@ export const scaffoldRoute = new Elysia({ prefix: "/api/scaffold" })
     },
   )
   .get(
-    "/protected",
+    '/protected',
     () => ({
-      message: "authorized scaffold route" as const,
+      message: 'authorized scaffold route' as const,
     }),
     {
       isAuthenticated: true,

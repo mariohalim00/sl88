@@ -7,7 +7,7 @@ description: "Task list template for feature implementation"
 **Input**: Design documents from `/specs/[###-feature-name]/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Tests**: Include the narrowest required validation tasks for each story. Formatting, linting, and typecheck tasks are mandatory when code changes are in scope; contract or integration tests are mandatory when API boundaries, shared schemas, checkout flows, catalog behavior, or order workflows change.
+**Tests**: Include the narrowest required validation tasks for each story. Formatting, linting, and typecheck tasks are mandatory when code changes are in scope; contract or integration tests are mandatory when API boundaries, shared schemas, checkout flows, catalog behavior, or order workflows change. Frontend stories MUST include checks for design fidelity and strict typed state management choices.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
@@ -85,15 +85,18 @@ Examples of foundational tasks (adjust based on your project):
 - [ ] T010 [P] [US1] Contract test for [endpoint] in tests/contract/test\_[name].py
 - [ ] T011 [P] [US1] Integration test for [user journey] in tests/integration/test\_[name].py
 - [ ] T012 [P] [US1] Lint, typecheck, and format validation for touched files
+- [ ] T013 [P] [US1] UI fidelity verification against approved design spec and documented deltas (if any)
 
 ### Implementation for User Story 1
 
-- [ ] T013 [P] [US1] Create [Entity1] model in src/models/[entity1].py
-- [ ] T014 [P] [US1] Create [Entity2] model in src/models/[entity2].py
-- [ ] T015 [US1] Implement [Service] in src/services/[service].py (depends on T013, T014)
-- [ ] T016 [US1] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T017 [US1] Add boundary validation, typed contracts, and error handling
-- [ ] T018 [US1] Add logging for user story 1 operations
+- [ ] T014 [P] [US1] Create [Entity1] model in src/models/[entity1].py
+- [ ] T015 [P] [US1] Create [Entity2] model in src/models/[entity2].py
+- [ ] T016 [US1] Implement [Service] in src/services/[service].py (depends on T014, T015)
+- [ ] T017 [US1] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T018 [US1] Add boundary validation, typed contracts, and error handling
+- [ ] T019 [US1] Add logging for user story 1 operations
+- [ ] T020 [US1] For frontend scope, extract reusable UI/components and adopt shadcn primitives where applicable
+- [ ] T021 [US1] For advanced client state, implement TanStack-based solution and document why it is sufficient
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -107,16 +110,16 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Validation for User Story 2 ⚠️
 
-- [ ] T019 [P] [US2] Contract test for [endpoint] in tests/contract/test\_[name].py
-- [ ] T020 [P] [US2] Integration test for [user journey] in tests/integration/test\_[name].py
-- [ ] T021 [P] [US2] Lint, typecheck, and format validation for touched files
+- [ ] T022 [P] [US2] Contract test for [endpoint] in tests/contract/test\_[name].py
+- [ ] T023 [P] [US2] Integration test for [user journey] in tests/integration/test\_[name].py
+- [ ] T024 [P] [US2] Lint, typecheck, and format validation for touched files
 
 ### Implementation for User Story 2
 
-- [ ] T022 [P] [US2] Create [Entity] model in src/models/[entity].py
-- [ ] T023 [US2] Implement [Service] in src/services/[service].py
-- [ ] T024 [US2] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T025 [US2] Integrate with User Story 1 components (if needed)
+- [ ] T025 [P] [US2] Create [Entity] model in src/models/[entity].py
+- [ ] T026 [US2] Implement [Service] in src/services/[service].py
+- [ ] T027 [US2] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T028 [US2] Integrate with User Story 1 components (if needed)
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -130,15 +133,15 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Validation for User Story 3 ⚠️
 
-- [ ] T026 [P] [US3] Contract test for [endpoint] in tests/contract/test\_[name].py
-- [ ] T027 [P] [US3] Integration test for [user journey] in tests/integration/test\_[name].py
-- [ ] T028 [P] [US3] Lint, typecheck, and format validation for touched files
+- [ ] T029 [P] [US3] Contract test for [endpoint] in tests/contract/test\_[name].py
+- [ ] T030 [P] [US3] Integration test for [user journey] in tests/integration/test\_[name].py
+- [ ] T031 [P] [US3] Lint, typecheck, and format validation for touched files
 
 ### Implementation for User Story 3
 
-- [ ] T029 [P] [US3] Create [Entity] model in src/models/[entity].py
-- [ ] T030 [US3] Implement [Service] in src/services/[service].py
-- [ ] T031 [US3] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T032 [P] [US3] Create [Entity] model in src/models/[entity].py
+- [ ] T033 [US3] Implement [Service] in src/services/[service].py
+- [ ] T034 [US3] Implement [endpoint/feature] in src/[location]/[file].py
 
 **Checkpoint**: All user stories should now be independently functional
 

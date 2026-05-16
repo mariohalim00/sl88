@@ -7,67 +7,44 @@ node = "24"
 
 [tasks.setup]
 description = "Install all dependencies and prepare the environment"
-run = [
-	"bun install",
-	"cp .env.example .env || true"
-]
+run = ["bun install", "cp .env.example .env || true"]
 
 [tasks.db-generate]
 description = "Generate Drizzle migrations from schema"
-run = [
-	"bun run db:generate"
-]
+run = ["bun run db:generate"]
 
 [tasks.db-migrate]
 description = "Apply pending migrations to the database"
-run = [
-	"bun run db:migrate"
-]
+run = ["bun run db:migrate"]
 
 [tasks.dev]
 description = "Run both backend and frontend in dev mode with HMR"
-run = [
-	"bun run dev"
-]
+run = ["bun run dev"]
 
 [tasks.dev-api]
 description = "Run backend API in watch mode"
-run = [
-	"bun run dev:api"
-]
+run = ["bun run dev:api"]
 
 [tasks.dev-web]
 description = "Run frontend with Vite HMR"
-run = [
-	"bun run dev:web"
-]
+run = ["bun run dev:web"]
 
 [tasks.build]
 description = "Build the frontend for production"
-run = [
-	"bun run build"
-]
+run = ["bun run build"]
 
 [tasks.test-contract]
 description = "Run contract smoke tests"
-run = [
-	"bun run test:contract"
-]
+run = ["bun run test:contract"]
 
 [tasks.lint]
 description = "Run all linters"
-run = [
-	"bun run lint"
-]
+run = ["bun run lint"]
 
 [tasks.typecheck]
 description = "Typecheck all code"
-run = [
-	"bun run typecheck"
-]
+run = ["bun run typecheck"]
 
 [tasks.format]
 description = "Format all code"
-run = [
-	"bun run format"
-]
+run = ["bun run format"]

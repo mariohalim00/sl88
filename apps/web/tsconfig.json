@@ -4,6 +4,7 @@
     "jsx": "react-jsx",
     "tsBuildInfoFile": "./dist/.tsbuildinfo",
     "paths": {
+      "@/*": ["./src/*"],
       "@api/*": ["../api/src/*"],
       "@sl88/shared": ["../../packages/shared/src/index.ts"],
       "@sl88/shared/*": ["../../packages/shared/src/*"]
