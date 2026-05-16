@@ -2,28 +2,29 @@
 FROM oven/bun:1-alpine AS base
 WORKDIR /app
 
-# ─── deps: install all workspace dependencies ──────────────────────────────
-FROM base AS deps
+# ─── web-builder: compile Vite frontend ────────────────────────────────────
+FROM base AS web-builder
+# All workspace manifests must be present for bun to resolve the lockfile correctly.
 COPY package.json bun.lock ./
 COPY apps/api/package.json        ./apps/api/package.json
 COPY apps/web/package.json        ./apps/web/package.json
 COPY packages/shared/package.json ./packages/shared/package.json
 RUN bun install --frozen-lockfile
-
-# ─── web-builder: compile Vite frontend ────────────────────────────────────
-FROM base AS web-builder
-COPY --from=deps /app/node_modules ./node_modules
 COPY packages/shared ./packages/shared
 COPY apps/web        ./apps/web
-COPY tsconfig.base.json tsconfig.json package.json ./
+COPY tsconfig.base.json tsconfig.json ./
 RUN bun run build
 
 # ─── api-builder: compile Elysia API to a standalone binary ────────────────
 FROM base AS api-builder
-COPY --from=deps /app/node_modules ./node_modules
+COPY package.json bun.lock ./
+COPY apps/api/package.json        ./apps/api/package.json
+COPY apps/web/package.json        ./apps/web/package.json
+COPY packages/shared/package.json ./packages/shared/package.json
+RUN bun install --frozen-lockfile
 COPY packages/shared ./packages/shared
 COPY apps/api        ./apps/api
-COPY tsconfig.base.json tsconfig.json package.json ./
+COPY tsconfig.base.json tsconfig.json ./
 ENV NODE_ENV=production
 RUN bun build \
     --compile \
