@@ -1,19 +1,20 @@
-import { useEffect, useMemo, useState } from "react";
-import { listProducts } from "../api/catalog";
-import type { Product } from "../types";
+import { useEffect, useMemo, useState } from 'react';
+import { listProducts } from '../api/catalog';
 
-type CatalogStatus = "idle" | "loading" | "ready" | "error";
+import type { Product } from '../types';
+
+type CatalogStatus = 'idle' | 'loading' | 'ready' | 'error';
 
 export function useCatalog() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [products, setProducts] = useState<Product[]>([]);
-  const [status, setStatus] = useState<CatalogStatus>("idle");
+  const [status, setStatus] = useState<CatalogStatus>('idle');
 
   useEffect(() => {
     let isSubscribed = true;
 
     async function loadProducts() {
-      setStatus("loading");
+      setStatus('loading');
       try {
         const payload = await listProducts();
         if (!isSubscribed) {
@@ -21,14 +22,14 @@ export function useCatalog() {
         }
 
         setProducts(payload);
-        setStatus("ready");
+        setStatus('ready');
       } catch {
         if (!isSubscribed) {
           return;
         }
 
         setProducts([]);
-        setStatus("error");
+        setStatus('error');
       }
     }
 
@@ -57,8 +58,8 @@ export function useCatalog() {
   return {
     searchTerm,
     setSearchTerm,
-    isLoading: status === "idle" || status === "loading",
-    isError: status === "error",
+    isLoading: status === 'idle' || status === 'loading',
+    isError: status === 'error',
     products,
     filteredProducts,
   };

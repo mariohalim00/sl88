@@ -1,8 +1,9 @@
-import { useMemo, useState } from "react";
-import type { MockProduct } from "@/features/catalog/model/schemas";
+import { useMemo, useState } from 'react';
+
+import type { MockProduct } from '@/features/catalog/model/schemas';
 
 export function useCatalogViewState(products: MockProduct[]) {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
 
   const filteredProducts = useMemo(() => {
     const normalized = searchTerm.trim().toLowerCase();

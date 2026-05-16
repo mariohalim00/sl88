@@ -1,7 +1,7 @@
-import { AdminActions } from "@/components/sections/admin/AdminActions";
-import { AdminInventoryTable } from "@/components/sections/admin/AdminInventoryTable";
-import { PageHeader } from "@/components/sections/shared/PageHeader";
-import { mockCatalog } from "@/features/catalog/data/mock-catalog";
+import { AdminActions } from '@/components/sections/admin/AdminActions';
+import { AdminInventoryTable } from '@/components/sections/admin/AdminInventoryTable';
+import { PageHeader } from '@/components/sections/shared/PageHeader';
+import { mockCatalog } from '@/features/catalog/data/mock-catalog';
 
 export function AdminPage() {
   return (

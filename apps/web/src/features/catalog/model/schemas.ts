@@ -1,12 +1,12 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const mockProductSchema = z.object({
   id: z.string().min(1),
   slug: z.string().min(1),
   name: z.string().min(1),
-  category: z.enum(["wool", "silk", "modern", "persian", "outdoor", "other"]),
+  category: z.enum(['wool', 'silk', 'modern', 'persian', 'outdoor', 'other']),
   price: z.number().positive(),
-  currency: z.enum(["IDR", "USD"]),
+  currency: z.enum(['IDR', 'USD']),
   description: z.string().min(1),
   imageUrl: z.url(),
   gallery: z.array(z.url()).min(1),
@@ -27,7 +27,7 @@ export const adminInventoryRowSchema = z.object({
   name: z.string().min(1),
   category: z.string().min(1),
   stock: z.number().int().nonnegative(),
-  status: z.enum(["in_stock", "low_stock", "out_of_stock"]),
+  status: z.enum(['in_stock', 'low_stock', 'out_of_stock']),
   lastUpdatedAt: z.iso.datetime(),
 });
 

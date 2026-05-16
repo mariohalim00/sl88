@@ -1,23 +1,22 @@
-import type { PropsWithChildren } from "react";
-import { Heart, Menu, ShoppingBag, User } from "lucide-react";
-import { Link, NavLink, useLocation } from "react-router-dom";
-import { companyInfo } from "@/config/company";
-import { cn } from "@/lib/utils";
-import { LanguageSwitcher } from "./LanguageSwitcher";
+import { Heart, Menu, ShoppingBag, User } from 'lucide-react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { LanguageSwitcher } from './LanguageSwitcher';
+import { companyInfo } from '@/config/company';
+import { cn } from '@/lib/utils';
+
+import type { PropsWithChildren } from 'react';
 
 const scrollLinks = [
-  { id: "about-us", label: "About Us" },
-  { id: "collection", label: "Collection" },
-  { id: "contact-us", label: "Contact Us" },
+  { id: 'about-us', label: 'About Us' },
+  { id: 'collection', label: 'Collection' },
+  { id: 'contact-us', label: 'Contact Us' },
 ];
 
-const navLinks = [
-  { href: "/shop/all", label: "Catalogue" },
-];
+const navLinks = [{ href: '/shop/all', label: 'Catalogue' }];
 
 export function AppShell({ children }: PropsWithChildren) {
   const location = useLocation();
-  const isLandingRoute = location.pathname === "/";
+  const isLandingRoute = location.pathname === '/';
 
   const isScrollLinkActive = (id: string) => {
     return isLandingRoute && location.hash === `#${id}`;
@@ -55,10 +54,10 @@ export function AppShell({ children }: PropsWithChildren) {
                 key={item.id}
                 href={`/#${item.id}`}
                 className={cn(
-                  "border-b-2 pb-1 text-sm font-semibold tracking-[0.08em] uppercase transition-colors",
+                  'border-b-2 pb-1 text-sm font-semibold tracking-[0.08em] uppercase transition-colors',
                   isScrollLinkActive(item.id)
-                    ? "border-[#f4b400] text-[#1c1c15]"
-                    : "border-transparent text-[#504533] hover:border-[#f4b400] hover:text-[#1c1c15]",
+                    ? 'border-[#f4b400] text-[#1c1c15]'
+                    : 'border-transparent text-[#504533] hover:border-[#f4b400] hover:text-[#1c1c15]',
                 )}
               >
                 {item.label}
@@ -70,10 +69,10 @@ export function AppShell({ children }: PropsWithChildren) {
                 to={item.href}
                 className={({ isActive }) =>
                   cn(
-                    "border-b-2 pb-1 text-sm font-semibold tracking-[0.08em] uppercase transition-colors",
+                    'border-b-2 pb-1 text-sm font-semibold tracking-[0.08em] uppercase transition-colors',
                     isActive
-                      ? "border-[#f4b400] text-[#1c1c15]"
-                      : "border-transparent text-[#504533] hover:border-[#f4b400] hover:text-[#1c1c15]",
+                      ? 'border-[#f4b400] text-[#1c1c15]'
+                      : 'border-transparent text-[#504533] hover:border-[#f4b400] hover:text-[#1c1c15]',
                   )
                 }
               >
@@ -84,7 +83,11 @@ export function AppShell({ children }: PropsWithChildren) {
 
           <div className="flex items-center gap-4 text-[#1c1c15] md:gap-6">
             <LanguageSwitcher />
-            <button type="button" aria-label="Bag" className="transition-opacity hover:opacity-80">
+            <button
+              type="button"
+              aria-label="Bag"
+              className="transition-opacity hover:opacity-80"
+            >
               <ShoppingBag className="size-5" />
             </button>
             <button

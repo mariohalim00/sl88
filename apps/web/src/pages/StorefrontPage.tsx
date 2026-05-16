@@ -1,14 +1,21 @@
-import { CartSummary } from "@/features/catalog/components/CartSummary";
-import { ProductGrid } from "@/features/catalog/components/ProductGrid";
-import { StoreHeader } from "@/features/catalog/components/StoreHeader";
-import { useCart } from "@/features/catalog/hooks/useCart";
-import { useCatalog } from "@/features/catalog/hooks/useCatalog";
+import { CartSummary } from '@/features/catalog/components/CartSummary';
+import { ProductGrid } from '@/features/catalog/components/ProductGrid';
+import { StoreHeader } from '@/features/catalog/components/StoreHeader';
+import { useCart } from '@/features/catalog/hooks/useCart';
+import { useCatalog } from '@/features/catalog/hooks/useCatalog';
 
 /**
  * @deprecated This is part of the original scaffolding, will be deleted soon
  */
 export function StorefrontPage() {
-  const { searchTerm, setSearchTerm, isLoading, isError, products, filteredProducts } = useCatalog();
+  const {
+    searchTerm,
+    setSearchTerm,
+    isLoading,
+    isError,
+    products,
+    filteredProducts,
+  } = useCatalog();
 
   const { summary, addToCart, removeFromCart } = useCart(products);
 
@@ -40,7 +47,11 @@ export function StorefrontPage() {
 
         <section className="grid gap-6 lg:grid-cols-[1fr_320px]">
           <ProductGrid products={filteredProducts} onAddToCart={addToCart} />
-          <CartSummary items={summary.lineItems} subtotal={summary.subtotal} onRemoveItem={removeFromCart} />
+          <CartSummary
+            items={summary.lineItems}
+            subtotal={summary.subtotal}
+            onRemoveItem={removeFromCart}
+          />
         </section>
       </div>
     </main>

@@ -1,5 +1,6 @@
-import { useMemo, useState } from "react";
-import type { MockProduct } from "@/features/catalog/model/schemas";
+import { useMemo, useState } from 'react';
+
+import type { MockProduct } from '@/features/catalog/model/schemas';
 
 type CartItem = {
   productId: string;
@@ -37,7 +38,9 @@ export function useCartState(products: MockProduct[]) {
   }
 
   function remove(productId: string) {
-    setItems((previous) => previous.filter((item) => item.productId !== productId));
+    setItems((previous) =>
+      previous.filter((item) => item.productId !== productId),
+    );
   }
 
   const summary = useMemo(() => {
@@ -47,11 +50,23 @@ export function useCartState(products: MockProduct[]) {
         return [];
       }
 
-      return [{ product, quantity: item.quantity, subtotal: item.quantity * product.price }];
+      return [
+        {
+          product,
+          quantity: item.quantity,
+          subtotal: item.quantity * product.price,
+        },
+      ];
     });
 
-    const totalItems = lineItems.reduce((total, item) => total + item.quantity, 0);
-    const subtotal = lineItems.reduce((total, item) => total + item.subtotal, 0);
+    const totalItems = lineItems.reduce(
+      (total, item) => total + item.quantity,
+      0,
+    );
+    const subtotal = lineItems.reduce(
+      (total, item) => total + item.subtotal,
+      0,
+    );
 
     return {
       lineItems,

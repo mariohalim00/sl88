@@ -1,9 +1,9 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { AdminPage } from "@/pages/AdminPage";
-import { AppShell } from "@/components/layout/AppShell";
-import { LandingPage } from "@/pages/LandingPage";
-import { ProductDetailsPage } from "@/pages/ProductDetailsPage";
-import { ShopAllPage } from "@/pages/ShopAllPage";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { AppShell } from '@/components/layout/AppShell';
+import { AdminPage } from '@/pages/AdminPage';
+import { LandingPage } from '@/pages/LandingPage';
+import { ProductDetailsPage } from '@/pages/ProductDetailsPage';
+import { ShopAllPage } from '@/pages/ShopAllPage';
 
 export function App() {
   return (

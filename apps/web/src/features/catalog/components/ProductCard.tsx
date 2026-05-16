@@ -1,5 +1,5 @@
-import { Heart } from "lucide-react";
-import { formatCurrency } from "@/lib/currency";
+import { Heart } from 'lucide-react';
+import { formatCurrency } from '@/lib/currency';
 
 type CatalogProduct = {
   id: string;
@@ -44,14 +44,22 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
         <p className="text-[10px] font-semibold tracking-[0.14em] text-[#504533] uppercase md:text-xs">
           {formatCategoryLabel(product.category)}
         </p>
-        <h2 className="line-clamp-1 font-heading text-lg leading-tight text-[#1c1c15]">{product.name}</h2>
-        <p className="line-clamp-2 text-sm text-[#504533]">{product.description}</p>
+        <h2 className="line-clamp-1 font-heading text-lg leading-tight text-[#1c1c15]">
+          {product.name}
+        </h2>
+        <p className="line-clamp-2 text-sm text-[#504533]">
+          {product.description}
+        </p>
         <div className="flex items-end justify-between gap-3 pt-1">
           <div>
             <p className="text-xs text-[#504533]">In stock: {product.stock}</p>
-            <p className="text-xs text-[#504533]">Rating {product.rating.toFixed(1)} / 5</p>
+            <p className="text-xs text-[#504533]">
+              Rating {product.rating.toFixed(1)} / 5
+            </p>
           </div>
-          <p className="text-lg font-semibold text-[#1c1c15]">{formatCurrency(product.price)}</p>
+          <p className="text-lg font-semibold text-[#1c1c15]">
+            {formatCurrency(product.price)}
+          </p>
         </div>
         <button
           type="button"

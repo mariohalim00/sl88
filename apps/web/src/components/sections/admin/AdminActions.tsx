@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { featureFlags } from "@/lib/feature-flags";
+import { Button } from '@/components/ui/button';
+import { featureFlags } from '@/lib/feature-flags';
 
 export function AdminActions() {
   return (
@@ -7,7 +7,10 @@ export function AdminActions() {
       <Button variant="outline" disabled={!featureFlags.adminActionsEnabled}>
         Publish Inventory Update
       </Button>
-      <Button variant="outline" disabled={!featureFlags.checkoutEnabled || !featureFlags.paymentEnabled}>
+      <Button
+        variant="outline"
+        disabled={!featureFlags.checkoutEnabled || !featureFlags.paymentEnabled}
+      >
         Trigger Checkout Smoke Test
       </Button>
     </div>

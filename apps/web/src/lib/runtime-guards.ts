@@ -9,6 +9,8 @@ export function assertMockOnlyRuntime(target?: string): void {
   }
 
   if (unsafeProductionApiPattern.test(target)) {
-    throw new Error(`[web] Production API target is not allowed in MVP mock mode: ${target}`);
+    throw new Error(
+      `[web] Production API target is not allowed in MVP mock mode: ${target}`,
+    );
   }
 }

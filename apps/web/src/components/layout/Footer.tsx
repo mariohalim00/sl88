@@ -1,4 +1,4 @@
-import { companyInfo } from "@/config/company";
+import { companyInfo } from '@/config/company';
 
 export function Footer() {
   return (

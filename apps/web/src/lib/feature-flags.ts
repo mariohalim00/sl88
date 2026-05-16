@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const featureFlagsSchema = z.object({
   checkoutEnabled: z.boolean().default(false),

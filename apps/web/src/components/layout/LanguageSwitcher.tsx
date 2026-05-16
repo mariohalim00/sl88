@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { GlobeIcon } from "lucide-react";
+import { GlobeIcon } from 'lucide-react';
+import { useState } from 'react';
 
 export function LanguageSwitcher() {
-  const [language, setLanguage] = useState<"en" | "id">("en");
+  const [language, setLanguage] = useState<'en' | 'id'>('en');
 
   return (
     <div className="relative group">
@@ -18,22 +18,22 @@ export function LanguageSwitcher() {
       <div className="absolute top-full right-0 mt-2 hidden rounded-lg bg-white border border-[#d4c4ac] shadow-lg group-hover:block">
         <button
           type="button"
-          onClick={() => setLanguage("en")}
+          onClick={() => setLanguage('en')}
           className={`block w-full px-4 py-2 text-left text-sm font-semibold uppercase tracking-wide transition-colors ${
-            language === "en"
-              ? "bg-[#f4b400] text-[#1c1c15]"
-              : "text-[#504533] hover:bg-[#f7f4e9]"
+            language === 'en'
+              ? 'bg-[#f4b400] text-[#1c1c15]'
+              : 'text-[#504533] hover:bg-[#f7f4e9]'
           }`}
         >
           English
         </button>
         <button
           type="button"
-          onClick={() => setLanguage("id")}
+          onClick={() => setLanguage('id')}
           className={`block w-full px-4 py-2 text-left text-sm font-semibold uppercase tracking-wide transition-colors border-t border-[#d4c4ac] ${
-            language === "id"
-              ? "bg-[#f4b400] text-[#1c1c15]"
-              : "text-[#504533] hover:bg-[#f7f4e9]"
+            language === 'id'
+              ? 'bg-[#f4b400] text-[#1c1c15]'
+              : 'text-[#504533] hover:bg-[#f7f4e9]'
           }`}
         >
           Bahasa

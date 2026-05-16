@@ -1,4 +1,4 @@
-import { ProductCard } from "./ProductCard";
+import { ProductCard } from './ProductCard';
 
 type CatalogProduct = {
   id: string;
@@ -20,8 +20,12 @@ export function ProductGrid({ products, onAddToCart }: ProductGridProps) {
   if (products.length === 0) {
     return (
       <section className="rounded border border-dashed border-[#d4c4ac] p-8 text-center">
-        <h2 className="font-heading text-xl font-semibold text-[#1c1c15]">No matches found</h2>
-        <p className="mt-2 text-sm text-[#504533]">Try searching by room type, style, or material.</p>
+        <h2 className="font-heading text-xl font-semibold text-[#1c1c15]">
+          No matches found
+        </h2>
+        <p className="mt-2 text-sm text-[#504533]">
+          Try searching by room type, style, or material.
+        </p>
       </section>
     );
   }
@@ -29,7 +33,13 @@ export function ProductGrid({ products, onAddToCart }: ProductGridProps) {
   return (
     <section className="grid grid-cols-2 gap-3 md:gap-6 lg:grid-cols-3">
       {products.map((product) => {
-        return <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />;
+        return (
+          <ProductCard
+            key={product.id}
+            product={product}
+            onAddToCart={onAddToCart}
+          />
+        );
       })}
     </section>
   );

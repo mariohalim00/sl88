@@ -1,4 +1,4 @@
-import { Input } from "@/components/ui/input";
+import { Input } from '@/components/ui/input';
 
 type StoreHeaderProps = {
   searchTerm: string;
@@ -6,7 +6,11 @@ type StoreHeaderProps = {
   totalItems: number;
 };
 
-export function StoreHeader({ searchTerm, onSearchChange, totalItems }: StoreHeaderProps) {
+export function StoreHeader({
+  searchTerm,
+  onSearchChange,
+  totalItems,
+}: StoreHeaderProps) {
   return (
     <header className="space-y-5">
       <div className="space-y-2">
@@ -17,8 +21,8 @@ export function StoreHeader({ searchTerm, onSearchChange, totalItems }: StoreHea
           Find carpets that match your space
         </h1>
         <p className="max-w-2xl text-sm text-muted-foreground md:text-base">
-          Browse our starter collection with mock inventory, realistic pricing, and a testable cart
-          workflow ready for future API integration.
+          Browse our starter collection with mock inventory, realistic pricing,
+          and a testable cart workflow ready for future API integration.
         </p>
       </div>
 

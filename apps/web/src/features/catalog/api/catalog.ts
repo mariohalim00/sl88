@@ -1,5 +1,5 @@
-import { productListSchema, type Product } from "../types";
-import { mockProducts } from "../data/mock-products";
+import { mockProducts } from '../data/mock-products';
+import { productListSchema, type Product } from '../types';
 
 const MOCK_RESPONSE_DELAY_MS = 240;
 

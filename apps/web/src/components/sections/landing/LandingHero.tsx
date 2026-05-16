@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Link } from 'react-router-dom';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 export function LandingHero() {
   return (
@@ -10,14 +10,20 @@ export function LandingHero() {
           Handwoven carpets for modern, lived-in spaces.
         </h1>
         <p className="max-w-xl text-sm text-muted-foreground md:text-base">
-          Discover artisan textures that balance warmth and clarity across living rooms, bedrooms,
-          and hospitality-inspired corners.
+          Discover artisan textures that balance warmth and clarity across
+          living rooms, bedrooms, and hospitality-inspired corners.
         </p>
         <div className="flex flex-wrap gap-3">
-          <Link className={cn(buttonVariants({ variant: "default" }))} to="/shop/all">
+          <Link
+            className={cn(buttonVariants({ variant: 'default' }))}
+            to="/shop/all"
+          >
             Explore Collection
           </Link>
-          <Link className={cn(buttonVariants({ variant: "outline" }))} to="/products/c1">
+          <Link
+            className={cn(buttonVariants({ variant: 'outline' }))}
+            to="/products/c1"
+          >
             View Signature Product
           </Link>
         </div>

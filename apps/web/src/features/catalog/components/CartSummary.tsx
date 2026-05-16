@@ -1,5 +1,5 @@
-import { Trash2 } from "lucide-react";
-import { formatCurrency } from "@/lib/currency";
+import { Trash2 } from 'lucide-react';
+import { formatCurrency } from '@/lib/currency';
 
 type CatalogProduct = {
   id: string;
@@ -18,16 +18,26 @@ type CartSummaryProps = {
   onRemoveItem: (productId: string) => void;
 };
 
-export function CartSummary({ items, subtotal, onRemoveItem }: CartSummaryProps) {
+export function CartSummary({
+  items,
+  subtotal,
+  onRemoveItem,
+}: CartSummaryProps) {
   return (
     <section className="rounded border border-[#d4c4ac] bg-white p-5">
       <header className="mb-4">
-        <h2 className="font-heading text-2xl font-medium text-[#1c1c15]">Your Bag</h2>
-        <p className="text-sm text-[#504533]">Review selected pieces before checkout becomes available.</p>
+        <h2 className="font-heading text-2xl font-medium text-[#1c1c15]">
+          Your Bag
+        </h2>
+        <p className="text-sm text-[#504533]">
+          Review selected pieces before checkout becomes available.
+        </p>
       </header>
 
       {items.length === 0 ? (
-        <p className="text-sm text-[#504533]">No items yet. Add products from the collection.</p>
+        <p className="text-sm text-[#504533]">
+          No items yet. Add products from the collection.
+        </p>
       ) : (
         <ul className="space-y-3">
           {items.map((item) => {
@@ -37,7 +47,9 @@ export function CartSummary({ items, subtotal, onRemoveItem }: CartSummaryProps)
                 className="flex items-start justify-between gap-2 rounded border border-[#e5e2d8] p-3"
               >
                 <div>
-                  <p className="text-sm font-medium text-[#1c1c15]">{item.product.name}</p>
+                  <p className="text-sm font-medium text-[#1c1c15]">
+                    {item.product.name}
+                  </p>
                   <p className="text-xs text-[#504533]">
                     Qty {item.quantity} • {formatCurrency(item.subtotal)}
                   </p>
@@ -58,7 +70,9 @@ export function CartSummary({ items, subtotal, onRemoveItem }: CartSummaryProps)
 
       <div className="mt-4 flex items-center justify-between border-t border-[#e5e2d8] pt-3 text-sm">
         <span className="text-[#504533]">Subtotal</span>
-        <span className="font-semibold text-[#1c1c15]">{formatCurrency(subtotal)}</span>
+        <span className="font-semibold text-[#1c1c15]">
+          {formatCurrency(subtotal)}
+        </span>
       </div>
     </section>
   );

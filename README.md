@@ -71,17 +71,17 @@ sl88/
 
 ## Key commands
 
-| Command                 | Description                                     |
-| ----------------------- | ----------------------------------------------- |
-| `bun run dev`           | Start API + Vite dev server in parallel          |
-| `bun run format`        | Format all files with oxfmt via vite-plus       |
-| `bun run lint`          | Lint with oxlint + tsgolint via vite-plus       |
-| `bun run typecheck`     | TypeScript type-check only                      |
-| `bun run check`         | Format + lint + typecheck in one pass           |
-| `bun run test:contract` | Run contract smoke tests                        |
-| `bun run db:generate`   | Generate Drizzle migrations from schema         |
-| `bun run db:migrate`    | Apply pending migrations                        |
-| `bun run build`         | Production build for `apps/web`                 |
+| Command                 | Description                               |
+| ----------------------- | ----------------------------------------- |
+| `bun run dev`           | Start API + Vite dev server in parallel   |
+| `bun run format`        | Format all files with oxfmt via vite-plus |
+| `bun run lint`          | Lint with oxlint + tsgolint via vite-plus |
+| `bun run typecheck`     | TypeScript type-check only                |
+| `bun run check`         | Format + lint + typecheck in one pass     |
+| `bun run test:contract` | Run contract smoke tests                  |
+| `bun run db:generate`   | Generate Drizzle migrations from schema   |
+| `bun run db:migrate`    | Apply pending migrations                  |
+| `bun run build`         | Production build for `apps/web`           |
 
 ---
 

@@ -1,5 +1,6 @@
-import { useMemo, useState } from "react";
-import type { CartItem, Product } from "../types";
+import { useMemo, useState } from 'react';
+
+import type { CartItem, Product } from '../types';
 
 function getDefaultCart(): CartItem[] {
   return [];
@@ -12,7 +13,7 @@ export function useCart(products: Product[]) {
     return new Map(products.map((product) => [product.id, product]));
   }, [products]);
 
-  function addToCart(productId: Product["id"]) {
+  function addToCart(productId: Product['id']) {
     setItems((previous) => {
       const existing = previous.find((item) => item.productId === productId);
       if (existing == null) {
@@ -29,8 +30,10 @@ export function useCart(products: Product[]) {
     });
   }
 
-  function removeFromCart(productId: Product["id"]) {
-    setItems((previous) => previous.filter((item) => item.productId !== productId));
+  function removeFromCart(productId: Product['id']) {
+    setItems((previous) =>
+      previous.filter((item) => item.productId !== productId),
+    );
   }
 
   const summary = useMemo(() => {
@@ -49,7 +52,10 @@ export function useCart(products: Product[]) {
       ];
     });
 
-    const totalItems = lineItems.reduce((count, item) => count + item.quantity, 0);
+    const totalItems = lineItems.reduce(
+      (count, item) => count + item.quantity,
+      0,
+    );
     const subtotal = lineItems.reduce((sum, item) => sum + item.subtotal, 0);
 
     return {

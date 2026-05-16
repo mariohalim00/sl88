@@ -1,17 +1,18 @@
-import type { AdminInventoryRow } from "@/features/catalog/model/schemas";
-import { Badge } from "@/components/ui/badge";
+import { Badge } from '@/components/ui/badge';
+
+import type { AdminInventoryRow } from '@/features/catalog/model/schemas';
 
 type AdminInventoryTableProps = {
   rows: AdminInventoryRow[];
 };
 
-function statusLabel(status: AdminInventoryRow["status"]) {
+function statusLabel(status: AdminInventoryRow['status']) {
   switch (status) {
-    case "in_stock":
+    case 'in_stock':
       return <Badge variant="secondary">In Stock</Badge>;
-    case "low_stock":
+    case 'low_stock':
       return <Badge variant="outline">Low Stock</Badge>;
-    case "out_of_stock":
+    case 'out_of_stock':
       return <Badge variant="destructive">Out of Stock</Badge>;
     default:
       return <Badge variant="outline">Unknown</Badge>;
@@ -38,7 +39,9 @@ export function AdminInventoryTable({ rows }: AdminInventoryTableProps) {
               <td className="px-4 py-3">{row.category}</td>
               <td className="px-4 py-3">{row.stock}</td>
               <td className="px-4 py-3">{statusLabel(row.status)}</td>
-              <td className="px-4 py-3 text-muted-foreground">{new Date(row.lastUpdatedAt).toLocaleDateString()}</td>
+              <td className="px-4 py-3 text-muted-foreground">
+                {new Date(row.lastUpdatedAt).toLocaleDateString()}
+              </td>
             </tr>
           ))}
         </tbody>
