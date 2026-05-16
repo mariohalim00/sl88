@@ -1,0 +1,44 @@
+# Version control
+.git
+.github
+.gitignore
+
+# Editor / tooling
+.vscode
+.specify
+specs
+
+# Dependencies — reinstalled inside Docker
+node_modules
+apps/*/node_modules
+packages/*/node_modules
+
+# Build outputs — rebuilt inside Docker
+dist
+apps/web/dist
+apps/*/dist
+
+# Drizzle snapshot files (migrations are tracked, snapshots are not)
+drizzle/migrations/*.snap
+
+# Local environment files — injected at runtime via Dokploy / compose env
+.env
+.env.*
+*.env
+
+# TypeScript incremental build cache
+**/*.tsbuildinfo
+.vite
+.vp
+**/.vite
+**/.vp
+
+# Logs, coverage, temp files
+*.log
+coverage
+*.tmp
+*.swp
+
+# OS artifacts
+.DS_Store
+Thumbs.db
