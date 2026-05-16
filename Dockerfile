@@ -1,29 +1,33 @@
+# syntax=docker/dockerfile:1.7
+
 # ─── base: shared oven/bun alpine foundation ──────────────────────────────
 FROM oven/bun:1-alpine AS base
 WORKDIR /app
 
-# ─── web-builder: compile Vite frontend ────────────────────────────────────
-FROM base AS web-builder
-# All workspace manifests must be present for bun to resolve the lockfile correctly.
+# ─── deps: install monorepo dependencies once (cached) ────────────────────
+FROM base AS deps
 COPY package.json bun.lock ./
 COPY apps/api/package.json        ./apps/api/package.json
 COPY apps/web/package.json        ./apps/web/package.json
 COPY packages/shared/package.json ./packages/shared/package.json
-RUN bun install --frozen-lockfile
-COPY packages/shared ./packages/shared
+RUN --mount=type=cache,target=/root/.bun/install/cache \
+    bun install --frozen-lockfile
+
+# ─── web-builder: compile Vite frontend ────────────────────────────────────
+FROM base AS web-builder
+COPY --from=deps /app/node_modules ./node_modules
+COPY package.json bun.lock ./
 COPY apps/web        ./apps/web
+COPY packages/shared ./packages/shared
 COPY tsconfig.base.json tsconfig.json ./
 RUN bun run build
 
-# ─── api-builder: compile Elysia API to a standalone binary ────────────────
+# ─── api-builder: compile Elysia API to standalone binary ──────────────────
 FROM base AS api-builder
+COPY --from=deps /app/node_modules ./node_modules
 COPY package.json bun.lock ./
-COPY apps/api/package.json        ./apps/api/package.json
-COPY apps/web/package.json        ./apps/web/package.json
-COPY packages/shared/package.json ./packages/shared/package.json
-RUN bun install --frozen-lockfile
-COPY packages/shared ./packages/shared
 COPY apps/api        ./apps/api
+COPY packages/shared ./packages/shared
 COPY tsconfig.base.json tsconfig.json ./
 ENV NODE_ENV=production
 RUN bun build \
@@ -34,44 +38,34 @@ RUN bun build \
     --outfile server \
     apps/api/src/app/index.ts
 
-# ─── runner: lean production image ─────────────────────────────────────────
-# bun is kept here solely to run drizzle-kit migrations at startup.
-# The API itself runs as a self-contained binary (no bun needed for it).
-FROM base AS runner
-
-RUN addgroup -g 1001 -S appgroup && \
-    adduser  -S appuser -u 1001 -G appgroup
-
-# Install all deps so drizzle-kit (a devDep) is available for migrations.
+# ─── migrator: optional target for one-off DB migration job ────────────────
+FROM base AS migrator
+COPY --from=deps /app/node_modules ./node_modules
 COPY package.json bun.lock ./
-COPY apps/api/package.json        ./apps/api/package.json
-COPY apps/web/package.json        ./apps/web/package.json
-COPY packages/shared/package.json ./packages/shared/package.json
-RUN bun install --frozen-lockfile
+COPY drizzle ./drizzle
+COPY drizzle.config.ts ./
+CMD ["bun", "run", "db:migrate"]
 
-# Compiled API binary (self-contained, no bun runtime required to execute)
+# ─── runner: production runtime (no migration step at startup) ─────────────
+FROM base AS runner
+RUN addgroup -g 1001 -S appgroup && \
+    adduser -S appuser -u 1001 -G appgroup
+
+# API binary
 COPY --from=api-builder /app/server ./server
-RUN chmod +x server
+RUN chmod +x /app/server
 
-# Compiled frontend assets served by the binary via @elysia/static
+# Frontend static assets
 COPY --from=web-builder /app/apps/web/dist ./web/dist
 
-# Drizzle migrations + config — needed by drizzle-kit at container startup
-COPY drizzle        ./drizzle
-COPY drizzle.config.ts ./
-
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh && \
-    chown -R appuser:appgroup /app
-
+RUN chown -R appuser:appgroup /app
 USER appuser
-EXPOSE 3000
 
+EXPOSE 3000
 ENV NODE_ENV=production
-# STATIC_ASSETS tells the binary where to find the compiled frontend files.
 ENV STATIC_ASSETS=/app/web/dist
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
   CMD wget -qO- http://localhost:3000/api/health || exit 1
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["/app/server"]
