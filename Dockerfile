@@ -1,22 +1,14 @@
-# syntax=docker/dockerfile:1.7
-
 # ─── base: shared oven/bun alpine foundation ──────────────────────────────
 FROM oven/bun:1-alpine AS base
 WORKDIR /app
 
-# ─── deps: install monorepo dependencies once (cached) ────────────────────
-FROM base AS deps
+# ─── web-builder: compile Vite frontend ────────────────────────────────────
+FROM base AS web-builder
 COPY package.json bun.lock ./
 COPY apps/api/package.json        ./apps/api/package.json
 COPY apps/web/package.json        ./apps/web/package.json
 COPY packages/shared/package.json ./packages/shared/package.json
-RUN --mount=type=cache,target=/root/.bun/install/cache \
-    bun install --frozen-lockfile
-
-# ─── web-builder: compile Vite frontend ────────────────────────────────────
-FROM base AS web-builder
-COPY --from=deps /app/node_modules ./node_modules
-COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile
 COPY apps/web        ./apps/web
 COPY packages/shared ./packages/shared
 COPY tsconfig.base.json tsconfig.json ./
@@ -24,8 +16,11 @@ RUN bun run build
 
 # ─── api-builder: compile Elysia API to standalone binary ──────────────────
 FROM base AS api-builder
-COPY --from=deps /app/node_modules ./node_modules
 COPY package.json bun.lock ./
+COPY apps/api/package.json        ./apps/api/package.json
+COPY apps/web/package.json        ./apps/web/package.json
+COPY packages/shared/package.json ./packages/shared/package.json
+RUN bun install --frozen-lockfile
 COPY apps/api        ./apps/api
 COPY packages/shared ./packages/shared
 COPY tsconfig.base.json tsconfig.json ./
@@ -40,8 +35,11 @@ RUN bun build \
 
 # ─── migrator: optional target for one-off DB migration job ────────────────
 FROM base AS migrator
-COPY --from=deps /app/node_modules ./node_modules
 COPY package.json bun.lock ./
+COPY apps/api/package.json        ./apps/api/package.json
+COPY apps/web/package.json        ./apps/web/package.json
+COPY packages/shared/package.json ./packages/shared/package.json
+RUN bun install --frozen-lockfile
 COPY drizzle ./drizzle
 COPY drizzle.config.ts ./
 CMD ["bun", "run", "db:migrate"]
