@@ -11,8 +11,8 @@ const productsSeed: MockProduct[] = [
     slug: "atlas-handwoven-wool",
     name: "Atlas Handwoven Wool",
     category: "wool",
-    price: 299,
-    currency: "USD",
+    price: 2990000,
+    currency: "IDR",
     description: "Dense wool carpet with tonal geometry for heavy-use family spaces.",
     imageUrl:
       "https://images.unsplash.com/photo-1582582621959-48d27397dc69?auto=format&fit=crop&w=900&q=80",
@@ -28,8 +28,8 @@ const productsSeed: MockProduct[] = [
     slug: "sahara-flatweave-runner",
     name: "Sahara Flatweave Runner",
     category: "modern",
-    price: 139,
-    currency: "USD",
+    price: 1390000,
+    currency: "IDR",
     description: "Low-profile runner designed for narrow hall transitions and easy cleaning.",
     imageUrl:
       "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=900&q=80",
@@ -44,8 +44,8 @@ const productsSeed: MockProduct[] = [
     slug: "aria-bedroom-plush",
     name: "Aria Bedroom Plush",
     category: "silk",
-    price: 249,
-    currency: "USD",
+    price: 2490000,
+    currency: "IDR",
     description: "Soft-touch plush weave that reduces foot fatigue in calm bedroom settings.",
     imageUrl:
       "https://images.unsplash.com/photo-1616594039964-7f7f1334f1f7?auto=format&fit=crop&w=900&q=80",

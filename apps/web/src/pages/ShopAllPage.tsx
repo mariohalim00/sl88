@@ -5,6 +5,7 @@ import { getCatalogProducts } from "@/features/catalog/model/selectors";
 import { useCartState } from "@/features/catalog/hooks/useCartState";
 import { MockModeNotice } from "@/components/sections/shop-all/MockModeNotice";
 import { ShopAllFilterBar } from "@/components/sections/shop-all/ShopAllFilterBar";
+import { formatCurrency } from "@/lib/currency";
 
 const categories = ["Kitchen", "Welcome Mats", "Car", "Office", "Outdoor"];
 const materials = ["Wool", "Silk", "Cotton", "Jute"];
@@ -34,10 +35,10 @@ export function ShopAllPage() {
 
           <section className="space-y-4 border-t border-[#d4c4ac]/40 pt-7">
             <h2 className="text-sm font-semibold tracking-widest text-[#1c1c15] uppercase">Price Range</h2>
-            <input type="range" min={0} max={5000} className="w-full accent-[#f4b400]" />
+            <input type="range" min={0} max={5000000} className="w-full accent-[#f4b400]" />
             <div className="flex justify-between text-xs text-[#504533]">
-              <span>$0</span>
-              <span>$5000+</span>
+              <span>{formatCurrency(0)}</span>
+              <span>{formatCurrency(5000000)}+</span>
             </div>
           </section>
 

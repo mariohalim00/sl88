@@ -1,4 +1,5 @@
 import { Trash2 } from "lucide-react";
+import { formatCurrency } from "@/lib/currency";
 
 type CatalogProduct = {
   id: string;
@@ -38,7 +39,7 @@ export function CartSummary({ items, subtotal, onRemoveItem }: CartSummaryProps)
                 <div>
                   <p className="text-sm font-medium text-[#1c1c15]">{item.product.name}</p>
                   <p className="text-xs text-[#504533]">
-                    Qty {item.quantity} • ${item.subtotal}
+                    Qty {item.quantity} • {formatCurrency(item.subtotal)}
                   </p>
                 </div>
                 <button
@@ -57,7 +58,7 @@ export function CartSummary({ items, subtotal, onRemoveItem }: CartSummaryProps)
 
       <div className="mt-4 flex items-center justify-between border-t border-[#e5e2d8] pt-3 text-sm">
         <span className="text-[#504533]">Subtotal</span>
-        <span className="font-semibold text-[#1c1c15]">${subtotal}</span>
+        <span className="font-semibold text-[#1c1c15]">{formatCurrency(subtotal)}</span>
       </div>
     </section>
   );

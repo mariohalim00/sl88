@@ -1,6 +1,7 @@
 import type { PropsWithChildren } from "react";
 import { Heart, Menu, ShoppingBag, User } from "lucide-react";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import { companyInfo } from "@/config/company";
 import { cn } from "@/lib/utils";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
@@ -16,16 +17,10 @@ const navLinks = [
 
 export function AppShell({ children }: PropsWithChildren) {
   const location = useLocation();
+  const isLandingRoute = location.pathname === "/";
 
-  const handleScrollClick = (id: string, event: React.MouseEvent) => {
-    event.preventDefault();
-
-    if (location.pathname === "/") {
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    }
+  const isScrollLinkActive = (id: string) => {
+    return isLandingRoute && location.hash === `#${id}`;
   };
 
   return (
@@ -40,20 +35,34 @@ export function AppShell({ children }: PropsWithChildren) {
             >
               <Menu className="size-5" />
             </button>
-            <Link to="/" className="font-serif text-xl tracking-tight text-[#1c1c15] md:text-2xl">
-              LuxeWeave
+            <Link to="/" className="flex items-center gap-3">
+              <span className="h-10 w-10 overflow-hidden rounded-md border border-[#d4c4ac] bg-black">
+                <img
+                  src={companyInfo.branding.logoSrc}
+                  alt={`${companyInfo.name} logo`}
+                  className="h-full w-full object-cover object-top"
+                />
+              </span>
+              <span className="font-serif text-lg tracking-tight text-[#1c1c15] md:text-xl">
+                {companyInfo.name}
+              </span>
             </Link>
           </div>
 
           <nav className="hidden items-center gap-8 md:flex">
             {scrollLinks.map((item) => (
-              <button
+              <a
                 key={item.id}
-                onClick={(e) => handleScrollClick(item.id, e)}
-                className="border-b-2 border-transparent pb-1 text-sm font-semibold tracking-[0.08em] uppercase text-[#504533] transition-colors hover:text-[#1c1c15]"
+                href={`/#${item.id}`}
+                className={cn(
+                  "border-b-2 pb-1 text-sm font-semibold tracking-[0.08em] uppercase transition-colors",
+                  isScrollLinkActive(item.id)
+                    ? "border-[#f4b400] text-[#1c1c15]"
+                    : "border-transparent text-[#504533] hover:border-[#f4b400] hover:text-[#1c1c15]",
+                )}
               >
                 {item.label}
-              </button>
+              </a>
             ))}
             {navLinks.map((item) => (
               <NavLink
@@ -63,8 +72,8 @@ export function AppShell({ children }: PropsWithChildren) {
                   cn(
                     "border-b-2 pb-1 text-sm font-semibold tracking-[0.08em] uppercase transition-colors",
                     isActive
-                      ? "border-[#f4b400] text-[#f4b400]"
-                      : "border-transparent text-[#504533] hover:text-[#1c1c15]",
+                      ? "border-[#f4b400] text-[#1c1c15]"
+                      : "border-transparent text-[#504533] hover:border-[#f4b400] hover:text-[#1c1c15]",
                   )
                 }
               >

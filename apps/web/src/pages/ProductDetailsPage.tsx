@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { ProductGallery } from "@/components/sections/product-details/ProductGallery";
 import { getCatalogProducts } from "@/features/catalog/model/selectors";
 import { resolveProductFromRoute } from "@/features/catalog/model/route-params";
+import { formatCurrency } from "@/lib/currency";
 
 export function ProductDetailsPage() {
   const params = useParams();
@@ -38,8 +39,8 @@ export function ProductDetailsPage() {
           </span>
           <h1 className="mt-4 font-heading text-3xl font-semibold text-[#1c1c15] md:text-4xl">{product.name}</h1>
           <div className="mt-4 flex items-end gap-3">
-            <p className="text-3xl font-semibold text-[#7a5900]">${product.price}</p>
-            <p className="pb-1 text-sm text-[#504533] line-through">${Math.round(product.price * 1.2)}</p>
+            <p className="text-3xl font-semibold text-[#7a5900]">{formatCurrency(product.price)}</p>
+            <p className="pb-1 text-sm text-[#504533] line-through">{formatCurrency(Math.round(product.price * 1.2))}</p>
           </div>
 
           <div className="mt-5 flex items-center gap-2 text-[#7a5900]">
@@ -95,7 +96,7 @@ export function ProductDetailsPage() {
                 />
               </div>
               <h3 className="font-heading text-xl text-[#1c1c15]">{item.name}</h3>
-              <p className="text-sm text-[#504533]">${item.price}</p>
+              <p className="text-sm text-[#504533]">{formatCurrency(item.price)}</p>
             </article>
           ))}
         </div>

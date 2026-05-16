@@ -1,3 +1,5 @@
+import { companyInfo } from "@/config/company";
+
 export function Footer() {
   return (
     <footer className="mt-12 border-t border-[#d4c4ac] bg-white py-12 md:mt-20 md:py-16">
@@ -5,10 +7,10 @@ export function Footer() {
         {/* Left Side: Logo & Copyright */}
         <div className="flex flex-col space-y-3">
           <span className="font-serif text-lg font-semibold text-[#1c1c15] md:text-xl">
-            LuxeWeave
+            {companyInfo.name}
           </span>
           <span className="text-xs font-semibold uppercase tracking-widest text-[#504533]">
-            © 2024 LuxeWeave Atelier. All Rights Reserved.
+            © 2024 {companyInfo.name}. All Rights Reserved.
           </span>
         </div>
 

@@ -2,7 +2,7 @@
 
 **Feature Branch**: `002-build-frontend-mvp`  
 **Created**: 2026-05-16  
-**Status**: Draft  
+**Status**: Completed
 **Input**: User description: "Build MVP frontend only for now. No real backend/database integration yet; use mock data for display and flows, and backend code can be referenced only as shape inspiration. Follow constitution rules: strict no-any, clean/simple/readable/maintainable code, React best practices, no hacky workarounds, extract components instead of monolithic TSX, use TanStack for advanced state management only when actually needed, prefer real shadcn components over custom re-implementations, and be faithful to future design specs when provided. Scope should include explicit out-of-scope statements for real data persistence and production backend integration in this MVP. Ensure requirements and success criteria are measurable and testable."
 
 ## Clarifications

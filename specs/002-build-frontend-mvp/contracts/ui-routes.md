@@ -14,12 +14,20 @@
 | `/products/:productId` | `product_details_mobile_view_2` | Product detail storytelling and gallery | `MockProduct` by route param |
 | `/admin` | `admin_panel_mobile_view_2` | Admin inventory overview | `AdminInventoryRow[]` |
 
+## Route-to-Source Mapping Notes
+
+- `/`: CTA labels were clarified for navigation readability while preserving source hierarchy.
+- `/shop/all`: Added mock-mode disclosure near cart interactions to prevent persistence confusion.
+- `/products/:productId`: Added typed fallback state for unknown IDs.
+- `/admin`: Non-priority actions are present but disabled by default via feature flags.
+
 ## Route Behavior Rules
 
 - `/:productId` route param must be validated before product resolution.
 - Unknown product IDs must render a typed fallback state (not crash).
 - Checkout/payment UI entry points are controlled by `FeatureFlagConfig` and default disabled.
 - Cart state is in-memory and resets on full page reload.
+- Primary route runtime must not require production API calls.
 
 ## Responsive Contract
 

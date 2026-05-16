@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { MapPin } from "lucide-react";
+import { companyInfo } from "@/config/company";
 import { Footer } from "@/components/layout/Footer";
 
 const categoryHighlights = [
@@ -32,10 +33,10 @@ const categoryHighlights = [
 export function LandingPage() {
   return (
     <div className="space-y-12 md:space-y-20">
-      <section className="grid items-center gap-8 md:min-h-170 md:grid-cols-2 md:gap-12">
+      <section className="grid items-center gap-8 md:min-h-170grid-cols-2 md:gap-12">
         <div className="space-y-5 text-center md:text-left">
           <h1 className="font-heading text-4xl leading-tight font-bold tracking-tight text-[#1c1c15] md:text-6xl">
-            The Art of Living,
+            {companyInfo.name},
             <br />
             <span className="text-[#f4b400]">Woven for You.</span>
           </h1>
@@ -103,7 +104,7 @@ export function LandingPage() {
       </section>
 
       <section id="about-us" className="grid items-center gap-8 border-t border-[#e5e2d8] pt-12 md:grid-cols-2 md:gap-12 md:pt-16">
-        <div className="h-80flow-hidden rounded-xl md:h-120">
+        <div className="h-80 overflow-hidden rounded-xl md:h-120">
           <img
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCldSvOeUbOhfYmk3NN4oRhUYagbhpKIvjxcwFcT6kBqedI3u2C5CTXBHSEdVxsvmV7i25CPfpWoNXL3crB7zWC3zfo8gV1QyqiXmFrK8y00vaAH0Obs_epPTbmDxAg4w4PuekJ3WlYJaY-yBPGh1TW2AO8XRStDz1fh6LBD9mgkLP3ZEtykwlk195jSkBTP3stwcXNzjmIjuzjeQ5ApF0Dx0KVOu0tJGLuEbGkN2DAk4OVGlF4S431rx3SePNIpuASFdkCw3DtuAI"
             alt="Artisan weaving process"
@@ -115,8 +116,9 @@ export function LandingPage() {
           <h2 className="font-heading text-3xl font-semibold text-[#1c1c15] md:text-4xl">About Us</h2>
           <div className="mx-auto h-1 w-16 bg-[#f4b400] md:mx-0" />
           <p className="text-base leading-relaxed text-[#504533] md:text-lg">
-            For generations, our master artisans have preserved traditional weaving methods using
-            ethically sourced wool and silk. Every knot reflects patience, skill, and enduring beauty.
+            Based in {companyInfo.headquarters.city}, our master artisans preserve traditional weaving
+            methods with ethically sourced materials. Every knot reflects patience, precision, and
+            enduring beauty.
           </p>
           <Link
             to="/shop/all"
@@ -136,7 +138,8 @@ export function LandingPage() {
                 Visit the Atelier
               </h2>
               <p className="text-center text-sm text-[#504533] md:text-left md:text-base">
-                Schedule a private viewing or consult with our master weavers.
+                Schedule a private viewing in {companyInfo.headquarters.city} or consult with our
+                master weavers.
               </p>
             </div>
 
@@ -200,11 +203,11 @@ export function LandingPage() {
                 <div className="flex items-start space-x-3 sm:space-x-4">
                   <MapPin className="mt-1 size-6 shrink-0 text-[#f4b400] sm:mt-0 sm:size-8" />
                   <div>
-                    <h4 className="mb-1 text-lg font-semibold text-slate-900 md:text-xl">LuxeWeave Flagship</h4>
+                    <h4 className="mb-1 text-lg font-semibold text-slate-900 md:text-xl">{companyInfo.name} Flagship</h4>
                     <p className="text-sm text-slate-600 md:text-base">
-                      Via Monte Napoleone 24
+                      {companyInfo.headquarters.addressLines.join(", ")}
                       <br />
-                      20121 Milano MI, Italy
+                      {companyInfo.headquarters.city}, {companyInfo.headquarters.country}
                     </p>
                     <a href="#" className="mt-2 inline-block text-sm font-semibold text-[#f4b400] transition hover:underline">
                       Get Directions
