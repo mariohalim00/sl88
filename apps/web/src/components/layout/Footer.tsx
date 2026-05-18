@@ -10,23 +10,30 @@ export function Footer() {
             {companyInfo.name}
           </span>
           <span className="text-xs font-semibold uppercase tracking-widest text-[#504533]">
-            © 2024 {companyInfo.name}. All Rights Reserved.
+            © 2018 {companyInfo.name}. All Rights Reserved.
           </span>
         </div>
 
         {/* Right Side: Links */}
         <div className="flex flex-wrap gap-x-6 gap-y-3 md:gap-x-8">
-          <a
+          {/* <a
             href="#"
             className="text-xs font-semibold uppercase tracking-widest text-[#504533] transition-colors hover:text-[#f4b400]"
           >
             Privacy Policy
-          </a>
-          <a
+          </a> */}
+          {/* <a
             href="#"
             className="text-xs font-semibold uppercase tracking-widest text-[#504533] transition-colors hover:text-[#f4b400]"
           >
             Terms of Service
+          </a> */}
+          <a
+            href={companyInfo.contact.waLink}
+            target="_blank"
+            className="text-xs font-semibold uppercase tracking-widest text-[#504533] transition-colors hover:text-[#f4b400]"
+          >
+            Contact Us
           </a>
           <a
             href="#"
