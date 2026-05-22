@@ -85,13 +85,29 @@ export function ProductDetailsPage() {
 
           <section className="mt-8 border-t border-[#d4c4ac] pt-6">
             <div className="grid grid-cols-2 gap-y-3 text-sm text-[#504533]">
-              <span className="font-semibold text-[#1c1c15]">{t('productDetails.specs.origin')}</span>
+              <span className="font-semibold text-[#1c1c15]">
+                {t('productDetails.specs.origin')}
+              </span>
               <span>{t('productDetails.specs.originValue')}</span>
-              <span className="font-semibold text-[#1c1c15]">{t('productDetails.specs.material')}</span>
-              <span>{t('productDetails.specs.materialBlend', { category: product.category })}</span>
-              <span className="font-semibold text-[#1c1c15]">{t('productDetails.specs.stock')}</span>
-              <span>{t('productDetails.specs.stockAvailable', { count: product.stock })}</span>
-              <span className="font-semibold text-[#1c1c15]">{t('productDetails.specs.rating')}</span>
+              <span className="font-semibold text-[#1c1c15]">
+                {t('productDetails.specs.material')}
+              </span>
+              <span>
+                {t('productDetails.specs.materialBlend', {
+                  category: product.category,
+                })}
+              </span>
+              <span className="font-semibold text-[#1c1c15]">
+                {t('productDetails.specs.stock')}
+              </span>
+              <span>
+                {t('productDetails.specs.stockAvailable', {
+                  count: product.stock,
+                })}
+              </span>
+              <span className="font-semibold text-[#1c1c15]">
+                {t('productDetails.specs.rating')}
+              </span>
               <span>{product.rating.toFixed(1)} / 5</span>
             </div>
           </section>

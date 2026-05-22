@@ -32,15 +32,11 @@ export function CartSummary({
         <h2 className="font-heading text-2xl font-medium text-[#1c1c15]">
           {t('cartSummary.title')}
         </h2>
-        <p className="text-sm text-[#504533]">
-          {t('cartSummary.description')}
-        </p>
+        <p className="text-sm text-[#504533]">{t('cartSummary.description')}</p>
       </header>
 
       {items.length === 0 ? (
-        <p className="text-sm text-[#504533]">
-          {t('cartSummary.empty')}
-        </p>
+        <p className="text-sm text-[#504533]">{t('cartSummary.empty')}</p>
       ) : (
         <ul className="space-y-3">
           {items.map((item) => {

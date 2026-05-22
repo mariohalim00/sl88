@@ -1,5 +1,5 @@
-import { Input } from '@/components/ui/input';
 import { useTranslation } from 'react-i18next';
+import { Input } from '@/components/ui/input';
 
 type StoreHeaderProps = {
   searchTerm: string;

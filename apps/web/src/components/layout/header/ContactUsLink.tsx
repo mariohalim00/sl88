@@ -21,7 +21,7 @@ export function ContactUsLink({ onClick, className }: ContactUsLinkProps) {
       className={cn(
         buttonVariants({ variant: 'outline', size: 'sm' }),
         'gap-2 border-[#1c1c15] text-[#1c1c15] uppercase hover:bg-[#f7f4e9]',
-        className
+        className,
       )}
     >
       <MessageCircle className="size-4" />

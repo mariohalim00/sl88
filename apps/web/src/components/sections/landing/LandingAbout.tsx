@@ -1,5 +1,5 @@
-import { companyInfo } from '@/config/company';
 import { useTranslation } from 'react-i18next';
+import { companyInfo } from '@/config/company';
 
 export function LandingAbout() {
   const { t } = useTranslation();

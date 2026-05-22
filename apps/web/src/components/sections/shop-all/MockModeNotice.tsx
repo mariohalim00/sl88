@@ -8,9 +8,7 @@ export function MockModeNotice() {
       <p className="font-semibold tracking-[0.08em] text-[#1c1c15] uppercase">
         {t('mockNotice.title')}
       </p>
-      <p className="mt-1">
-        {t('mockNotice.description')}
-      </p>
+      <p className="mt-1">{t('mockNotice.description')}</p>
     </div>
   );
 }

@@ -1,6 +1,6 @@
-import { AppHeader } from './AppHeader';
 import { MessageCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { AppHeader } from './AppHeader';
 import { Button } from '@/components/ui/button';
 import { companyInfo } from '@/config/company';
 
@@ -24,7 +24,7 @@ export function AppShell({ children }: PropsWithChildren) {
           window.open(
             companyInfo.contact.waLink,
             '_blank',
-            'noopener,noreferrer'
+            'noopener,noreferrer',
           );
         }}
         className="fixed right-5 bottom-5 z-50 size-14 rounded-full border-transparent bg-[#25d366] text-white shadow-lg hover:bg-[#22c55e] focus-visible:ring-[#1c1c15]"

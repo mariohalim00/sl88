@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+
 import type { MockProduct } from '@/features/catalog/model/schemas';
 
 type ProductGalleryProps = {

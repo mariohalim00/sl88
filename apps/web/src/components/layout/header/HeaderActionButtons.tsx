@@ -1,8 +1,8 @@
 import { Heart, ShoppingBag, User } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher } from '../LanguageSwitcher';
-import { cn } from '@/lib/utils';
 import { iconButtonClass } from './constants';
+import { cn } from '@/lib/utils';
 
 export function HeaderActionButtons() {
   const { t } = useTranslation();

@@ -1,14 +1,16 @@
-import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { cn } from '@/lib/utils';
-import { ContactUsLink } from './ContactUsLink';
+import { NavLink } from 'react-router-dom';
 import { desktopLinkBaseClass, navLinks, scrollLinks } from './constants';
+import { ContactUsLink } from './ContactUsLink';
+import { cn } from '@/lib/utils';
 
 type HeaderDesktopNavProps = {
   isScrollLinkActive: (id: string) => boolean;
 };
 
-export function HeaderDesktopNav({ isScrollLinkActive }: HeaderDesktopNavProps) {
+export function HeaderDesktopNav({
+  isScrollLinkActive,
+}: HeaderDesktopNavProps) {
   const { t } = useTranslation();
 
   return (
@@ -21,7 +23,7 @@ export function HeaderDesktopNav({ isScrollLinkActive }: HeaderDesktopNavProps) 
             desktopLinkBaseClass,
             isScrollLinkActive(item.id)
               ? 'border-b-2 border-[#f4b400] text-[#1c1c15]'
-              : 'border-transparent text-[#504533] hover:border-[#f4b400] hover:text-[#1c1c15]'
+              : 'border-transparent text-[#504533] hover:border-[#f4b400] hover:text-[#1c1c15]',
           )}
         >
           {t(item.labelKey)}
@@ -36,7 +38,7 @@ export function HeaderDesktopNav({ isScrollLinkActive }: HeaderDesktopNavProps) 
               desktopLinkBaseClass,
               isActive
                 ? 'border-[#f4b400] text-[#1c1c15] border-b-2'
-                : 'border-transparent text-[#504533] hover:border-[#f4b400] hover:text-[#1c1c15]'
+                : 'border-transparent text-[#504533] hover:border-[#f4b400] hover:text-[#1c1c15]',
             )
           }
         >

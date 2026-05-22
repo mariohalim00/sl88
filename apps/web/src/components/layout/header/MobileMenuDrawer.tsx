@@ -1,10 +1,15 @@
 import { X } from 'lucide-react';
-import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { cn } from '@/lib/utils';
+import { NavLink } from 'react-router-dom';
+import {
+  iconButtonClass,
+  mobileLinkBaseClass,
+  navLinks,
+  scrollLinks,
+} from './constants';
 import { ContactUsLink } from './ContactUsLink';
 import { HeaderBrand } from './HeaderBrand';
-import { iconButtonClass, mobileLinkBaseClass, navLinks, scrollLinks } from './constants';
+import { cn } from '@/lib/utils';
 
 type MobileMenuDrawerProps = {
   isOpen: boolean;
@@ -24,7 +29,9 @@ export function MobileMenuDrawer({
       <div
         className={cn(
           'fixed inset-0 z-40 bg-black/40 transition-opacity md:hidden',
-          isOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+          isOpen
+            ? 'pointer-events-auto opacity-100'
+            : 'pointer-events-none opacity-0',
         )}
         onClick={onClose}
         aria-hidden="true"
@@ -33,7 +40,7 @@ export function MobileMenuDrawer({
       <aside
         className={cn(
           'fixed top-0 left-0 z-50 h-full w-[82vw] max-w-xs border-r border-[#d4c4ac] bg-[#fcf9ee] p-5 shadow-2xl transition-transform duration-300 md:hidden',
-          isOpen ? 'translate-x-0' : '-translate-x-full'
+          isOpen ? 'translate-x-0' : '-translate-x-full',
         )}
         aria-hidden={!isOpen}
       >
@@ -59,7 +66,7 @@ export function MobileMenuDrawer({
                 mobileLinkBaseClass,
                 isScrollLinkActive(item.id)
                   ? 'bg-[#f4b400]/15 text-[#1c1c15]'
-                  : 'text-[#504533] hover:bg-[#f4b400]/10 hover:text-[#1c1c15]'
+                  : 'text-[#504533] hover:bg-[#f4b400]/10 hover:text-[#1c1c15]',
               )}
             >
               {t(item.labelKey)}
@@ -76,7 +83,7 @@ export function MobileMenuDrawer({
                   mobileLinkBaseClass,
                   isActive
                     ? 'bg-[#f4b400]/15 text-[#1c1c15]'
-                    : 'text-[#504533] hover:bg-[#f4b400]/10 hover:text-[#1c1c15]'
+                    : 'text-[#504533] hover:bg-[#f4b400]/10 hover:text-[#1c1c15]',
                 )
               }
             >
@@ -85,7 +92,10 @@ export function MobileMenuDrawer({
           ))}
         </nav>
 
-        <ContactUsLink onClick={onClose} className="mt-6 flex w-full justify-center" />
+        <ContactUsLink
+          onClick={onClose}
+          className="mt-6 flex w-full justify-center"
+        />
       </aside>
     </>
   );

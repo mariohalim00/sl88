@@ -70,7 +70,9 @@ export function LandingHero() {
         <h1 className="font-heading text-4xl leading-tight font-bold tracking-tight text-[#1c1c15] md:text-6xl">
           {companyInfo.name},
           <br />
-          <span className="text-[#f4b400]">{t('landing.hero.wovenForYou')}</span>
+          <span className="text-[#f4b400]">
+            {t('landing.hero.wovenForYou')}
+          </span>
         </h1>
         <p className="mx-auto max-w-xl text-base leading-relaxed text-[#504533] md:mx-0 md:text-lg">
           {t('landing.hero.description')}
@@ -129,14 +131,10 @@ export function LandingHero() {
           </div>
 
           <div className="flex items-center gap-2">
-            <CarouselPrevious
-              className="static h-auto w-auto rounded-full bg-white/85 px-3 py-1 text-sm font-semibold text-[#1c1c15] backdrop-blur transition hover:bg-white"
-            >
+            <CarouselPrevious className="static h-auto w-auto rounded-full bg-white/85 px-3 py-1 text-sm font-semibold text-[#1c1c15] backdrop-blur transition hover:bg-white">
               {t('common.actions.prev')}
             </CarouselPrevious>
-            <CarouselNext
-              className="static h-auto w-auto rounded-full bg-white/85 px-3 py-1 text-sm font-semibold text-[#1c1c15] backdrop-blur transition hover:bg-white"
-            >
+            <CarouselNext className="static h-auto w-auto rounded-full bg-white/85 px-3 py-1 text-sm font-semibold text-[#1c1c15] backdrop-blur transition hover:bg-white">
               {t('common.actions.next')}
             </CarouselNext>
           </div>

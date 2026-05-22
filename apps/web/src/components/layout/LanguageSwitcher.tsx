@@ -48,14 +48,19 @@ export function LanguageSwitcher() {
         <GlobeIcon className="size-4" />
         <span>{language.toUpperCase()}</span>
         <ChevronDown
-          className={['size-4 transition-transform', isOpen ? 'rotate-180' : ''].join(' ')}
+          className={[
+            'size-4 transition-transform',
+            isOpen ? 'rotate-180' : '',
+          ].join(' ')}
         />
       </button>
 
       <div
         className={[
           'absolute top-full right-0 mt-2 min-w-28 rounded-lg border border-[#d4c4ac] bg-white shadow-lg transition',
-          isOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
+          isOpen
+            ? 'pointer-events-auto opacity-100'
+            : 'pointer-events-none opacity-0',
         ].join(' ')}
         role="menu"
       >

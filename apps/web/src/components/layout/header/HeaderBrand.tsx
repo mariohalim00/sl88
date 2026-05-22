@@ -20,7 +20,7 @@ export function HeaderBrand({ shortName = false, onClick }: HeaderBrandProps) {
       <span
         className={cn(
           'font-serif tracking-tight text-[#1c1c15]',
-          shortName ? 'text-base' : 'text-lg md:text-xl'
+          shortName ? 'text-base' : 'text-lg md:text-xl',
         )}
       >
         {shortName ? companyInfo.shortName : companyInfo.name}

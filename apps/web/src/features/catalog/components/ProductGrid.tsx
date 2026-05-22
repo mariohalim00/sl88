@@ -1,5 +1,5 @@
-import { ProductCard } from './ProductCard';
 import { useTranslation } from 'react-i18next';
+import { ProductCard } from './ProductCard';
 
 type CatalogProduct = {
   id: string;

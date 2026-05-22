@@ -24,7 +24,9 @@ export function StorefrontPage() {
   if (isLoading) {
     return (
       <main className="mx-auto flex min-h-screen w-full max-w-6xl items-center justify-center px-4 py-10">
-        <p className="text-sm text-muted-foreground">{t('storefront.loadingCatalog')}</p>
+        <p className="text-sm text-muted-foreground">
+          {t('storefront.loadingCatalog')}
+        </p>
       </main>
     );
   }
