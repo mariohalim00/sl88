@@ -23,7 +23,7 @@ export function LandingContact() {
               href={companyInfo.ecommerce.tokopedia}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center space-x-3 transition-transform hover:scale-110"
+              className="flex items-center space-x-3 transition-transform hover:scale-110 hover:underline"
             >
               <img
                 src="/public/branding/tokopedia_mascot_icon.png"
@@ -36,7 +36,7 @@ export function LandingContact() {
               href={companyInfo.ecommerce.tiktok}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center space-x-3 transition-transform hover:scale-110"
+              className="flex items-center space-x-3 transition-transform hover:scale-110 hover:underline"
             >
               <img
                 src="/public/branding/tiktok_shop_icon_logo.png"
@@ -49,7 +49,7 @@ export function LandingContact() {
               href={companyInfo.ecommerce.shopee}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center space-x-3 transition-transform hover:scale-110"
+              className="flex items-center space-x-3 transition-transform hover:scale-110 hover:underline"
             >
               <img
                 src="/public/branding/shopee_logo.png"
