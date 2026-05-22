@@ -22,7 +22,7 @@ export function LandingAbout() {
           {t('landing.about.title')}
         </h2>
         <div className="mx-auto h-1 w-16 bg-[#f4b400] md:mx-0" />
-        <p className="text-base leading-relaxed text-[#504533] md:text-lg">
+        <p className="whitespace-pre-line text-base leading-relaxed text-[#504533] md:text-lg">
           {t('landing.about.description', {
             city: companyInfo.headquarters.city,
           })}

@@ -64,8 +64,13 @@ export const en = {
     about: {
       imageAlt: 'Artisan weaving process',
       title: 'About Us',
-      description:
-        'Based in {{city}}, our master artisans preserve traditional weaving methods with ethically sourced materials. Every knot reflects patience, precision, and enduring beauty.',
+      description: `At Sukses Lestari, we believe the warmth of a home and the comfort of every drive begin with the right foundation beneath your feet. We see each carpet not merely as a floor covering, but as a layer of protection that unites spatial aesthetics with real-world safety.
+
+By curating premium PVC materials that are flexible and visually appealing, alongside selected rubber compounds that are strong and durable, we deliver flooring solutions built to handle the rhythm of your daily activities. Every product is crafted to bring comfort to your home while offering precise resilience for your vehicle interior.
+
+Our collection reflects a commitment to functionality without compromise. Our PVC carpets offer beauty that is easy to maintain, while our rubber carpet line sets a new standard for anti-slip safety in every step. We take pride in serving those who value cleanliness, durability, and harmonious spaces.
+
+Sukses Lestari exists not only to provide household and automotive essentials, but to create environments that are more comfortable, safer, and more sustainable for every meaningful moment in your life.`,
     },
     contact: {
       title: 'Visit the Shop!',
