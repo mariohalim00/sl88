@@ -1,11 +1,14 @@
 import { AppHeader } from './AppHeader';
 import { MessageCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { companyInfo } from '@/config/company';
 
 import type { PropsWithChildren } from 'react';
 
 export function AppShell({ children }: PropsWithChildren) {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-background text-[#1c1c15]">
       <AppHeader />
@@ -16,7 +19,7 @@ export function AppShell({ children }: PropsWithChildren) {
 
       <Button
         type="button"
-        aria-label="Chat on WhatsApp"
+        aria-label={t('common.actions.contactUs')}
         onClick={() => {
           window.open(
             companyInfo.contact.waLink,

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { MockProduct } from '@/features/catalog/model/schemas';
 
 type ProductGalleryProps = {
@@ -5,6 +6,8 @@ type ProductGalleryProps = {
 };
 
 export function ProductGallery({ product }: ProductGalleryProps) {
+  const { t } = useTranslation();
+
   return (
     <section className="space-y-3">
       <div className="aspect-4/5 overflow-hidden rounded border border-[#d4c4ac] bg-[#f1eee3]">
@@ -26,7 +29,10 @@ export function ProductGallery({ product }: ProductGalleryProps) {
             <img
               className="h-full w-full object-cover"
               src={image}
-              alt={`${product.name} view ${index + 1}`}
+              alt={t('productDetails.galleryView', {
+                name: product.name,
+                index: index + 1,
+              })}
             />
           </div>
         ))}

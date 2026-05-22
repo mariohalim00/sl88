@@ -1,5 +1,6 @@
 import { X } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { ContactUsLink } from './ContactUsLink';
 import { HeaderBrand } from './HeaderBrand';
@@ -16,6 +17,8 @@ export function MobileMenuDrawer({
   onClose,
   isScrollLinkActive,
 }: MobileMenuDrawerProps) {
+  const { t } = useTranslation();
+
   return (
     <>
       <div
@@ -38,7 +41,7 @@ export function MobileMenuDrawer({
           <HeaderBrand shortName onClick={onClose} />
           <button
             type="button"
-            aria-label="Close menu"
+            aria-label={t('header.aria.closeMenu')}
             className={iconButtonClass}
             onClick={onClose}
           >
@@ -59,7 +62,7 @@ export function MobileMenuDrawer({
                   : 'text-[#504533] hover:bg-[#f4b400]/10 hover:text-[#1c1c15]'
               )}
             >
-              {item.label}
+              {t(item.labelKey)}
             </a>
           ))}
 
@@ -77,7 +80,7 @@ export function MobileMenuDrawer({
                 )
               }
             >
-              {item.label}
+              {t(item.labelKey)}
             </NavLink>
           ))}
         </nav>

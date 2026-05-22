@@ -1,4 +1,5 @@
 import { Heart } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { formatCurrency } from '@/lib/currency';
 
 type CatalogProduct = {
@@ -22,6 +23,8 @@ function formatCategoryLabel(category: string) {
 }
 
 export function ProductCard({ product, onAddToCart }: ProductCardProps) {
+  const { t } = useTranslation();
+
   return (
     <article className="group overflow-hidden rounded border border-[#e5e2d8] bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-stone-200/50">
       <div className="relative aspect-4/5 overflow-hidden bg-[#f1eee3]">
@@ -33,7 +36,7 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
         />
         <button
           type="button"
-          aria-label={`Save ${product.name}`}
+          aria-label={t('productCard.saveAria', { name: product.name })}
           className="absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/85 text-[#1c1c15] opacity-0 backdrop-blur-sm transition group-hover:opacity-100"
         >
           <Heart className="size-4" />
@@ -52,9 +55,11 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
         </p>
         <div className="flex items-end justify-between gap-3 pt-1">
           <div>
-            <p className="text-xs text-[#504533]">In stock: {product.stock}</p>
             <p className="text-xs text-[#504533]">
-              Rating {product.rating.toFixed(1)} / 5
+              {t('productCard.inStock', { count: product.stock })}
+            </p>
+            <p className="text-xs text-[#504533]">
+              {t('productCard.rating', { value: product.rating.toFixed(1) })}
             </p>
           </div>
           <p className="text-lg font-semibold text-[#1c1c15]">
@@ -66,7 +71,7 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
           onClick={() => onAddToCart(product.id)}
           className="mt-2 w-full rounded border border-[#1c1c15] px-4 py-2 text-xs font-semibold tracking-[0.08em] text-[#1c1c15] uppercase transition hover:bg-[#f7f4e9]"
         >
-          Add to Bag
+          {t('common.actions.addToBag')}
         </button>
       </div>
     </article>

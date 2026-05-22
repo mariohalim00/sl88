@@ -1,6 +1,9 @@
 import { companyInfo } from '@/config/company';
+import { useTranslation } from 'react-i18next';
 
 export function Footer() {
+  const { t } = useTranslation();
+
   return (
     <footer className="mt-12 border-t border-[#d4c4ac] bg-white py-12 md:mt-20 md:py-16">
       <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 px-4 md:flex-row md:items-center md:px-16">
@@ -10,7 +13,7 @@ export function Footer() {
             {companyInfo.name}
           </span>
           <span className="text-xs font-semibold uppercase tracking-widest text-[#504533]">
-            © 2018 {companyInfo.name}. All Rights Reserved.
+            © 2018 {companyInfo.name}. {t('footer.rightsReserved')}
           </span>
         </div>
 
@@ -33,19 +36,19 @@ export function Footer() {
             target="_blank"
             className="text-xs font-semibold uppercase tracking-widest text-[#504533] transition-colors hover:text-[#f4b400]"
           >
-            Contact Us
+            {t('common.actions.contactUs')}
           </a>
           <a
             href="#"
             className="text-xs font-semibold uppercase tracking-widest text-[#504533] transition-colors hover:text-[#f4b400]"
           >
-            Shipping &amp; Returns
+            {t('footer.shippingReturns')}
           </a>
           <a
             href="#"
             className="text-xs font-semibold uppercase tracking-widest text-[#504533] transition-colors hover:text-[#f4b400]"
           >
-            Carpet Care Guide
+            {t('footer.carpetCareGuide')}
           </a>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Menu } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { HeaderActionButtons } from './header/HeaderActionButtons';
@@ -9,6 +10,7 @@ import { iconButtonClass } from './header/constants';
 import { MobileMenuDrawer } from './header/MobileMenuDrawer';
 
 export function AppHeader() {
+  const { t } = useTranslation();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isLandingRoute = location.pathname === '/';
@@ -32,7 +34,7 @@ export function AppHeader() {
             <button
               type="button"
               className={cn(iconButtonClass, 'md:hidden')}
-              aria-label="Open menu"
+              aria-label={t('header.aria.openMenu')}
               aria-expanded={isMobileMenuOpen}
               onClick={openMobileMenu}
             >

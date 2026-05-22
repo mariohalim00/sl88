@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { CartSummary } from '@/features/catalog/components/CartSummary';
 import { ProductGrid } from '@/features/catalog/components/ProductGrid';
 import { StoreHeader } from '@/features/catalog/components/StoreHeader';
@@ -8,6 +9,7 @@ import { useCatalog } from '@/features/catalog/hooks/useCatalog';
  * @deprecated This is part of the original scaffolding, will be deleted soon
  */
 export function StorefrontPage() {
+  const { t } = useTranslation();
   const {
     searchTerm,
     setSearchTerm,
@@ -22,7 +24,7 @@ export function StorefrontPage() {
   if (isLoading) {
     return (
       <main className="mx-auto flex min-h-screen w-full max-w-6xl items-center justify-center px-4 py-10">
-        <p className="text-sm text-muted-foreground">Loading catalog...</p>
+        <p className="text-sm text-muted-foreground">{t('storefront.loadingCatalog')}</p>
       </main>
     );
   }
@@ -30,7 +32,7 @@ export function StorefrontPage() {
   if (isError) {
     return (
       <main className="mx-auto flex min-h-screen w-full max-w-6xl items-center justify-center px-4 py-10">
-        <p className="text-sm text-destructive">Could not load catalog data.</p>
+        <p className="text-sm text-destructive">{t('storefront.loadError')}</p>
       </main>
     );
   }

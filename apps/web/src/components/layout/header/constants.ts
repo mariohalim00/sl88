@@ -1,10 +1,10 @@
 export const scrollLinks = [
-  { id: 'about-us', label: 'About Us' },
-  { id: 'collection', label: 'Collection' },
-  { id: 'contact-us', label: 'Visit Us' },
+  { id: 'about-us', labelKey: 'header.nav.aboutUs' },
+  { id: 'collection', labelKey: 'header.nav.collection' },
+  { id: 'contact-us', labelKey: 'header.nav.visitUs' },
 ];
 
-export const navLinks = [{ href: '/shop/all', label: 'Catalogue' }];
+export const navLinks = [{ href: '/shop/all', labelKey: 'header.nav.catalogue' }];
 
 export const desktopLinkBaseClass =
   'pb-1 text-sm font-semibold tracking-[0.08em] uppercase transition-colors';

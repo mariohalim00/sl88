@@ -1,4 +1,5 @@
 import { MessageCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { buttonVariants } from '@/components/ui/button';
 import { companyInfo } from '@/config/company';
 import { cn } from '@/lib/utils';
@@ -9,6 +10,8 @@ type ContactUsLinkProps = {
 };
 
 export function ContactUsLink({ onClick, className }: ContactUsLinkProps) {
+  const { t } = useTranslation();
+
   return (
     <a
       href={companyInfo.contact.waLink}
@@ -22,7 +25,7 @@ export function ContactUsLink({ onClick, className }: ContactUsLinkProps) {
       )}
     >
       <MessageCircle className="size-4" />
-      Contact Us
+      {t('common.actions.contactUs')}
     </a>
   );
 }
