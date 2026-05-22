@@ -1,8 +1,8 @@
 import { Heart, Menu, ShoppingBag, User } from 'lucide-react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
+import { LanguageSwitcher } from './LanguageSwitcher';
 import { companyInfo } from '@/config/company';
 import { cn } from '@/lib/utils';
-import { LanguageSwitcher } from './LanguageSwitcher';
 
 const scrollLinks = [
   { id: 'about-us', label: 'About Us' },
