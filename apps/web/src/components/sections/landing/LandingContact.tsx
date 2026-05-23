@@ -30,7 +30,7 @@ export function LandingContact() {
               className="flex items-center space-x-3 transition-transform hover:scale-110 hover:underline"
             >
               <img
-                src="/public/branding/tokopedia_mascot_icon.png"
+                src="/branding/tokopedia_mascot_icon.png"
                 alt={t('landing.contact.alt.tokopedia')}
                 className="h-auto w-12"
               />
@@ -45,7 +45,7 @@ export function LandingContact() {
               className="flex items-center space-x-3 transition-transform hover:scale-110 hover:underline"
             >
               <img
-                src="/public/branding/tiktok_shop_icon_logo.png"
+                src="/branding/tiktok_shop_icon_logo.png"
                 alt={t('landing.contact.alt.tiktok')}
                 className="h-12 w-12"
               />
@@ -60,7 +60,7 @@ export function LandingContact() {
               className="flex items-center space-x-3 transition-transform hover:scale-110 hover:underline"
             >
               <img
-                src="/public/branding/shopee_logo.png"
+                src="/branding/shopee_logo.png"
                 alt={t('landing.contact.alt.shopee')}
                 className="h-auto w-12"
               />
@@ -75,6 +75,7 @@ export function LandingContact() {
           <div className="relative min-h-90 sm:min-h-110 md:min-h-130">
             <iframe
               src={companyInfo.headquarters.googleMapsEmbedUrl}
+              title={t('landing.contact.title')}
               className="absolute inset-0 h-full w-full"
               width="100%"
               height="100%"

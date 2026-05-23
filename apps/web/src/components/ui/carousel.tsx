@@ -181,10 +181,12 @@ function CarouselPrevious({
   className,
   variant = 'outline',
   size = 'icon',
+  children,
   ...props
 }: React.ComponentProps<typeof Button>) {
   const { t } = useTranslation();
   const { orientation, scrollPrev, canScrollPrev } = useCarousel();
+  const hasCustomChildren = React.Children.count(children) > 0;
 
   return (
     <Button
@@ -202,8 +204,12 @@ function CarouselPrevious({
       onClick={scrollPrev}
       {...props}
     >
-      <ArrowLeft />
-      <span className="sr-only">{t('common.actions.prev')}</span>
+      {hasCustomChildren ? children : (
+        <>
+          <ArrowLeft />
+          <span className="sr-only">{t('common.actions.prev')}</span>
+        </>
+      )}
     </Button>
   );
 }
@@ -212,10 +218,12 @@ function CarouselNext({
   className,
   variant = 'outline',
   size = 'icon',
+  children,
   ...props
 }: React.ComponentProps<typeof Button>) {
   const { t } = useTranslation();
   const { orientation, scrollNext, canScrollNext } = useCarousel();
+  const hasCustomChildren = React.Children.count(children) > 0;
 
   return (
     <Button
@@ -233,8 +241,12 @@ function CarouselNext({
       onClick={scrollNext}
       {...props}
     >
-      <ArrowRight />
-      <span className="sr-only">{t('common.actions.next')}</span>
+      {hasCustomChildren ? children : (
+        <>
+          <ArrowRight />
+          <span className="sr-only">{t('common.actions.next')}</span>
+        </>
+      )}
     </Button>
   );
 }

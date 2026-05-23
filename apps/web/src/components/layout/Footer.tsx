@@ -35,6 +35,7 @@ export function Footer() {
             href={companyInfo.contact.waLink}
             target="_blank"
             className="text-xs font-semibold uppercase tracking-widest text-[#504533] transition-colors hover:text-[#f4b400]"
+            rel="noopener noreferrer"
           >
             {t('common.actions.contactUs')}
           </a>
