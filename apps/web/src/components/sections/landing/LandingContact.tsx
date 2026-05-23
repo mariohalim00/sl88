@@ -1,0 +1,91 @@
+import { useTranslation } from 'react-i18next';
+import { companyInfo } from '@/config/company';
+
+export function LandingContact() {
+  const { t } = useTranslation();
+
+  return (
+    <section
+      id="contact-us"
+      className="border-t border-[#d4c4ac] py-12 md:py-16"
+    >
+      <div className="grid gap-8 rounded-xl border border-[#d4c4ac] bg-[#f7f4e9] p-6 sm:p-8 md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.15fr)] md:gap-10 md:p-12">
+        <div className="order-last space-y-6 md:order-first md:space-y-8">
+          <div>
+            <h2 className="mb-2 text-center text-2xl font-semibold text-[#1c1c15] md:text-left md:text-3xl">
+              {t('landing.contact.title')}
+            </h2>
+            <p className="text-center text-sm text-[#504533] md:text-left md:text-base">
+              {t('landing.contact.description', {
+                city: companyInfo.headquarters.city,
+              })}
+            </p>
+          </div>
+
+          <div className="flex flex-col items-center space-y-4 md:items-start">
+            <a
+              href={companyInfo.ecommerce.tokopedia}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-3 transition-transform hover:scale-110 hover:underline"
+            >
+              <img
+                src="/branding/tokopedia_mascot_icon.png"
+                alt={t('landing.contact.alt.tokopedia')}
+                className="h-auto w-12"
+              />
+              <span className="text-lg font-medium text-[#1c1c15]">
+                {t('landing.contact.marketplace.tokopedia')}
+              </span>
+            </a>
+            <a
+              href={companyInfo.ecommerce.tiktok}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-3 transition-transform hover:scale-110 hover:underline"
+            >
+              <img
+                src="/branding/tiktok_shop_icon_logo.png"
+                alt={t('landing.contact.alt.tiktok')}
+                className="h-12 w-12"
+              />
+              <span className="text-lg font-medium text-[#1c1c15]">
+                {t('landing.contact.marketplace.tiktokShop')}
+              </span>
+            </a>
+            <a
+              href={companyInfo.ecommerce.shopee}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-3 transition-transform hover:scale-110 hover:underline"
+            >
+              <img
+                src="/branding/shopee_logo.png"
+                alt={t('landing.contact.alt.shopee')}
+                className="h-auto w-12"
+              />
+              <span className="text-lg font-medium text-[#1c1c15]">
+                {t('landing.contact.marketplace.shopee')}
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <div className="order-first overflow-hidden rounded-lg border border-[#d4c4ac] bg-[#e5e2d8] md:order-last">
+          <div className="relative min-h-90 sm:min-h-110 md:min-h-130">
+            <iframe
+              src={companyInfo.headquarters.googleMapsEmbedUrl}
+              title={t('landing.contact.title')}
+              className="absolute inset-0 h-full w-full"
+              width="100%"
+              height="100%"
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

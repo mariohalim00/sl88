@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { ProductCard } from './ProductCard';
 
 type CatalogProduct = {
@@ -17,14 +18,16 @@ type ProductGridProps = {
 };
 
 export function ProductGrid({ products, onAddToCart }: ProductGridProps) {
+  const { t } = useTranslation();
+
   if (products.length === 0) {
     return (
       <section className="rounded border border-dashed border-[#d4c4ac] p-8 text-center">
         <h2 className="font-heading text-xl font-semibold text-[#1c1c15]">
-          No matches found
+          {t('productGrid.noMatchesTitle')}
         </h2>
         <p className="mt-2 text-sm text-[#504533]">
-          Try searching by room type, style, or material.
+          {t('productGrid.noMatchesDescription')}
         </p>
       </section>
     );

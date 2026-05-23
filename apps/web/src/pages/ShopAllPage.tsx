@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { MockModeNotice } from '@/components/sections/shop-all/MockModeNotice';
 import { ShopAllFilterBar } from '@/components/sections/shop-all/ShopAllFilterBar';
 import { CartSummary } from '@/features/catalog/components/CartSummary';
@@ -7,10 +8,23 @@ import { useCatalogViewState } from '@/features/catalog/hooks/useCatalogViewStat
 import { getCatalogProducts } from '@/features/catalog/model/selectors';
 import { formatCurrency } from '@/lib/currency';
 
-const categories = ['Kitchen', 'Welcome Mats', 'Car', 'Office', 'Outdoor'];
-const materials = ['Wool', 'Silk', 'Cotton', 'Jute'];
+const categories = [
+  { key: 'shopAll.categories.kitchen', value: 'kitchen' },
+  { key: 'shopAll.categories.welcomeMats', value: 'welcomeMats' },
+  { key: 'shopAll.categories.car', value: 'car' },
+  { key: 'shopAll.categories.office', value: 'office' },
+  { key: 'shopAll.categories.outdoor', value: 'outdoor' },
+];
+
+const materials = [
+  { key: 'shopAll.materials.wool', value: 'wool' },
+  { key: 'shopAll.materials.silk', value: 'silk' },
+  { key: 'shopAll.materials.cotton', value: 'cotton' },
+  { key: 'shopAll.materials.jute', value: 'jute' },
+];
 
 export function ShopAllPage() {
+  const { t } = useTranslation();
   const products = getCatalogProducts();
   const { searchTerm, setSearchTerm, filteredProducts } =
     useCatalogViewState(products);
@@ -24,19 +38,19 @@ export function ShopAllPage() {
         <aside className="sticky top-28 hidden h-fit w-64 shrink-0 flex-col gap-8 self-start border-r border-[#d4c4ac]/40 pr-6 lg:flex">
           <section className="space-y-4">
             <h2 className="text-sm font-semibold tracking-widest text-[#1c1c15] uppercase">
-              Categories
+              {t('shopAll.categoriesTitle')}
             </h2>
             <div className="space-y-3">
               {categories.map((category) => (
                 <label
-                  key={category}
+                  key={category.value}
                   className="flex items-center gap-3 text-sm text-[#504533]"
                 >
                   <input
                     type="checkbox"
                     className="h-4 w-4 rounded border-[#d4c4ac] accent-[#f4b400]"
                   />
-                  {category}
+                  {t(category.key)}
                 </label>
               ))}
             </div>
@@ -44,7 +58,7 @@ export function ShopAllPage() {
 
           <section className="space-y-4 border-t border-[#d4c4ac]/40 pt-7">
             <h2 className="text-sm font-semibold tracking-widest text-[#1c1c15] uppercase">
-              Price Range
+              {t('shopAll.priceRangeTitle')}
             </h2>
             <input
               type="range"
@@ -60,21 +74,21 @@ export function ShopAllPage() {
 
           <section className="space-y-4 border-t border-[#d4c4ac]/40 pt-7">
             <h2 className="text-sm font-semibold tracking-widest text-[#1c1c15] uppercase">
-              Material
+              {t('shopAll.materialTitle')}
             </h2>
             <div className="flex flex-wrap gap-2">
               {materials.map((material) => (
                 <button
-                  key={material}
+                  key={material.value}
                   type="button"
                   className={[
                     'rounded border px-3 py-1.5 text-xs font-semibold tracking-[0.08em] uppercase',
-                    material === 'Silk'
+                    material.value === 'silk'
                       ? 'border-[#f4b400] bg-[#f4b400]/10 text-[#7a5900]'
                       : 'border-[#d4c4ac] text-[#504533]',
                   ].join(' ')}
                 >
-                  {material}
+                  {t(material.key)}
                 </button>
               ))}
             </div>
@@ -84,7 +98,7 @@ export function ShopAllPage() {
         <main className="w-full space-y-6 pb-10 md:pb-16">
           <header className="space-y-4">
             <h1 className="font-heading text-3xl font-semibold text-[#1c1c15] md:text-4xl">
-              Shop All
+              {t('shopAll.title')}
             </h1>
             <ShopAllFilterBar
               searchTerm={searchTerm}
@@ -99,7 +113,7 @@ export function ShopAllPage() {
             type="button"
             className="mx-auto block rounded border border-[#1c1c15] px-8 py-3 text-xs font-semibold tracking-widest text-[#1c1c15] uppercase transition hover:bg-[#1c1c15] hover:text-white"
           >
-            Load More Artifacts
+            {t('shopAll.loadMoreArtifacts')}
           </button>
 
           <CartSummary

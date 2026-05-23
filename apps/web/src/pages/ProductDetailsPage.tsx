@@ -1,4 +1,5 @@
 import { CheckCircle2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { ProductGallery } from '@/components/sections/product-details/ProductGallery';
 import { resolveProductFromRoute } from '@/features/catalog/model/route-params';
@@ -6,6 +7,7 @@ import { getCatalogProducts } from '@/features/catalog/model/selectors';
 import { formatCurrency } from '@/lib/currency';
 
 export function ProductDetailsPage() {
+  const { t } = useTranslation();
   const params = useParams();
   const product = resolveProductFromRoute(params);
 
@@ -13,16 +15,16 @@ export function ProductDetailsPage() {
     return (
       <section className="rounded border border-dashed border-[#d4c4ac] p-8 text-center">
         <h1 className="font-heading text-3xl font-semibold text-[#1c1c15]">
-          Product not found
+          {t('productDetails.notFoundTitle')}
         </h1>
         <p className="mt-2 text-sm text-[#504533]">
-          The selected piece is not available in this collection.
+          {t('productDetails.notFoundDescription')}
         </p>
         <Link
           className="mt-4 inline-block text-sm font-semibold tracking-[0.08em] text-[#1c1c15] underline uppercase"
           to="/shop/all"
         >
-          Return to Shop All
+          {t('productDetails.returnToShopAll')}
         </Link>
       </section>
     );
@@ -39,7 +41,9 @@ export function ProductDetailsPage() {
 
         <div className="pt-2 md:px-3 md:pt-6">
           <span className="inline-block rounded-full border border-[#d4c4ac] bg-[#f1eee3] px-3 py-1 text-xs font-semibold tracking-[0.08em] text-[#504533] uppercase">
-            Handcrafted {product.category}
+            {t('productDetails.handcraftedCategory', {
+              category: product.category,
+            })}
           </span>
           <h1 className="mt-4 font-heading text-3xl font-semibold text-[#1c1c15] md:text-4xl">
             {product.name}
@@ -56,13 +60,12 @@ export function ProductDetailsPage() {
           <div className="mt-5 flex items-center gap-2 text-[#7a5900]">
             <CheckCircle2 className="size-4" />
             <span className="text-sm font-semibold">
-              In stock and ready to ship
+              {t('productDetails.inStockReadyToShip')}
             </span>
           </div>
 
           <p className="mt-6 border-l-2 border-[#d4c4ac] pl-4 text-sm leading-relaxed text-[#504533] md:text-base">
-            {product.description} Crafted for comfort and visual clarity, this
-            piece adds quiet luxury to everyday spaces.
+            {product.description} {t('productDetails.descriptionSuffix')}
           </p>
 
           <div className="mt-8 space-y-3">
@@ -70,25 +73,41 @@ export function ProductDetailsPage() {
               type="button"
               className="w-full rounded bg-[#f4b400] px-5 py-3 text-sm font-semibold tracking-[0.08em] text-[#1c1c15] uppercase transition hover:brightness-95"
             >
-              Add to Bag
+              {t('common.actions.addToBag')}
             </button>
             <button
               type="button"
               className="w-full rounded border border-[#1c1c15] px-5 py-3 text-sm font-semibold tracking-[0.08em] text-[#1c1c15] uppercase transition hover:bg-[#f7f4e9]"
             >
-              Inquire Now
+              {t('productDetails.inquireNow')}
             </button>
           </div>
 
           <section className="mt-8 border-t border-[#d4c4ac] pt-6">
             <div className="grid grid-cols-2 gap-y-3 text-sm text-[#504533]">
-              <span className="font-semibold text-[#1c1c15]">Origin:</span>
-              <span>Indonesia</span>
-              <span className="font-semibold text-[#1c1c15]">Material:</span>
-              <span>{product.category} blend</span>
-              <span className="font-semibold text-[#1c1c15]">Stock:</span>
-              <span>{product.stock} available</span>
-              <span className="font-semibold text-[#1c1c15]">Rating:</span>
+              <span className="font-semibold text-[#1c1c15]">
+                {t('productDetails.specs.origin')}
+              </span>
+              <span>{t('productDetails.specs.originValue')}</span>
+              <span className="font-semibold text-[#1c1c15]">
+                {t('productDetails.specs.material')}
+              </span>
+              <span>
+                {t('productDetails.specs.materialBlend', {
+                  category: product.category,
+                })}
+              </span>
+              <span className="font-semibold text-[#1c1c15]">
+                {t('productDetails.specs.stock')}
+              </span>
+              <span>
+                {t('productDetails.specs.stockAvailable', {
+                  count: product.stock,
+                })}
+              </span>
+              <span className="font-semibold text-[#1c1c15]">
+                {t('productDetails.specs.rating')}
+              </span>
               <span>{product.rating.toFixed(1)} / 5</span>
             </div>
           </section>
@@ -97,7 +116,7 @@ export function ProductDetailsPage() {
 
       <section className="border-t border-[#d4c4ac] pt-10 md:pt-14">
         <h2 className="mb-8 text-center font-heading text-3xl font-semibold text-[#1c1c15]">
-          You May Also Like
+          {t('productDetails.relatedTitle')}
         </h2>
         <div className="grid gap-6 md:grid-cols-3">
           {relatedProducts.map((item) => (
