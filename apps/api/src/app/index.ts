@@ -11,6 +11,7 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const staticRoot =
   process.env['STATIC_ASSETS'] ?? resolve(__dirname, '../../../web/dist');
 const staticAssets = resolve(staticRoot, 'assets');
+const brandingAssets = resolve(staticRoot, 'branding');
 const indexHtmlPath = resolve(staticRoot, 'index.html');
 
 const app = new Elysia()
@@ -28,6 +29,12 @@ if (import.meta.main) {
       await staticPlugin({
         assets: staticAssets,
         prefix: '/assets',
+      }),
+    )
+    .use(
+      await staticPlugin({
+        assets: brandingAssets,
+        prefix: '/branding',
       }),
     );
 

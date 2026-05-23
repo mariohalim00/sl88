@@ -2,25 +2,23 @@
 FROM oven/bun:1-alpine AS base
 WORKDIR /app
 
-# ─── web-builder: compile Vite frontend ────────────────────────────────────
-FROM base AS web-builder
+# ─── deps: install monorepo dependencies once for all builder stages ───────
+FROM base AS deps
 COPY package.json bun.lock ./
 COPY apps/api/package.json        ./apps/api/package.json
 COPY apps/web/package.json        ./apps/web/package.json
 COPY packages/shared/package.json ./packages/shared/package.json
 RUN bun install --frozen-lockfile
+
+# ─── web-builder: compile Vite frontend ────────────────────────────────────
+FROM deps AS web-builder
 COPY apps/web        ./apps/web
 COPY packages/shared ./packages/shared
 COPY tsconfig.base.json tsconfig.json ./
 RUN bun run build
 
 # ─── api-builder: compile Elysia API to standalone binary ──────────────────
-FROM base AS api-builder
-COPY package.json bun.lock ./
-COPY apps/api/package.json        ./apps/api/package.json
-COPY apps/web/package.json        ./apps/web/package.json
-COPY packages/shared/package.json ./packages/shared/package.json
-RUN bun install --frozen-lockfile
+FROM deps AS api-builder
 COPY apps/api        ./apps/api
 COPY packages/shared ./packages/shared
 COPY tsconfig.base.json tsconfig.json ./
@@ -32,17 +30,6 @@ RUN bun build \
     --target bun-linux-x64 \
     --outfile server \
     apps/api/src/app/index.ts
-
-# ─── migrator: optional target for one-off DB migration job ────────────────
-FROM base AS migrator
-COPY package.json bun.lock ./
-COPY apps/api/package.json        ./apps/api/package.json
-COPY apps/web/package.json        ./apps/web/package.json
-COPY packages/shared/package.json ./packages/shared/package.json
-RUN bun install --frozen-lockfile
-COPY drizzle ./drizzle
-COPY drizzle.config.ts ./
-CMD ["bun", "run", "db:migrate"]
 
 # ─── runner: production runtime (no migration step at startup) ─────────────
 FROM base AS runner
@@ -67,3 +54,9 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
   CMD wget -qO- http://localhost:3000/api/health || exit 1
 
 CMD ["/app/server"]
+
+# ─── migrator: optional target for one-off DB migration job ────────────────
+FROM deps AS migrator
+COPY drizzle ./drizzle
+COPY drizzle.config.ts ./
+CMD ["bun", "run", "db:migrate"]
