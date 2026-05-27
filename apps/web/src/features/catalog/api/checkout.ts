@@ -4,6 +4,10 @@ import {
 } from '../types/storefront';
 import { storefrontApi } from '@/treaty/client';
 
+function encodeCartId(cartId: string) {
+  return encodeURIComponent(cartId);
+}
+
 function unwrapTreatyData<TData>(response: {
   data: TData | null;
   error: { value: unknown } | null;
@@ -18,6 +22,8 @@ function unwrapTreatyData<TData>(response: {
 export async function createCheckoutRedirect(
   cartId: string,
 ): Promise<StorefrontCheckoutResponse> {
-  const response = await storefrontApi.cart({ cartId }).checkout.post({});
+  const response = await storefrontApi
+    .cart({ cartId: encodeCartId(cartId) })
+    .checkout.post({});
   return storefrontCheckoutResponseSchema.parse(unwrapTreatyData(response));
 }

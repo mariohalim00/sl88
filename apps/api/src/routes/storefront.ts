@@ -33,6 +33,14 @@ const cartLineUpdateSchema = t.Object({
   quantity: t.Numeric({ minimum: 0 }),
 });
 
+function normalizeCartId(cartId: string) {
+  try {
+    return decodeURIComponent(cartId);
+  } catch {
+    return cartId;
+  }
+}
+
 export const storefrontRoute = new Elysia({ prefix: '/api/storefront' })
   .get(
     '/products',
@@ -107,7 +115,10 @@ export const storefrontRoute = new Elysia({ prefix: '/api/storefront' })
     '/cart/:cartId/lines',
     async ({ body, params, request, set }) => {
       try {
-        return await addStorefrontCartLines(params.cartId, body.lines);
+        return await addStorefrontCartLines(
+          normalizeCartId(params.cartId),
+          body.lines,
+        );
       } catch (error) {
         const problem = toStorefrontProblem(
           error,
@@ -129,7 +140,10 @@ export const storefrontRoute = new Elysia({ prefix: '/api/storefront' })
     '/cart/:cartId/lines',
     async ({ body, params, request, set }) => {
       try {
-        return await updateStorefrontCartLines(params.cartId, body.lines);
+        return await updateStorefrontCartLines(
+          normalizeCartId(params.cartId),
+          body.lines,
+        );
       } catch (error) {
         const problem = toStorefrontProblem(
           error,
@@ -151,7 +165,10 @@ export const storefrontRoute = new Elysia({ prefix: '/api/storefront' })
     '/cart/:cartId/lines',
     async ({ body, params, request, set }) => {
       try {
-        return await removeStorefrontCartLines(params.cartId, body.lineIds);
+        return await removeStorefrontCartLines(
+          normalizeCartId(params.cartId),
+          body.lineIds,
+        );
       } catch (error) {
         const problem = toStorefrontProblem(
           error,
@@ -173,7 +190,7 @@ export const storefrontRoute = new Elysia({ prefix: '/api/storefront' })
     '/cart/:cartId/checkout',
     async ({ params, request, set }) => {
       try {
-        return await getStorefrontCheckoutUrl(params.cartId);
+        return await getStorefrontCheckoutUrl(normalizeCartId(params.cartId));
       } catch (error) {
         const problem = toStorefrontProblem(
           error,

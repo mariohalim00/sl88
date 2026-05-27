@@ -3,6 +3,7 @@ import {
   parseStorefrontConfig,
   type StorefrontConfig,
 } from '../config/storefront.js';
+import { logger } from '../lib/logger.js';
 
 const DEFAULT_DATABASE_URL =
   'postgresql://postgres:postgres@localhost:5432/sl88_dev';
@@ -98,7 +99,7 @@ export const getStorefrontConfig = (): StorefrontConfig => {
     !hasWarnedPublicTokenFallback
   ) {
     hasWarnedPublicTokenFallback = true;
-    console.warn(
+    logger.warn(
       '[env] Shopify Storefront client is using public token fallback. Set SHOPIFY_STOREFRONT_PRIVATE_ACCESS_TOKEN for server-to-server usage.',
     );
   }

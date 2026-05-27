@@ -4,6 +4,10 @@ import {
 } from '../types/storefront';
 import { storefrontApi } from '@/treaty/client';
 
+function encodeCartId(cartId: string) {
+  return encodeURIComponent(cartId);
+}
+
 function unwrapTreatyData<TData>(response: {
   data: TData | null;
   error: { value: unknown } | null;
@@ -26,7 +30,9 @@ export async function addCartLines(
   cartId: string,
   lines: Array<{ merchandiseId: string; quantity: number }>,
 ): Promise<StorefrontCart> {
-  const response = await storefrontApi.cart({ cartId }).lines.post({ lines });
+  const response = await storefrontApi
+    .cart({ cartId: encodeCartId(cartId) })
+    .lines.post({ lines });
   return storefrontCartResponseSchema.parse(unwrapTreatyData(response)).cart;
 }
 
@@ -34,7 +40,9 @@ export async function updateCartLines(
   cartId: string,
   lines: Array<{ id: string; quantity: number }>,
 ): Promise<StorefrontCart> {
-  const response = await storefrontApi.cart({ cartId }).lines.patch({ lines });
+  const response = await storefrontApi
+    .cart({ cartId: encodeCartId(cartId) })
+    .lines.patch({ lines });
   return storefrontCartResponseSchema.parse(unwrapTreatyData(response)).cart;
 }
 
@@ -43,7 +51,7 @@ export async function removeCartLines(
   lineIds: string[],
 ): Promise<StorefrontCart> {
   const response = await storefrontApi
-    .cart({ cartId })
+    .cart({ cartId: encodeCartId(cartId) })
     .lines.delete({ lineIds });
   return storefrontCartResponseSchema.parse(unwrapTreatyData(response)).cart;
 }

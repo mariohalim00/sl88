@@ -1,5 +1,6 @@
 import { createProblemDetail } from '@sl88/shared/schemas';
 import { Elysia } from 'elysia';
+import { logger } from '../lib/logger.js';
 
 /**
  * RFC 9457-compliant global error handler.
@@ -11,6 +12,25 @@ export const errorHandler = new Elysia({ name: 'error-handler' }).onError(
     set.headers['content-type'] = 'application/problem+json';
 
     const instance = new URL(request.url).pathname;
+    const status =
+      typeof set.status === 'number' && set.status >= 400 && set.status < 600
+        ? set.status
+        : code === 'VALIDATION'
+          ? 422
+          : code === 'NOT_FOUND'
+            ? 404
+            : 500;
+
+    logger.error(
+      {
+        code,
+        status,
+        method: request.method,
+        path: instance,
+        err: error,
+      },
+      'request failed',
+    );
 
     switch (code) {
       case 'VALIDATION':
@@ -36,13 +56,6 @@ export const errorHandler = new Elysia({ name: 'error-handler' }).onError(
 
       default: {
         // Preserve the status code if it was already set (e.g. by auth guard)
-        const status =
-          typeof set.status === 'number' &&
-          set.status >= 400 &&
-          set.status < 600
-            ? set.status
-            : 500;
-
         set.status = status;
 
         // If the error body looks like a ProblemDetail already, pass it through
