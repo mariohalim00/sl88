@@ -15,11 +15,10 @@ export function StorefrontPage() {
     setSearchTerm,
     isLoading,
     isError,
-    products,
     filteredProducts,
   } = useCatalog();
 
-  const { summary, addToCart, removeFromCart } = useCart(products);
+  const { summary, isMutating, updateLine, removeLine } = useCart();
 
   if (isLoading) {
     return (
@@ -50,11 +49,13 @@ export function StorefrontPage() {
         />
 
         <section className="grid gap-6 lg:grid-cols-[1fr_320px]">
-          <ProductGrid products={filteredProducts} onAddToCart={addToCart} />
+          <ProductGrid products={filteredProducts} onAddToCart={() => {}} />
           <CartSummary
             items={summary.lineItems}
             subtotal={summary.subtotal}
-            onRemoveItem={removeFromCart}
+            isMutating={isMutating}
+            onUpdateQuantity={updateLine}
+            onRemoveItem={removeLine}
           />
         </section>
       </div>

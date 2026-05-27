@@ -1,77 +1,124 @@
 import { useMemo, useState } from 'react';
-import type { StorefrontProductSummary } from '../types/storefront';
+import {
+  addCartLines,
+  createCart,
+  removeCartLines,
+  updateCartLines,
+} from '../api/cart';
+import type { StorefrontCart } from '../types/storefront';
 
-type CartItem = {
-  productId: string;
-  quantity: number;
-};
+const CART_STORAGE_KEY = 'sl88.storefront.cart';
 
-function getDefaultCart(): CartItem[] {
-  return [];
-}
-
-export function useCart(products: StorefrontProductSummary[]) {
-  const [items, setItems] = useState<CartItem[]>(() => getDefaultCart());
-
-  const productById = useMemo(() => {
-    return new Map(products.map((product) => [product.id, product]));
-  }, [products]);
-
-  function addToCart(productId: string) {
-    setItems((previous) => {
-      const existing = previous.find((item) => item.productId === productId);
-      if (existing == null) {
-        return [...previous, { productId, quantity: 1 }];
-      }
-
-      return previous.map((item) => {
-        if (item.productId !== productId) {
-          return item;
-        }
-
-        return { ...item, quantity: item.quantity + 1 };
-      });
-    });
+function readPersistedCart(): StorefrontCart | null {
+  if (typeof window === 'undefined') {
+    return null;
   }
 
-  function removeFromCart(productId: string) {
-    setItems((previous) =>
-      previous.filter((item) => item.productId !== productId),
-    );
+  const raw = window.localStorage.getItem(CART_STORAGE_KEY);
+  if (raw == null) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(raw) as StorefrontCart;
+  } catch {
+    return null;
+  }
+}
+
+function persistCart(cart: StorefrontCart | null) {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  if (cart == null) {
+    window.localStorage.removeItem(CART_STORAGE_KEY);
+    return;
+  }
+
+  window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+}
+
+export function useCart() {
+  const [cart, setCart] = useState<StorefrontCart | null>(() => readPersistedCart());
+  const [isMutating, setIsMutating] = useState(false);
+
+  async function addVariant(merchandiseId: string, quantity = 1) {
+    setIsMutating(true);
+    try {
+      const nextCart =
+        cart == null
+          ? await createCart([{ merchandiseId, quantity }])
+          : await addCartLines(cart.id, [{ merchandiseId, quantity }]);
+
+      setCart(nextCart);
+      persistCart(nextCart);
+    } finally {
+      setIsMutating(false);
+    }
+  }
+
+  async function updateLine(lineId: string, quantity: number) {
+    if (cart == null) {
+      return;
+    }
+
+    setIsMutating(true);
+    try {
+      const nextCart =
+        quantity <= 0
+          ? await removeCartLines(cart.id, [lineId])
+          : await updateCartLines(cart.id, [{ id: lineId, quantity }]);
+
+      setCart(nextCart);
+      persistCart(nextCart.lines.length === 0 ? null : nextCart);
+    } finally {
+      setIsMutating(false);
+    }
+  }
+
+  async function removeLine(lineId: string) {
+    if (cart == null) {
+      return;
+    }
+
+    setIsMutating(true);
+    try {
+      const nextCart = await removeCartLines(cart.id, [lineId]);
+      setCart(nextCart);
+      persistCart(nextCart.lines.length === 0 ? null : nextCart);
+    } finally {
+      setIsMutating(false);
+    }
   }
 
   const summary = useMemo(() => {
-    const lineItems = items.flatMap((item) => {
-      const product = productById.get(item.productId);
-      if (product == null) {
-        return [];
-      }
+    const lineItems = (cart?.lines ?? []).map((line) => ({
+      lineId: line.id,
+      quantity: line.quantity,
+      subtotal: Number.parseFloat(line.lineAmount),
+      product: {
+        id: line.merchandiseId,
+        title: line.title,
+      },
+    }));
 
-      return [
-        {
-          product,
-          quantity: item.quantity,
-          subtotal: Number.parseFloat(product.priceMin) * item.quantity,
-        },
-      ];
-    });
-
-    const totalItems = lineItems.reduce(
-      (count, item) => count + item.quantity,
-      0,
-    );
-    const subtotal = lineItems.reduce((sum, item) => sum + item.subtotal, 0);
+    const subtotal = Number.parseFloat(cart?.cost.subtotalAmount ?? '0');
 
     return {
       lineItems,
-      totalItems,
+      totalItems: cart?.totalQuantity ?? 0,
       subtotal,
+      cartId: cart?.id ?? null,
     };
-  }, [items, productById]);
+  }, [cart]);
 
   return {
+    cart,
     summary,
-    addToCart,
-    removeFromCart,
+    isMutating,
+    addVariant,
+    updateLine,
+    removeLine,
   };
 }

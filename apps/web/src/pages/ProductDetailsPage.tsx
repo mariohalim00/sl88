@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { ProductGallery } from '@/components/sections/product-details/ProductGallery';
 import { getProductDetail, listProducts } from '@/features/catalog/api/catalog';
+import { useCart } from '@/features/catalog/hooks/useCart';
 import type {
   StorefrontProductDetail,
   StorefrontProductSummary,
@@ -12,6 +13,7 @@ import { formatCurrency } from '@/lib/currency';
 
 export function ProductDetailsPage() {
   const { t } = useTranslation();
+  const { addVariant, isMutating } = useCart();
   const { handle } = useParams();
   const [product, setProduct] = useState<StorefrontProductDetail | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<
@@ -142,6 +144,14 @@ export function ProductDetailsPage() {
           <div className="mt-8 space-y-3">
             <button
               type="button"
+              onClick={() => {
+                if (primaryVariant == null) {
+                  return;
+                }
+
+                void addVariant(primaryVariant.id, 1);
+              }}
+              disabled={primaryVariant == null || !primaryVariant.availableForSale || isMutating}
               className="w-full rounded bg-[#f4b400] px-5 py-3 text-sm font-semibold tracking-[0.08em] text-[#1c1c15] uppercase transition hover:brightness-95"
             >
               {t('common.actions.addToBag')}

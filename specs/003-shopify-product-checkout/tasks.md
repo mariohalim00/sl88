@@ -70,18 +70,18 @@
 
 ### Validation for User Story 2
 
-- [ ] T022 [P] [US2] Add contract tests for cart create/add/update/remove endpoints in `apps/api/tests/contract/storefront.cart.test.ts`
-- [ ] T023 [P] [US2] Add UI integration test for add/update/remove cart flow in `apps/web/src/features/catalog/__tests__/cart-flow.test.tsx`
-- [ ] T024 [P] [US2] Run `bun run lint && bun run typecheck` and record US2 validation output in `specs/003-shopify-product-checkout/checklists/us2-validation.md`
+- [X] T022 [P] [US2] Add contract tests for cart create/add/update/remove endpoints in `apps/api/tests/contract/storefront.cart.test.ts`
+- [X] T023 [P] [US2] Add UI integration test for add/update/remove cart flow in `apps/web/src/features/catalog/__tests__/cart-flow.test.tsx`
+- [X] T024 [P] [US2] Run `bun run lint && bun run typecheck` and record US2 validation output in `specs/003-shopify-product-checkout/checklists/us2-validation.md`
 
 ### Implementation for User Story 2
 
-- [ ] T025 [P] [US2] Implement cart create/add/update/remove GraphQL operations in `apps/api/src/services/storefront/mutations/cart.ts`
-- [ ] T026 [US2] Implement cart endpoints in `apps/api/src/routes/storefront.ts`
-- [ ] T027 [US2] Implement frontend cart API client against proxy endpoints in `apps/web/src/features/catalog/api/cart.ts`
-- [ ] T028 [US2] Update cart state hook for server-synchronized lines and totals in `apps/web/src/features/catalog/hooks/useCart.ts`
-- [ ] T029 [US2] Update cart summary UI for line updates/removal and loading states in `apps/web/src/features/catalog/components/CartSummary.tsx`
-- [ ] T030 [US2] Wire product detail add-to-cart to live cart API in `apps/web/src/pages/ProductDetailsPage.tsx`
+- [X] T025 [P] [US2] Implement cart create/add/update/remove GraphQL operations in `apps/api/src/services/storefront/mutations/cart.ts`
+- [X] T026 [US2] Implement cart endpoints in `apps/api/src/routes/storefront.ts`
+- [X] T027 [US2] Implement frontend cart API client against proxy endpoints in `apps/web/src/features/catalog/api/cart.ts`
+- [X] T028 [US2] Update cart state hook for server-synchronized lines and totals in `apps/web/src/features/catalog/hooks/useCart.ts`
+- [X] T029 [US2] Update cart summary UI for line updates/removal and loading states in `apps/web/src/features/catalog/components/CartSummary.tsx`
+- [X] T030 [US2] Wire product detail add-to-cart to live cart API in `apps/web/src/pages/ProductDetailsPage.tsx`
 
 **Checkpoint**: User Stories 1 and 2 both work independently.
 

@@ -23,8 +23,8 @@ const materials = [
 
 export function ShopAllPage() {
   const { t } = useTranslation();
-  const { searchTerm, setSearchTerm, filteredProducts, products } = useCatalog();
-  const { summary, addToCart, removeFromCart } = useCart(products);
+  const { searchTerm, setSearchTerm, filteredProducts } = useCatalog();
+  const { summary, isMutating, updateLine, removeLine } = useCart();
 
   return (
     <div className="space-y-6">
@@ -101,7 +101,7 @@ export function ShopAllPage() {
             />
           </header>
 
-          <ProductGrid products={filteredProducts} onAddToCart={addToCart} />
+          <ProductGrid products={filteredProducts} onAddToCart={() => {}} />
 
           <button
             type="button"
@@ -113,7 +113,9 @@ export function ShopAllPage() {
           <CartSummary
             items={summary.lineItems}
             subtotal={summary.subtotal}
-            onRemoveItem={removeFromCart}
+            isMutating={isMutating}
+            onUpdateQuantity={updateLine}
+            onRemoveItem={removeLine}
           />
         </main>
       </div>

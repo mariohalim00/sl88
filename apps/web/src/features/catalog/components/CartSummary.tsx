@@ -8,6 +8,7 @@ type CatalogProduct = {
 };
 
 type CartLineItem = {
+  lineId: string;
   product: CatalogProduct;
   quantity: number;
   subtotal: number;
@@ -16,12 +17,16 @@ type CartLineItem = {
 type CartSummaryProps = {
   items: CartLineItem[];
   subtotal: number;
-  onRemoveItem: (productId: string) => void;
+  isMutating: boolean;
+  onUpdateQuantity: (lineId: string, quantity: number) => Promise<void>;
+  onRemoveItem: (lineId: string) => Promise<void>;
 };
 
 export function CartSummary({
   items,
   subtotal,
+  isMutating,
+  onUpdateQuantity,
   onRemoveItem,
 }: CartSummaryProps) {
   const { t } = useTranslation();
@@ -42,7 +47,7 @@ export function CartSummary({
           {items.map((item) => {
             return (
               <li
-                key={item.product.id}
+                key={item.lineId}
                 className="flex items-start justify-between gap-2 rounded border border-[#e5e2d8] p-3"
               >
                 <div>
@@ -55,11 +60,31 @@ export function CartSummary({
                       amount: formatCurrency(item.subtotal),
                     })}
                   </p>
+                  <div className="mt-2 flex items-center gap-2">
+                    <button
+                      type="button"
+                      className="rounded border border-[#d4c4ac] px-2 py-0.5 text-xs text-[#1c1c15] disabled:opacity-60"
+                      onClick={() => onUpdateQuantity(item.lineId, item.quantity - 1)}
+                      disabled={isMutating}
+                    >
+                      -
+                    </button>
+                    <span className="text-xs text-[#504533]">{item.quantity}</span>
+                    <button
+                      type="button"
+                      className="rounded border border-[#d4c4ac] px-2 py-0.5 text-xs text-[#1c1c15] disabled:opacity-60"
+                      onClick={() => onUpdateQuantity(item.lineId, item.quantity + 1)}
+                      disabled={isMutating}
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
                 <button
                   type="button"
                   className="rounded border border-[#d4c4ac] p-1.5 text-[#504533] transition hover:bg-[#f7f4e9]"
-                  onClick={() => onRemoveItem(item.product.id)}
+                  onClick={() => onRemoveItem(item.lineId)}
+                  disabled={isMutating}
                   aria-label={t('cartSummary.removeAria', {
                     name: item.product.title,
                   })}
@@ -78,6 +103,9 @@ export function CartSummary({
           {formatCurrency(subtotal)}
         </span>
       </div>
+      {isMutating ? (
+        <p className="mt-2 text-xs text-[#504533]">Updating cart...</p>
+      ) : null}
     </section>
   );
 }
