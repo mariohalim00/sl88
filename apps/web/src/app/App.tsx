@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppShell } from '@/components/layout/AppShell';
 import { AdminPage } from '@/pages/AdminPage';
+import { CheckoutResultPage } from '@/pages/CheckoutResultPage';
 import { LandingPage } from '@/pages/LandingPage';
 import { ProductDetailsPage } from '@/pages/ProductDetailsPage';
 import { ShopAllPage } from '@/pages/ShopAllPage';
@@ -13,6 +14,7 @@ export function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/shop/all" element={<ShopAllPage />} />
           <Route path="/products/:handle" element={<ProductDetailsPage />} />
+          <Route path="/checkout/result" element={<CheckoutResultPage />} />
           <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </AppShell>

@@ -18,6 +18,9 @@ type CartSummaryProps = {
   items: CartLineItem[];
   subtotal: number;
   isMutating: boolean;
+  isCheckingOut: boolean;
+  canCheckout: boolean;
+  onCheckout: () => Promise<void>;
   onUpdateQuantity: (lineId: string, quantity: number) => Promise<void>;
   onRemoveItem: (lineId: string) => Promise<void>;
 };
@@ -26,6 +29,9 @@ export function CartSummary({
   items,
   subtotal,
   isMutating,
+  isCheckingOut,
+  canCheckout,
+  onCheckout,
   onUpdateQuantity,
   onRemoveItem,
 }: CartSummaryProps) {
@@ -103,6 +109,18 @@ export function CartSummary({
           {formatCurrency(subtotal)}
         </span>
       </div>
+
+      <button
+        type="button"
+        className="mt-4 w-full rounded bg-[#1c1c15] px-4 py-2 text-sm font-semibold tracking-[0.08em] text-white uppercase disabled:opacity-60"
+        onClick={() => {
+          void onCheckout();
+        }}
+        disabled={!canCheckout || isCheckingOut || isMutating}
+      >
+        {isCheckingOut ? 'Redirecting...' : 'Checkout'}
+      </button>
+
       {isMutating ? (
         <p className="mt-2 text-xs text-[#504533]">Updating cart...</p>
       ) : null}

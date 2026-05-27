@@ -4,6 +4,7 @@ import { ProductGrid } from '@/features/catalog/components/ProductGrid';
 import { StoreHeader } from '@/features/catalog/components/StoreHeader';
 import { useCart } from '@/features/catalog/hooks/useCart';
 import { useCatalog } from '@/features/catalog/hooks/useCatalog';
+import { useCheckout } from '@/features/catalog/hooks/useCheckout';
 
 /**
  * @deprecated This is part of the original scaffolding, will be deleted soon
@@ -19,6 +20,7 @@ export function StorefrontPage() {
   } = useCatalog();
 
   const { summary, isMutating, updateLine, removeLine } = useCart();
+  const { isRedirecting, startCheckout } = useCheckout();
 
   if (isLoading) {
     return (
@@ -54,6 +56,15 @@ export function StorefrontPage() {
             items={summary.lineItems}
             subtotal={summary.subtotal}
             isMutating={isMutating}
+            isCheckingOut={isRedirecting}
+            canCheckout={summary.cartId != null && summary.lineItems.length > 0}
+            onCheckout={async () => {
+              if (summary.cartId == null) {
+                return;
+              }
+
+              await startCheckout(summary.cartId);
+            }}
             onUpdateQuantity={updateLine}
             onRemoveItem={removeLine}
           />

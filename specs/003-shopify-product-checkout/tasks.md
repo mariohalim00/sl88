@@ -95,18 +95,18 @@
 
 ### Validation for User Story 3
 
-- [ ] T031 [P] [US3] Add contract test for checkout redirect endpoint in `apps/api/tests/contract/storefront.checkout.test.ts`
-- [ ] T032 [P] [US3] Add UI integration test for guest checkout redirect and return handling in `apps/web/src/features/catalog/__tests__/checkout-flow.test.tsx`
-- [ ] T033 [P] [US3] Run `bun run lint && bun run typecheck` and record US3 validation output in `specs/003-shopify-product-checkout/checklists/us3-validation.md`
+- [X] T031 [P] [US3] Add contract test for checkout redirect endpoint in `apps/api/tests/contract/storefront.checkout.test.ts`
+- [X] T032 [P] [US3] Add UI integration test for guest checkout redirect and return handling in `apps/web/src/features/catalog/__tests__/checkout-flow.test.tsx`
+- [X] T033 [P] [US3] Run `bun run lint && bun run typecheck` and record US3 validation output in `specs/003-shopify-product-checkout/checklists/us3-validation.md`
 
 ### Implementation for User Story 3
 
-- [ ] T034 [P] [US3] Implement checkout URL retrieval operation in `apps/api/src/services/storefront/mutations/checkout.ts`
-- [ ] T035 [US3] Implement checkout redirect endpoint in `apps/api/src/routes/storefront.ts`
-- [ ] T036 [US3] Add checkout API client helper in `apps/web/src/features/catalog/api/checkout.ts`
-- [ ] T037 [US3] Implement checkout redirect action and guest flow handling in `apps/web/src/features/catalog/hooks/useCheckout.ts`
-- [ ] T038 [US3] Create checkout result page for success/cancel/failure states in `apps/web/src/pages/CheckoutResultPage.tsx`
-- [ ] T039 [US3] Connect cart UI checkout action to hosted redirect flow in `apps/web/src/features/catalog/components/CartSummary.tsx`
+- [X] T034 [P] [US3] Implement checkout URL retrieval operation in `apps/api/src/services/storefront/mutations/checkout.ts`
+- [X] T035 [US3] Implement checkout redirect endpoint in `apps/api/src/routes/storefront.ts`
+- [X] T036 [US3] Add checkout API client helper in `apps/web/src/features/catalog/api/checkout.ts`
+- [X] T037 [US3] Implement checkout redirect action and guest flow handling in `apps/web/src/features/catalog/hooks/useCheckout.ts`
+- [X] T038 [US3] Create checkout result page for success/cancel/failure states in `apps/web/src/pages/CheckoutResultPage.tsx`
+- [X] T039 [US3] Connect cart UI checkout action to hosted redirect flow in `apps/web/src/features/catalog/components/CartSummary.tsx`
 
 **Checkpoint**: All user stories are independently functional.
 

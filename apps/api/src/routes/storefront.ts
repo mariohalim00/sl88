@@ -5,6 +5,7 @@ import {
   removeStorefrontCartLines,
   updateStorefrontCartLines,
 } from '../services/storefront/mutations/cart.js';
+import { getStorefrontCheckoutUrl } from '../services/storefront/mutations/checkout.js';
 import { toStorefrontProblem } from '../services/storefront/errors.js';
 import { getStorefrontProductDetail } from '../services/storefront/queries/product-detail.js';
 import { listStorefrontProducts } from '../services/storefront/queries/products.js';
@@ -168,7 +169,22 @@ export const storefrontRoute = new Elysia({ prefix: '/api/storefront' })
       }),
     },
   )
-  .post('/cart/:cartId/checkout', () => ({
-    checkoutUrl: 'https://example.com/checkout/pending',
-    mode: 'hosted_redirect' as const,
-  }));
+  .post(
+    '/cart/:cartId/checkout',
+    async ({ params, request, set }) => {
+      try {
+        return await getStorefrontCheckoutUrl(params.cartId);
+      } catch (error) {
+        const problem = toStorefrontProblem(
+          error,
+          new URL(request.url).pathname,
+        );
+        set.status = problem.status;
+        set.headers['content-type'] = 'application/problem+json';
+        return problem.body;
+      }
+    },
+    {
+      params: cartParamsSchema,
+    },
+  );

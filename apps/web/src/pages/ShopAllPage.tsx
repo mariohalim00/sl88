@@ -4,6 +4,7 @@ import { CartSummary } from '@/features/catalog/components/CartSummary';
 import { ProductGrid } from '@/features/catalog/components/ProductGrid';
 import { useCart } from '@/features/catalog/hooks/useCart';
 import { useCatalog } from '@/features/catalog/hooks/useCatalog';
+import { useCheckout } from '@/features/catalog/hooks/useCheckout';
 import { formatCurrency } from '@/lib/currency';
 
 const categories = [
@@ -25,6 +26,7 @@ export function ShopAllPage() {
   const { t } = useTranslation();
   const { searchTerm, setSearchTerm, filteredProducts } = useCatalog();
   const { summary, isMutating, updateLine, removeLine } = useCart();
+  const { isRedirecting, startCheckout } = useCheckout();
 
   return (
     <div className="space-y-6">
@@ -114,6 +116,15 @@ export function ShopAllPage() {
             items={summary.lineItems}
             subtotal={summary.subtotal}
             isMutating={isMutating}
+            isCheckingOut={isRedirecting}
+            canCheckout={summary.cartId != null && summary.lineItems.length > 0}
+            onCheckout={async () => {
+              if (summary.cartId == null) {
+                return;
+              }
+
+              await startCheckout(summary.cartId);
+            }}
             onUpdateQuantity={updateLine}
             onRemoveItem={removeLine}
           />
