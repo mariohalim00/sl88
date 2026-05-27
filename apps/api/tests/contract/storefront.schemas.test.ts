@@ -15,7 +15,12 @@ describe('Storefront schema and mapper coverage', () => {
               id: 'gid://shopify/Product/1',
               handle: 'woven-mat',
               title: 'Woven Mat',
+              productType: 'Welcome Mats',
+              tags: ['welcome mat', 'jute'],
               availableForSale: true,
+              selectedOrFirstAvailableVariant: {
+                id: 'gid://shopify/ProductVariant/1',
+              },
               featuredImage: { url: 'https://cdn.test/mat.jpg' },
               priceRange: {
                 minVariantPrice: { amount: '10.00', currencyCode: 'USD' },
@@ -30,6 +35,10 @@ describe('Storefront schema and mapper coverage', () => {
 
     expect(mapped.products).toHaveLength(1);
     expect(mapped.products[0]?.title).toBe('Woven Mat');
+    expect(mapped.products[0]?.productType).toBe('Welcome Mats');
+    expect(mapped.products[0]?.selectedOrFirstAvailableVariantId).toBe(
+      'gid://shopify/ProductVariant/1',
+    );
   });
 
   it('maps product detail payload to storefront response shape', () => {

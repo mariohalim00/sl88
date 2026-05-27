@@ -20,10 +20,15 @@ const storefrontClientResponseSchema = z.object({
 function getStorefrontClient() {
   const config = getStorefrontConfig();
 
+  const tokenConfig =
+    config.privateAccessToken != null
+      ? { privateAccessToken: config.privateAccessToken }
+      : { publicAccessToken: config.publicAccessToken! };
+
   return createStorefrontApiClient({
     storeDomain: config.storeDomain,
     apiVersion: config.apiVersion,
-    publicAccessToken: config.accessToken,
+    ...tokenConfig,
     clientName: 'sl88-api',
     retries: 1,
   });

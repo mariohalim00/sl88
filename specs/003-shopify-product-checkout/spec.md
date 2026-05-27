@@ -2,7 +2,7 @@
 
 **Feature Branch**: `003-create-feature-branch`  
 **Created**: 2026-05-27  
-**Status**: Draft  
+**Status**: Complete  
 **Input**: User description: "I want to complete the product related things by using shoopify storefront api. By the end of this session Users should be able to see the products page (no longer mocket), product detail page, add to cart, checkout and pay. There are 2 approaches that i can think of: using elysia to as proxy to the graphql api or just straight up hit the API of shopify (i need to know which approach is better and pick that approach)"
 
 ## Clarifications

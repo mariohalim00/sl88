@@ -5,7 +5,7 @@ import type { StorefrontProductSummary } from '../types/storefront';
 
 type ProductGridProps = {
   products: StorefrontProductSummary[];
-  onAddToCart: (productId: string) => void;
+  onAddToCart: (product: StorefrontProductSummary) => void;
 };
 
 export function ProductGrid({ products, onAddToCart }: ProductGridProps) {

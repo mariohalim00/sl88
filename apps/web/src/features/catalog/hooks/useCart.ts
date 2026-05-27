@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useSyncExternalStore } from 'react';
 import {
   addCartLines,
   createCart,
@@ -9,6 +9,19 @@ import {
 import type { StorefrontCart } from '../types/storefront';
 
 const CART_STORAGE_KEY = 'sl88.storefront.cart';
+
+type CartStoreSnapshot = {
+  cart: StorefrontCart | null;
+  isMutating: boolean;
+};
+
+const cartStoreListeners = new Set<() => void>();
+
+let hasInitializedCartStore = false;
+let cartStoreSnapshot: CartStoreSnapshot = {
+  cart: null,
+  isMutating: false,
+};
 
 function readPersistedCart(): StorefrontCart | null {
   if (typeof window === 'undefined') {
@@ -40,58 +53,129 @@ function persistCart(cart: StorefrontCart | null) {
   window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
 }
 
+function subscribeToCartStore(listener: () => void) {
+  cartStoreListeners.add(listener);
+
+  return () => {
+    cartStoreListeners.delete(listener);
+  };
+}
+
+function getCartStoreSnapshot() {
+  return cartStoreSnapshot;
+}
+
+function emitCartStoreChange() {
+  cartStoreListeners.forEach((listener) => {
+    listener();
+  });
+}
+
+function updateCartStoreSnapshot(nextSnapshot: Partial<CartStoreSnapshot>) {
+  cartStoreSnapshot = {
+    ...cartStoreSnapshot,
+    ...nextSnapshot,
+  };
+
+  emitCartStoreChange();
+}
+
+function normalizeCart(cart: StorefrontCart | null) {
+  if (cart == null || cart.lines.length === 0) {
+    return null;
+  }
+
+  return cart;
+}
+
+function commitCart(nextCart: StorefrontCart | null) {
+  const normalizedCart = normalizeCart(nextCart);
+
+  updateCartStoreSnapshot({ cart: normalizedCart });
+  persistCart(normalizedCart);
+}
+
+function handleStorageChange(event: StorageEvent) {
+  if (event.key !== CART_STORAGE_KEY) {
+    return;
+  }
+
+  updateCartStoreSnapshot({ cart: readPersistedCart() });
+}
+
+function initializeCartStore() {
+  if (hasInitializedCartStore) {
+    return;
+  }
+
+  hasInitializedCartStore = true;
+  cartStoreSnapshot = {
+    cart: readPersistedCart(),
+    isMutating: false,
+  };
+
+  if (typeof window !== 'undefined') {
+    window.addEventListener('storage', handleStorageChange);
+  }
+}
+
 export function useCart() {
-  const [cart, setCart] = useState<StorefrontCart | null>(() =>
-    readPersistedCart(),
+  initializeCartStore();
+
+  const { cart, isMutating } = useSyncExternalStore(
+    subscribeToCartStore,
+    getCartStoreSnapshot,
+    getCartStoreSnapshot,
   );
-  const [isMutating, setIsMutating] = useState(false);
 
   async function addVariant(merchandiseId: string, quantity = 1) {
-    setIsMutating(true);
+    updateCartStoreSnapshot({ isMutating: true });
     try {
+      const currentCart = getCartStoreSnapshot().cart;
       const nextCart =
-        cart == null
+        currentCart == null
           ? await createCart([{ merchandiseId, quantity }])
-          : await addCartLines(cart.id, [{ merchandiseId, quantity }]);
+          : await addCartLines(currentCart.id, [{ merchandiseId, quantity }]);
 
-      setCart(nextCart);
-      persistCart(nextCart);
+      commitCart(nextCart);
     } finally {
-      setIsMutating(false);
+      updateCartStoreSnapshot({ isMutating: false });
     }
   }
 
   async function updateLine(lineId: string, quantity: number) {
-    if (cart == null) {
+    const currentCart = getCartStoreSnapshot().cart;
+
+    if (currentCart == null) {
       return;
     }
 
-    setIsMutating(true);
+    updateCartStoreSnapshot({ isMutating: true });
     try {
       const nextCart =
         quantity <= 0
-          ? await removeCartLines(cart.id, [lineId])
-          : await updateCartLines(cart.id, [{ id: lineId, quantity }]);
+          ? await removeCartLines(currentCart.id, [lineId])
+          : await updateCartLines(currentCart.id, [{ id: lineId, quantity }]);
 
-      setCart(nextCart);
-      persistCart(nextCart.lines.length === 0 ? null : nextCart);
+      commitCart(nextCart);
     } finally {
-      setIsMutating(false);
+      updateCartStoreSnapshot({ isMutating: false });
     }
   }
 
   async function removeLine(lineId: string) {
-    if (cart == null) {
+    const currentCart = getCartStoreSnapshot().cart;
+
+    if (currentCart == null) {
       return;
     }
 
-    setIsMutating(true);
+    updateCartStoreSnapshot({ isMutating: true });
     try {
-      const nextCart = await removeCartLines(cart.id, [lineId]);
-      setCart(nextCart);
-      persistCart(nextCart.lines.length === 0 ? null : nextCart);
+      const nextCart = await removeCartLines(currentCart.id, [lineId]);
+      commitCart(nextCart);
     } finally {
-      setIsMutating(false);
+      updateCartStoreSnapshot({ isMutating: false });
     }
   }
 

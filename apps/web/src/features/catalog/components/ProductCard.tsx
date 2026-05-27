@@ -7,7 +7,7 @@ import type { StorefrontProductSummary } from '../types/storefront';
 
 type ProductCardProps = {
   product: StorefrontProductSummary;
-  onAddToCart: (productId: string) => void;
+  onAddToCart: (product: StorefrontProductSummary) => void;
 };
 
 export function ProductCard({ product, onAddToCart }: ProductCardProps) {
@@ -56,8 +56,11 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
         </div>
         <button
           type="button"
-          onClick={() => onAddToCart(product.id)}
-          disabled={!product.availableForSale}
+          onClick={() => onAddToCart(product)}
+          disabled={
+            !product.availableForSale ||
+            product.selectedOrFirstAvailableVariantId == null
+          }
           className="mt-2 w-full rounded border border-[#1c1c15] px-4 py-2 text-xs font-semibold tracking-[0.08em] text-[#1c1c15] uppercase transition hover:bg-[#f7f4e9]"
         >
           {t('common.actions.addToBag')}

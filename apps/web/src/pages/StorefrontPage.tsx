@@ -14,7 +14,7 @@ export function StorefrontPage() {
   const { searchTerm, setSearchTerm, isLoading, isError, filteredProducts } =
     useCatalog();
 
-  const { summary, isMutating, updateLine, removeLine } = useCart();
+  const { summary, isMutating, addVariant, updateLine, removeLine } = useCart();
   const { isRedirecting, startCheckout } = useCheckout();
 
   if (isLoading) {
@@ -46,7 +46,16 @@ export function StorefrontPage() {
         />
 
         <section className="grid gap-6 lg:grid-cols-[1fr_320px]">
-          <ProductGrid products={filteredProducts} onAddToCart={() => {}} />
+          <ProductGrid
+            products={filteredProducts}
+            onAddToCart={(product) => {
+              if (product.selectedOrFirstAvailableVariantId == null) {
+                return;
+              }
+
+              void addVariant(product.selectedOrFirstAvailableVariantId, 1);
+            }}
+          />
           <CartSummary
             items={summary.lineItems}
             subtotal={summary.subtotal}

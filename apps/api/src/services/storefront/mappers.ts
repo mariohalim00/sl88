@@ -11,7 +11,10 @@ export function mapProductsList(raw: {
         id: string;
         handle: string;
         title: string;
+        productType: string;
+        tags: string[];
         availableForSale: boolean;
+        selectedOrFirstAvailableVariant: { id: string } | null;
         featuredImage: { url: string } | null;
         priceRange: {
           minVariantPrice: { amount: string; currencyCode: string };
@@ -30,6 +33,10 @@ export function mapProductsList(raw: {
       id: edge.node.id,
       handle: edge.node.handle,
       title: edge.node.title,
+      productType: edge.node.productType,
+      tags: edge.node.tags,
+      selectedOrFirstAvailableVariantId:
+        edge.node.selectedOrFirstAvailableVariant?.id ?? null,
       featuredImageUrl: edge.node.featuredImage?.url ?? null,
       priceMin: edge.node.priceRange.minVariantPrice.amount,
       priceMax: edge.node.priceRange.maxVariantPrice.amount,

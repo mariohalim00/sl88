@@ -37,6 +37,7 @@ const databaseUrlSchema = z
 export const env = runtimeResult.data;
 
 let cachedStorefrontConfig: StorefrontConfig | null = null;
+let hasWarnedPublicTokenFallback = false;
 
 export const getDatabaseUrl = (): string => {
   const candidate = process.env['DATABASE_URL'] ?? DEFAULT_DATABASE_URL;
@@ -60,11 +61,17 @@ export const getStorefrontConfig = (): StorefrontConfig => {
     SHOPIFY_STORE_DOMAIN?: string;
     SHOPIFY_STOREFRONT_API_VERSION?: string;
     SHOPIFY_STOREFRONT_ACCESS_TOKEN?: string;
+    SHOPIFY_STOREFRONT_PUBLIC_ACCESS_TOKEN?: string;
+    SHOPIFY_STOREFRONT_PRIVATE_ACCESS_TOKEN?: string;
   } = {};
 
   const storeDomain = process.env['SHOPIFY_STORE_DOMAIN'];
   const apiVersion = process.env['SHOPIFY_STOREFRONT_API_VERSION'];
   const accessToken = process.env['SHOPIFY_STOREFRONT_ACCESS_TOKEN'];
+  const publicAccessToken =
+    process.env['SHOPIFY_STOREFRONT_PUBLIC_ACCESS_TOKEN'];
+  const privateAccessToken =
+    process.env['SHOPIFY_STOREFRONT_PRIVATE_ACCESS_TOKEN'];
 
   if (storeDomain != null) {
     storefrontEnv.SHOPIFY_STORE_DOMAIN = storeDomain;
@@ -75,8 +82,27 @@ export const getStorefrontConfig = (): StorefrontConfig => {
   if (accessToken != null) {
     storefrontEnv.SHOPIFY_STOREFRONT_ACCESS_TOKEN = accessToken;
   }
+  if (publicAccessToken != null) {
+    storefrontEnv.SHOPIFY_STOREFRONT_PUBLIC_ACCESS_TOKEN = publicAccessToken;
+  }
+  if (privateAccessToken != null) {
+    storefrontEnv.SHOPIFY_STOREFRONT_PRIVATE_ACCESS_TOKEN =
+      privateAccessToken;
+  }
 
   cachedStorefrontConfig = parseStorefrontConfig(storefrontEnv);
+
+  if (
+    cachedStorefrontConfig.privateAccessToken == null &&
+    cachedStorefrontConfig.publicAccessToken != null &&
+    !hasWarnedPublicTokenFallback
+  ) {
+    hasWarnedPublicTokenFallback = true;
+    console.warn(
+      '[env] Shopify Storefront client is using public token fallback. Set SHOPIFY_STOREFRONT_PRIVATE_ACCESS_TOKEN for server-to-server usage.',
+    );
+  }
+
   return cachedStorefrontConfig;
 };
 

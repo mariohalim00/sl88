@@ -11,7 +11,12 @@ const LIST_PRODUCTS_QUERY = /* GraphQL */ `
           id
           handle
           title
+          productType
+          tags
           availableForSale
+          selectedOrFirstAvailableVariant {
+            id
+          }
           featuredImage {
             url
           }
@@ -44,7 +49,14 @@ const listProductsRawSchema = z.object({
           id: z.string().min(1),
           handle: z.string().min(1),
           title: z.string().min(1),
+          productType: z.string(),
+          tags: z.array(z.string()),
           availableForSale: z.boolean(),
+          selectedOrFirstAvailableVariant: z
+            .object({
+              id: z.string().min(1),
+            })
+            .nullable(),
           featuredImage: z
             .object({
               url: z.string().url(),

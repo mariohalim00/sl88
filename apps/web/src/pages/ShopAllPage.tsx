@@ -24,8 +24,19 @@ const materials = [
 
 export function ShopAllPage() {
   const { t } = useTranslation();
-  const { searchTerm, setSearchTerm, filteredProducts } = useCatalog();
-  const { summary, isMutating, updateLine, removeLine } = useCart();
+  const {
+    searchTerm,
+    setSearchTerm,
+    selectedCategories,
+    selectedMaterials,
+    maxPrice,
+    priceUpperBound,
+    toggleCategory,
+    toggleMaterial,
+    setMaxPrice,
+    filteredProducts,
+  } = useCatalog();
+  const { summary, isMutating, addVariant, updateLine, removeLine } = useCart();
   const { isRedirecting, startCheckout } = useCheckout();
 
   return (
@@ -44,6 +55,10 @@ export function ShopAllPage() {
                 >
                   <input
                     type="checkbox"
+                    checked={selectedCategories.includes(category.value)}
+                    onChange={() => {
+                      toggleCategory(category.value);
+                    }}
                     className="h-4 w-4 rounded border-[#d4c4ac] accent-[#f4b400]"
                   />
                   {t(category.key)}
@@ -59,12 +74,16 @@ export function ShopAllPage() {
             <input
               type="range"
               min={0}
-              max={5000000}
+              max={priceUpperBound}
+              value={maxPrice}
+              onChange={(event) => {
+                setMaxPrice(Number.parseInt(event.currentTarget.value, 10));
+              }}
               className="w-full accent-[#f4b400]"
             />
             <div className="flex justify-between text-xs text-[#504533]">
               <span>{formatCurrency(0)}</span>
-              <span>{formatCurrency(5000000)}+</span>
+              <span>{formatCurrency(maxPrice)}</span>
             </div>
           </section>
 
@@ -77,9 +96,13 @@ export function ShopAllPage() {
                 <button
                   key={material.value}
                   type="button"
+                  onClick={() => {
+                    toggleMaterial(material.value);
+                  }}
+                  aria-pressed={selectedMaterials.includes(material.value)}
                   className={[
                     'rounded border px-3 py-1.5 text-xs font-semibold tracking-[0.08em] uppercase',
-                    material.value === 'silk'
+                    selectedMaterials.includes(material.value)
                       ? 'border-[#f4b400] bg-[#f4b400]/10 text-[#7a5900]'
                       : 'border-[#d4c4ac] text-[#504533]',
                   ].join(' ')}
@@ -103,7 +126,16 @@ export function ShopAllPage() {
             />
           </header>
 
-          <ProductGrid products={filteredProducts} onAddToCart={() => {}} />
+          <ProductGrid
+            products={filteredProducts}
+            onAddToCart={(product) => {
+              if (product.selectedOrFirstAvailableVariantId == null) {
+                return;
+              }
+
+              void addVariant(product.selectedOrFirstAvailableVariantId, 1);
+            }}
+          />
 
           <button
             type="button"

@@ -27,7 +27,12 @@ describe('Storefront products contract', () => {
                     id: 'gid://shopify/Product/1',
                     handle: 'woven-mat',
                     title: 'Woven Mat',
+                    productType: 'Welcome Mats',
+                    tags: ['welcome mat', 'jute'],
                     availableForSale: true,
+                    selectedOrFirstAvailableVariant: {
+                      id: 'gid://shopify/ProductVariant/1',
+                    },
                     featuredImage: { url: 'https://cdn.test/mat.jpg' },
                     priceRange: {
                       minVariantPrice: { amount: '50.00', currencyCode: 'USD' },
@@ -56,13 +61,20 @@ describe('Storefront products contract', () => {
 
     expect(res.status).toBe(200);
     const payload = (await res.json()) as {
-      products: Array<{ handle: string; title: string }>;
+      products: Array<{
+        handle: string;
+        title: string;
+        selectedOrFirstAvailableVariantId: string | null;
+      }>;
       pageInfo: { hasNextPage: boolean; endCursor: string | null };
     };
 
     expect(payload.products).toHaveLength(1);
     expect(payload.products[0]?.handle).toBe('woven-mat');
     expect(payload.products[0]?.title).toBe('Woven Mat');
+    expect(payload.products[0]?.selectedOrFirstAvailableVariantId).toBe(
+      'gid://shopify/ProductVariant/1',
+    );
     expect(payload.pageInfo.hasNextPage).toBe(false);
   });
 
