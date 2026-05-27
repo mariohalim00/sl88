@@ -1,19 +1,23 @@
 import { useMemo, useState } from 'react';
+import type { StorefrontProductSummary } from '../types/storefront';
 
-import type { CartItem, Product } from '../types';
+type CartItem = {
+  productId: string;
+  quantity: number;
+};
 
 function getDefaultCart(): CartItem[] {
   return [];
 }
 
-export function useCart(products: Product[]) {
+export function useCart(products: StorefrontProductSummary[]) {
   const [items, setItems] = useState<CartItem[]>(() => getDefaultCart());
 
   const productById = useMemo(() => {
     return new Map(products.map((product) => [product.id, product]));
   }, [products]);
 
-  function addToCart(productId: Product['id']) {
+  function addToCart(productId: string) {
     setItems((previous) => {
       const existing = previous.find((item) => item.productId === productId);
       if (existing == null) {
@@ -30,7 +34,7 @@ export function useCart(products: Product[]) {
     });
   }
 
-  function removeFromCart(productId: Product['id']) {
+  function removeFromCart(productId: string) {
     setItems((previous) =>
       previous.filter((item) => item.productId !== productId),
     );
@@ -47,7 +51,7 @@ export function useCart(products: Product[]) {
         {
           product,
           quantity: item.quantity,
-          subtotal: product.price * item.quantity,
+          subtotal: Number.parseFloat(product.priceMin) * item.quantity,
         },
       ];
     });

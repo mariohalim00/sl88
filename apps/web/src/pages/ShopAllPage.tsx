@@ -1,11 +1,9 @@
 import { useTranslation } from 'react-i18next';
-import { MockModeNotice } from '@/components/sections/shop-all/MockModeNotice';
 import { ShopAllFilterBar } from '@/components/sections/shop-all/ShopAllFilterBar';
 import { CartSummary } from '@/features/catalog/components/CartSummary';
 import { ProductGrid } from '@/features/catalog/components/ProductGrid';
-import { useCartState } from '@/features/catalog/hooks/useCartState';
-import { useCatalogViewState } from '@/features/catalog/hooks/useCatalogViewState';
-import { getCatalogProducts } from '@/features/catalog/model/selectors';
+import { useCart } from '@/features/catalog/hooks/useCart';
+import { useCatalog } from '@/features/catalog/hooks/useCatalog';
 import { formatCurrency } from '@/lib/currency';
 
 const categories = [
@@ -25,15 +23,11 @@ const materials = [
 
 export function ShopAllPage() {
   const { t } = useTranslation();
-  const products = getCatalogProducts();
-  const { searchTerm, setSearchTerm, filteredProducts } =
-    useCatalogViewState(products);
-  const { summary, add, remove } = useCartState(products);
+  const { searchTerm, setSearchTerm, filteredProducts, products } = useCatalog();
+  const { summary, addToCart, removeFromCart } = useCart(products);
 
   return (
     <div className="space-y-6">
-      <MockModeNotice />
-
       <div className="flex gap-8">
         <aside className="sticky top-28 hidden h-fit w-64 shrink-0 flex-col gap-8 self-start border-r border-[#d4c4ac]/40 pr-6 lg:flex">
           <section className="space-y-4">
@@ -107,7 +101,7 @@ export function ShopAllPage() {
             />
           </header>
 
-          <ProductGrid products={filteredProducts} onAddToCart={add} />
+          <ProductGrid products={filteredProducts} onAddToCart={addToCart} />
 
           <button
             type="button"
@@ -119,7 +113,7 @@ export function ShopAllPage() {
           <CartSummary
             items={summary.lineItems}
             subtotal={summary.subtotal}
-            onRemoveItem={remove}
+            onRemoveItem={removeFromCart}
           />
         </main>
       </div>

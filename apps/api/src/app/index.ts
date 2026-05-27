@@ -6,6 +6,7 @@ import { env } from '../env/index.js';
 import { errorHandler } from '../middleware/error.js';
 import { healthRoute } from '../routes/health.js';
 import { scaffoldRoute } from '../routes/scaffold.js';
+import { storefrontRoute } from '../routes/storefront.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const staticRoot =
@@ -18,7 +19,8 @@ const app = new Elysia()
   .use(cors())
   .use(errorHandler)
   .use(healthRoute)
-  .use(scaffoldRoute);
+  .use(scaffoldRoute)
+  .use(storefrontRoute);
 
 if (import.meta.main) {
   const { staticPlugin } = await import('@elysia/static');

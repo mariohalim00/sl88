@@ -1,13 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { listProducts } from '../api/catalog';
-
-import type { Product } from '../types';
+import type { StorefrontProductSummary } from '../types/storefront';
 
 type CatalogStatus = 'idle' | 'loading' | 'ready' | 'error';
 
 export function useCatalog() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<StorefrontProductSummary[]>([]);
   const [status, setStatus] = useState<CatalogStatus>('idle');
 
   useEffect(() => {
@@ -48,9 +47,8 @@ export function useCatalog() {
 
     return products.filter((product) => {
       return (
-        product.name.toLowerCase().includes(normalized) ||
-        product.category.toLowerCase().includes(normalized) ||
-        product.description.toLowerCase().includes(normalized)
+        product.title.toLowerCase().includes(normalized) ||
+        product.handle.toLowerCase().includes(normalized)
       );
     });
   }, [products, searchTerm]);

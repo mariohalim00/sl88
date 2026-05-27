@@ -1,12 +1,51 @@
-import { mockProducts } from '../data/mock-products';
-import { productListSchema, type Product } from '../types';
+import {
+  storefrontProductDetailResponseSchema,
+  storefrontProductsResponseSchema,
+  type StorefrontProductDetail,
+  type StorefrontProductSummary,
+} from '../types/storefront';
+import { storefrontApi } from '@/treaty/client';
 
-const MOCK_RESPONSE_DELAY_MS = 240;
+function unwrapTreatyData<TData>(
+  response: { data: TData | null; error: { value: unknown } | null },
+): TData {
+  if (response.error != null || response.data == null) {
+    throw new Error('Storefront request failed');
+  }
 
-export async function listProducts(): Promise<Product[]> {
-  const payload = productListSchema.parse(mockProducts);
+  return response.data;
+}
 
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(payload), MOCK_RESPONSE_DELAY_MS);
+export async function listProducts(input?: {
+  limit?: number;
+  cursor?: string;
+}): Promise<StorefrontProductSummary[]> {
+  const query: { limit?: number; cursor?: string } = {};
+  if (input?.limit != null) {
+    query.limit = input.limit;
+  }
+  if (input?.cursor != null) {
+    query.cursor = input.cursor;
+  }
+
+  const response = await storefrontApi.products.get({
+    query,
   });
+
+  const payload = storefrontProductsResponseSchema.parse(
+    unwrapTreatyData(response),
+  );
+
+  return payload.products;
+}
+
+export async function getProductDetail(
+  handle: string,
+): Promise<StorefrontProductDetail> {
+  const response = await storefrontApi.products({ handle }).get();
+  const payload = storefrontProductDetailResponseSchema.parse(
+    unwrapTreatyData(response),
+  );
+
+  return payload.product;
 }

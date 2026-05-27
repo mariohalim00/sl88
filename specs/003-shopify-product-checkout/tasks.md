@@ -11,9 +11,9 @@
 
 **Purpose**: Prepare storefront feature scaffolding and local developer configuration.
 
-- [ ] T001 Add Shopify storefront environment variables to `.env.example`
-- [ ] T002 Create storefront API config module in `apps/api/src/config/storefront.ts`
-- [ ] T003 [P] Add feature-local type modules and TanStack state-boundary decision note in `apps/web/src/features/catalog/types/storefront.ts` and `specs/003-shopify-product-checkout/checklists/state-boundary.md`
+- [X] T001 Add Shopify storefront environment variables to `.env.example`
+- [X] T002 Create storefront API config module in `apps/api/src/config/storefront.ts`
+- [X] T003 [P] Add feature-local type modules and TanStack state-boundary decision note in `apps/web/src/features/catalog/types/storefront.ts` and `specs/003-shopify-product-checkout/checklists/state-boundary.md`
 
 ---
 
@@ -23,13 +23,13 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T004 Implement Shopify env validation and safe accessors in `apps/api/src/env/index.ts`
-- [ ] T005 [P] Create Shopify Storefront GraphQL client helper in `apps/api/src/services/storefront/client.ts`
-- [ ] T006 [P] Define shared storefront Zod schemas in `apps/api/src/services/storefront/schemas.ts`
-- [ ] T007 Implement storefront error mapping to problem+json in `apps/api/src/services/storefront/errors.ts`
-- [ ] T008 Create storefront route module shell in `apps/api/src/routes/storefront.ts`
-- [ ] T009 Mount storefront routes in `apps/api/src/app/index.ts`
-- [ ] T010 [P] Add treaty storefront API surface in `apps/web/src/treaty/client.ts`
+- [X] T004 Implement Shopify env validation and safe accessors in `apps/api/src/env/index.ts`
+- [X] T005 [P] Create Shopify Storefront GraphQL client helper in `apps/api/src/services/storefront/client.ts`
+- [X] T006 [P] Define shared storefront Zod schemas in `apps/api/src/services/storefront/schemas.ts`
+- [X] T007 Implement storefront error mapping to problem+json in `apps/api/src/services/storefront/errors.ts`
+- [X] T008 Create storefront route module shell in `apps/api/src/routes/storefront.ts`
+- [X] T009 Mount storefront routes in `apps/api/src/app/index.ts`
+- [X] T010 [P] Add treaty storefront API surface in `apps/web/src/treaty/client.ts`
 
 **Checkpoint**: Foundation ready - user story implementation can begin.
 
@@ -43,20 +43,20 @@
 
 ### Validation for User Story 1
 
-- [ ] T011 [P] [US1] Add contract tests for `GET /api/storefront/products` and `GET /api/storefront/products/:handle` in `apps/api/tests/contract/storefront.products.test.ts`
-- [ ] T012 [P] [US1] Add UI integration test for listing-to-detail shopper journey in `apps/web/src/features/catalog/__tests__/catalog-flow.test.tsx`
-- [ ] T013 [P] [US1] Run `bun run lint && bun run typecheck` and record US1 validation output in `specs/003-shopify-product-checkout/checklists/us1-validation.md`
-- [ ] T014 [P] [US1] Record UI fidelity verification notes for `/shop/all` and product detail in `specs/003-shopify-product-checkout/checklists/us1-ui-fidelity.md`
+- [X] T011 [P] [US1] Add contract tests for `GET /api/storefront/products` and `GET /api/storefront/products/:handle` in `apps/api/tests/contract/storefront.products.test.ts`
+- [X] T012 [P] [US1] Add UI integration test for listing-to-detail shopper journey in `apps/web/src/features/catalog/__tests__/catalog-flow.test.tsx`
+- [X] T013 [P] [US1] Run `bun run lint && bun run typecheck` and record US1 validation output in `specs/003-shopify-product-checkout/checklists/us1-validation.md`
+- [X] T014 [P] [US1] Record UI fidelity verification notes for `/shop/all` and product detail in `specs/003-shopify-product-checkout/checklists/us1-ui-fidelity.md`
 
 ### Implementation for User Story 1
 
-- [ ] T015 [P] [US1] Implement product listing query and mapper in `apps/api/src/services/storefront/queries/products.ts`
-- [ ] T016 [P] [US1] Implement product detail query and mapper in `apps/api/src/services/storefront/queries/product-detail.ts`
-- [ ] T017 [US1] Implement listing/detail handlers in `apps/api/src/routes/storefront.ts`
-- [ ] T018 [US1] Replace mock catalog API calls with treaty-backed calls in `apps/web/src/features/catalog/api/catalog.ts`
-- [ ] T019 [US1] Update catalog loading and error hooks for live data in `apps/web/src/features/catalog/hooks/useCatalog.ts`
-- [ ] T020 [US1] Update shop listing UI for live storefront fields in `apps/web/src/features/catalog/components/ProductGrid.tsx`
-- [ ] T021 [US1] Update product detail page for live variant/image data in `apps/web/src/pages/ProductDetailsPage.tsx`
+- [X] T015 [P] [US1] Implement product listing query and mapper in `apps/api/src/services/storefront/queries/products.ts`
+- [X] T016 [P] [US1] Implement product detail query and mapper in `apps/api/src/services/storefront/queries/product-detail.ts`
+- [X] T017 [US1] Implement listing/detail handlers in `apps/api/src/routes/storefront.ts`
+- [X] T018 [US1] Replace mock catalog API calls with treaty-backed calls in `apps/web/src/features/catalog/api/catalog.ts`
+- [X] T019 [US1] Update catalog loading and error hooks for live data in `apps/web/src/features/catalog/hooks/useCatalog.ts`
+- [X] T020 [US1] Update shop listing UI for live storefront fields in `apps/web/src/features/catalog/components/ProductGrid.tsx`
+- [X] T021 [US1] Update product detail page for live variant/image data in `apps/web/src/pages/ProductDetailsPage.tsx`
 
 **Checkpoint**: User Story 1 is independently functional and testable.
 

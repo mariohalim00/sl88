@@ -13,3 +13,5 @@ export const api = treaty<App>(
     ? window.location.origin
     : 'http://localhost:3000',
 );
+
+export const storefrontApi = api.api.storefront;

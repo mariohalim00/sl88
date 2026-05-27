@@ -12,7 +12,7 @@ export function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/shop/all" element={<ShopAllPage />} />
-          <Route path="/products/:productId" element={<ProductDetailsPage />} />
+          <Route path="/products/:handle" element={<ProductDetailsPage />} />
           <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </AppShell>

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { parseStorefrontConfig, type StorefrontConfig } from '../config/storefront.js';
 
 const DEFAULT_DATABASE_URL =
   'postgresql://postgres:postgres@localhost:5432/sl88_dev';
@@ -32,6 +33,8 @@ const databaseUrlSchema = z
 
 export const env = runtimeResult.data;
 
+let cachedStorefrontConfig: StorefrontConfig | null = null;
+
 export const getDatabaseUrl = (): string => {
   const candidate = process.env['DATABASE_URL'] ?? DEFAULT_DATABASE_URL;
   const result = databaseUrlSchema.safeParse(candidate);
@@ -43,6 +46,35 @@ export const getDatabaseUrl = (): string => {
   const messages =
     result.error.flatten().formErrors.join(', ') || 'Invalid DATABASE_URL';
   throw new Error(`[env] ${messages}`);
+};
+
+export const getStorefrontConfig = (): StorefrontConfig => {
+  if (cachedStorefrontConfig != null) {
+    return cachedStorefrontConfig;
+  }
+
+  const storefrontEnv: {
+    SHOPIFY_STORE_DOMAIN?: string;
+    SHOPIFY_STOREFRONT_API_VERSION?: string;
+    SHOPIFY_STOREFRONT_ACCESS_TOKEN?: string;
+  } = {};
+
+  const storeDomain = process.env['SHOPIFY_STORE_DOMAIN'];
+  const apiVersion = process.env['SHOPIFY_STOREFRONT_API_VERSION'];
+  const accessToken = process.env['SHOPIFY_STOREFRONT_ACCESS_TOKEN'];
+
+  if (storeDomain != null) {
+    storefrontEnv.SHOPIFY_STORE_DOMAIN = storeDomain;
+  }
+  if (apiVersion != null) {
+    storefrontEnv.SHOPIFY_STOREFRONT_API_VERSION = apiVersion;
+  }
+  if (accessToken != null) {
+    storefrontEnv.SHOPIFY_STOREFRONT_ACCESS_TOKEN = accessToken;
+  }
+
+  cachedStorefrontConfig = parseStorefrontConfig(storefrontEnv);
+  return cachedStorefrontConfig;
 };
 
 export { DEFAULT_DATABASE_URL };

@@ -4,7 +4,7 @@ import { formatCurrency } from '@/lib/currency';
 
 type CatalogProduct = {
   id: string;
-  name: string;
+  title: string;
 };
 
 type CartLineItem = {
@@ -47,7 +47,7 @@ export function CartSummary({
               >
                 <div>
                   <p className="text-sm font-medium text-[#1c1c15]">
-                    {item.product.name}
+                    {item.product.title}
                   </p>
                   <p className="text-xs text-[#504533]">
                     {t('cartSummary.qtyLine', {
@@ -61,7 +61,7 @@ export function CartSummary({
                   className="rounded border border-[#d4c4ac] p-1.5 text-[#504533] transition hover:bg-[#f7f4e9]"
                   onClick={() => onRemoveItem(item.product.id)}
                   aria-label={t('cartSummary.removeAria', {
-                    name: item.product.name,
+                    name: item.product.title,
                   })}
                 >
                   <Trash2 className="size-4" />

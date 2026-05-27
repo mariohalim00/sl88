@@ -1,19 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import { ProductCard } from './ProductCard';
-
-type CatalogProduct = {
-  id: string;
-  name: string;
-  category: string;
-  price: number;
-  description: string;
-  imageUrl: string;
-  stock: number;
-  rating: number;
-};
+import type { StorefrontProductSummary } from '../types/storefront';
 
 type ProductGridProps = {
-  products: CatalogProduct[];
+  products: StorefrontProductSummary[];
   onAddToCart: (productId: string) => void;
 };
 
