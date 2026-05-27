@@ -1,8 +1,8 @@
 <!--
 Sync Impact Report
-Version change: 1.0.0 -> 1.1.0
+Version change: 1.1.0 -> 1.2.0
 Modified principles:
-- V. Enforced Quality Gates -> V. Enforced Quality Gates and Frontend Delivery Discipline
+- V. Enforced Quality Gates and Frontend Delivery Discipline -> V. Enforced Quality Gates, Frontend Delivery Discipline, and Storefront Skill Governance
 Added sections:
 - None
 Removed sections:
@@ -11,6 +11,7 @@ Templates requiring updates:
 - ✅ updated /home/mariolin/Documents/personal/sl88/.specify/templates/plan-template.md
 - ✅ updated /home/mariolin/Documents/personal/sl88/.specify/templates/spec-template.md
 - ✅ updated /home/mariolin/Documents/personal/sl88/.specify/templates/tasks-template.md
+- ✅ updated /home/mariolin/Documents/personal/sl88/.github/copilot-instructions.md
 - ⚠ pending /home/mariolin/Documents/personal/sl88/.specify/templates/commands/*.md (directory not present)
 Follow-up TODOs:
 - None
@@ -44,11 +45,13 @@ Persistent data structures MUST be defined and evolved through Drizzle-managed s
 
 Rationale: A commerce system depends on durable product and order data, so schema governance and migration discipline are required from the start.
 
-### V. Enforced Quality Gates and Frontend Delivery Discipline
+### V. Enforced Quality Gates, Frontend Delivery Discipline, and Storefront Skill Governance
 
 Every change MUST pass formatting, linting, and typechecking through the repository-standard Vite Plus toolchain before merge. Features MUST be delivered as independently testable slices, and plans/tasks MUST define the narrowest executable validation for each slice. Contract, integration, or workflow tests MUST be added whenever a change affects API boundaries, shared schemas, checkout flows, catalog behavior, or order-management behavior.
 
 Frontend implementation MUST follow maintainable React composition practices: avoid monolithic TSX files, extract reusable UI and domain logic into focused components/modules, preserve strict typing with no `any`, and prefer TanStack-based solutions for advanced state management instead of Redux. UI work MUST prefer shadcn-based components when the required primitive exists, and design implementations MUST remain faithful to approved specifications unless a documented constraint requires deviation.
+
+When a feature includes Shopify custom storefront product-page, product-detail, or cart workflows backed by direct Storefront GraphQL operations, planning and implementation guidance MUST use the `shopify-storefront-graphql` skill as the primary execution reference. Query and mutation contracts produced from that workflow MUST be represented in strictly typed client/server boundaries and validated at runtime with Zod where external payloads enter the system.
 
 Rationale: Fast iteration is only sustainable when quality gates and frontend architecture discipline prevent type drift, state complexity regressions, and unmaintainable UI sprawl.
 
@@ -57,6 +60,7 @@ Rationale: Fast iteration is only sustainable when quality gates and frontend ar
 - The canonical stack is Bun, ElysiaJS, React, Vite, Vite Plus, Rolldown, Zod 4, Eden Treaty, and Drizzle.
 - Advanced client-side state management MUST use the TanStack ecosystem; Redux-based state management is non-compliant unless explicitly approved by amendment.
 - Frontend UI primitives MUST prefer shadcn components before introducing custom replacements for equivalent behavior.
+- Shopify custom storefront GraphQL work for product pages, product details, and cart flows MUST follow the `shopify-storefront-graphql` skill workflow and keep operation payloads typed and schema-validated at boundaries.
 - Specifications MUST stay implementation-agnostic except where repository governance requires naming fixed stack constraints; concrete tool selections belong in plans and tasks.
 - Shared contracts, schema definitions, and validation logic SHOULD be organized so backend and frontend consume the same authoritative shapes.
 - New dependencies MUST be justified in the implementation plan when existing stack primitives already solve the problem.
@@ -67,6 +71,7 @@ Rationale: Fast iteration is only sustainable when quality gates and frontend ar
 - Each feature MUST start with a specification that defines independently testable user stories and measurable outcomes.
 - Each implementation plan MUST include a Constitution Check that confirms strict typing, Zod boundary coverage, Bun-native stack alignment, Drizzle schema ownership, and required validation commands.
 - Frontend plans and tasks MUST explicitly describe component decomposition strategy, shadcn reuse decisions, and TanStack state boundaries for non-trivial client state.
+- Plans and tasks covering Shopify product-page or cart storefront integrations MUST explicitly reference `shopify-storefront-graphql` skill usage and include validation tasks for typed GraphQL operation contracts.
 - Each task list MUST include work for schema changes, typed API surfaces, frontend/backend integration, and quality-gate execution whenever those concerns are affected by the feature.
 - Code review and self-review MUST verify constitutional compliance before merge, including explicit confirmation that no `any` was introduced and that validation exists at changed boundaries.
 - Code review for UI features MUST verify design-fidelity outcomes against the approved specification and record any intentional deviations with rationale.
@@ -76,4 +81,4 @@ Rationale: Fast iteration is only sustainable when quality gates and frontend ar
 
 This constitution supersedes conflicting local practice for this repository. Amendments require updating this document, recording the version impact in the Sync Impact Report, and synchronizing affected templates in the same change whenever possible. Versioning follows semantic rules: MAJOR for incompatible governance changes or principle removal, MINOR for new principles or materially expanded obligations, and PATCH for clarifications that do not alter required behavior. Compliance reviews occur during planning, task generation, implementation validation, and code review. Every pull request or equivalent review artifact MUST verify that constitutional gates were satisfied or that an approved exception was documented before merge.
 
-**Version**: 1.1.0 | **Ratified**: 2026-05-02 | **Last Amended**: 2026-05-15
+**Version**: 1.2.0 | **Ratified**: 2026-05-02 | **Last Amended**: 2026-05-27

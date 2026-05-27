@@ -7,7 +7,7 @@ description: "Task list template for feature implementation"
 **Input**: Design documents from `/specs/[###-feature-name]/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Tests**: Include the narrowest required validation tasks for each story. Formatting, linting, and typecheck tasks are mandatory when code changes are in scope; contract or integration tests are mandatory when API boundaries, shared schemas, checkout flows, catalog behavior, or order workflows change. Frontend stories MUST include checks for design fidelity and strict typed state management choices.
+**Tests**: Include the narrowest required validation tasks for each story. Formatting, linting, and typecheck tasks are mandatory when code changes are in scope; contract or integration tests are mandatory when API boundaries, shared schemas, checkout flows, catalog behavior, or order workflows change. Frontend stories MUST include checks for design fidelity and strict typed state management choices. If Shopify custom storefront GraphQL operations are in scope (product or cart flows), include tasks that validate typed query/mutation contracts and runtime schema validation.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
