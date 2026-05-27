@@ -6,6 +6,7 @@
   "dependencies": {
     "@elysia/static": "^1.4.10",
     "@elysiajs/cors": "^1.4.2",
+    "@shopify/storefront-api-client": "^1.0.10",
     "@sl88/shared": "workspace:*",
     "drizzle-orm": "^0.45.2",
     "elysia": "^1.4.28",

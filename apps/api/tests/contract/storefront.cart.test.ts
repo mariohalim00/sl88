@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, mock } from 'bun:test';
+import { afterEach, beforeEach, describe, expect, it } from 'bun:test';
 import { app } from '../../src/app/index.js';
 
 const originalFetch = globalThis.fetch;
@@ -49,18 +49,20 @@ describe('Storefront cart contract', () => {
 
   afterEach(() => {
     globalThis.fetch = originalFetch;
-    mock.restore();
   });
 
   it('creates cart with POST /api/storefront/cart', async () => {
-    globalThis.fetch = mock(async () => {
+    globalThis.fetch = (async () => {
       return new Response(
         JSON.stringify({
           data: {
             cartCreate: buildCartResponse(1),
           },
         }),
-        { status: 200 },
+        {
+          status: 200,
+          headers: { 'content-type': 'application/json' },
+        },
       );
     }) as unknown as typeof fetch;
 
@@ -82,30 +84,40 @@ describe('Storefront cart contract', () => {
   });
 
   it('adds, updates, and removes lines through cart line endpoints', async () => {
-    globalThis.fetch = mock(
-      async (request: RequestInfo | URL, init?: RequestInit) => {
-        const body = typeof init?.body === 'string' ? init.body : '{}';
+    globalThis.fetch = (async (
+      _request: RequestInfo | URL,
+      init?: RequestInit,
+    ) => {
+      const body = typeof init?.body === 'string' ? init.body : '{}';
 
-        if (body.includes('cartLinesAdd')) {
-          return new Response(
-            JSON.stringify({ data: { cartLinesAdd: buildCartResponse(2) } }),
-            { status: 200 },
-          );
-        }
-
-        if (body.includes('cartLinesUpdate')) {
-          return new Response(
-            JSON.stringify({ data: { cartLinesUpdate: buildCartResponse(3) } }),
-            { status: 200 },
-          );
-        }
-
+      if (body.includes('cartLinesAdd')) {
         return new Response(
-          JSON.stringify({ data: { cartLinesRemove: buildCartResponse(0) } }),
-          { status: 200 },
+          JSON.stringify({ data: { cartLinesAdd: buildCartResponse(2) } }),
+          {
+            status: 200,
+            headers: { 'content-type': 'application/json' },
+          },
         );
-      },
-    ) as unknown as typeof fetch;
+      }
+
+      if (body.includes('cartLinesUpdate')) {
+        return new Response(
+          JSON.stringify({ data: { cartLinesUpdate: buildCartResponse(3) } }),
+          {
+            status: 200,
+            headers: { 'content-type': 'application/json' },
+          },
+        );
+      }
+
+      return new Response(
+        JSON.stringify({ data: { cartLinesRemove: buildCartResponse(0) } }),
+        {
+          status: 200,
+          headers: { 'content-type': 'application/json' },
+        },
+      );
+    }) as unknown as typeof fetch;
 
     const addRes = await app.handle(
       new Request('http://localhost/api/storefront/cart/cart-1/lines', {

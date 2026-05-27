@@ -1,3 +1,4 @@
+import { createStorefrontApiClient } from '@shopify/storefront-api-client';
 import { z } from 'zod';
 import { getStorefrontConfig } from '../../env/index.js';
 import {
@@ -5,16 +6,28 @@ import {
   StorefrontValidationError,
 } from './errors.js';
 
-const graphqlResponseSchema = z.object({
+const storefrontClientResponseSchema = z.object({
   data: z.unknown().optional(),
   errors: z
-    .array(
-      z.object({
-        message: z.string(),
-      }),
-    )
+    .object({
+      networkStatusCode: z.number().optional(),
+      message: z.string().optional(),
+      graphQLErrors: z.array(z.object({ message: z.string() })).optional(),
+    })
     .optional(),
 });
+
+function getStorefrontClient() {
+  const config = getStorefrontConfig();
+
+  return createStorefrontApiClient({
+    storeDomain: config.storeDomain,
+    apiVersion: config.apiVersion,
+    publicAccessToken: config.accessToken,
+    clientName: 'sl88-api',
+    retries: 1,
+  });
+}
 
 export async function runStorefrontOperation<
   TSchema extends z.ZodTypeAny,
@@ -23,31 +36,12 @@ export async function runStorefrontOperation<
   variables?: Record<string, unknown>;
   schema: TSchema;
 }): Promise<z.infer<TSchema>> {
-  const config = getStorefrontConfig();
+  const client = getStorefrontClient();
+  const rawResponse = await client.request(args.query, {
+    variables: args.variables ?? {},
+  });
 
-  const response = await fetch(
-    `https://${config.storeDomain}/api/${config.apiVersion}/graphql.json`,
-    {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'x-shopify-storefront-access-token': config.accessToken,
-      },
-      body: JSON.stringify({
-        query: args.query,
-        variables: args.variables ?? {},
-      }),
-    },
-  );
-
-  if (!response.ok) {
-    throw new StorefrontUpstreamError('Storefront request failed', {
-      status: response.status,
-      detail: response.statusText,
-    });
-  }
-
-  const payload = graphqlResponseSchema.safeParse(await response.json());
+  const payload = storefrontClientResponseSchema.safeParse(rawResponse);
 
   if (!payload.success) {
     throw new StorefrontUpstreamError('Invalid Storefront response shape', {
@@ -56,14 +50,21 @@ export async function runStorefrontOperation<
     });
   }
 
-  if ((payload.data.errors?.length ?? 0) > 0) {
+  if (payload.data.errors != null) {
+    const networkStatusCode = payload.data.errors.networkStatusCode;
+    const graphQLErrors = payload.data.errors.graphQLErrors;
+    const joinedGraphQLErrors =
+      graphQLErrors?.map((error) => error.message).join('; ') ??
+      undefined;
+
     throw new StorefrontUpstreamError(
-      'Storefront responded with GraphQL errors',
+      'Storefront request returned errors',
       {
-        status: 502,
+        status: networkStatusCode ?? 502,
         detail:
-          payload.data.errors?.map((error) => error.message).join('; ') ??
-          'Unknown GraphQL error',
+          joinedGraphQLErrors ??
+          payload.data.errors.message ??
+          'Unknown Storefront API error',
       },
     );
   }

@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, mock } from 'bun:test';
+import { afterEach, beforeEach, describe, expect, it } from 'bun:test';
 import { app } from '../../src/app/index.js';
 
 const originalFetch = globalThis.fetch;
@@ -12,11 +12,10 @@ describe('Storefront checkout contract', () => {
 
   afterEach(() => {
     globalThis.fetch = originalFetch;
-    mock.restore();
   });
 
   it('returns hosted redirect checkout URL', async () => {
-    globalThis.fetch = mock(async () => {
+    globalThis.fetch = (async () => {
       return new Response(
         JSON.stringify({
           data: {
@@ -25,7 +24,10 @@ describe('Storefront checkout contract', () => {
             },
           },
         }),
-        { status: 200 },
+        {
+          status: 200,
+          headers: { 'content-type': 'application/json' },
+        },
       );
     }) as unknown as typeof fetch;
 
