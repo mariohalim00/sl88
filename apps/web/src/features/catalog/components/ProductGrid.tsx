@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { ProductCard } from './ProductCard';
+
 import type { StorefrontProductSummary } from '../types/storefront';
 
 type ProductGridProps = {

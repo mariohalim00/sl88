@@ -69,7 +69,9 @@ describe('Storefront cart contract', () => {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          lines: [{ merchandiseId: 'gid://shopify/ProductVariant/1', quantity: 1 }],
+          lines: [
+            { merchandiseId: 'gid://shopify/ProductVariant/1', quantity: 1 },
+          ],
         }),
       }),
     );
@@ -80,35 +82,39 @@ describe('Storefront cart contract', () => {
   });
 
   it('adds, updates, and removes lines through cart line endpoints', async () => {
-    globalThis.fetch = mock(async (request: RequestInfo | URL, init?: RequestInit) => {
-      const body = typeof init?.body === 'string' ? init.body : '{}';
+    globalThis.fetch = mock(
+      async (request: RequestInfo | URL, init?: RequestInit) => {
+        const body = typeof init?.body === 'string' ? init.body : '{}';
 
-      if (body.includes('cartLinesAdd')) {
+        if (body.includes('cartLinesAdd')) {
+          return new Response(
+            JSON.stringify({ data: { cartLinesAdd: buildCartResponse(2) } }),
+            { status: 200 },
+          );
+        }
+
+        if (body.includes('cartLinesUpdate')) {
+          return new Response(
+            JSON.stringify({ data: { cartLinesUpdate: buildCartResponse(3) } }),
+            { status: 200 },
+          );
+        }
+
         return new Response(
-          JSON.stringify({ data: { cartLinesAdd: buildCartResponse(2) } }),
+          JSON.stringify({ data: { cartLinesRemove: buildCartResponse(0) } }),
           { status: 200 },
         );
-      }
-
-      if (body.includes('cartLinesUpdate')) {
-        return new Response(
-          JSON.stringify({ data: { cartLinesUpdate: buildCartResponse(3) } }),
-          { status: 200 },
-        );
-      }
-
-      return new Response(
-        JSON.stringify({ data: { cartLinesRemove: buildCartResponse(0) } }),
-        { status: 200 },
-      );
-    }) as unknown as typeof fetch;
+      },
+    ) as unknown as typeof fetch;
 
     const addRes = await app.handle(
       new Request('http://localhost/api/storefront/cart/cart-1/lines', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          lines: [{ merchandiseId: 'gid://shopify/ProductVariant/1', quantity: 2 }],
+          lines: [
+            { merchandiseId: 'gid://shopify/ProductVariant/1', quantity: 2 },
+          ],
         }),
       }),
     );

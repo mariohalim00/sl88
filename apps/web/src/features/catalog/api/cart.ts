@@ -4,9 +4,10 @@ import {
 } from '../types/storefront';
 import { storefrontApi } from '@/treaty/client';
 
-function unwrapTreatyData<TData>(
-  response: { data: TData | null; error: { value: unknown } | null },
-): TData {
+function unwrapTreatyData<TData>(response: {
+  data: TData | null;
+  error: { value: unknown } | null;
+}): TData {
   if (response.error != null || response.data == null) {
     throw new Error('Storefront cart request failed');
   }
@@ -41,6 +42,8 @@ export async function removeCartLines(
   cartId: string,
   lineIds: string[],
 ): Promise<StorefrontCart> {
-  const response = await storefrontApi.cart({ cartId }).lines.delete({ lineIds });
+  const response = await storefrontApi
+    .cart({ cartId })
+    .lines.delete({ lineIds });
   return storefrontCartResponseSchema.parse(unwrapTreatyData(response)).cart;
 }

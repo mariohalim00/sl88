@@ -11,13 +11,8 @@ import { useCheckout } from '@/features/catalog/hooks/useCheckout';
  */
 export function StorefrontPage() {
   const { t } = useTranslation();
-  const {
-    searchTerm,
-    setSearchTerm,
-    isLoading,
-    isError,
-    filteredProducts,
-  } = useCatalog();
+  const { searchTerm, setSearchTerm, isLoading, isError, filteredProducts } =
+    useCatalog();
 
   const { summary, isMutating, updateLine, removeLine } = useCart();
   const { isRedirecting, startCheckout } = useCheckout();

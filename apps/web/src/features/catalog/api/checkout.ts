@@ -4,9 +4,10 @@ import {
 } from '../types/storefront';
 import { storefrontApi } from '@/treaty/client';
 
-function unwrapTreatyData<TData>(
-  response: { data: TData | null; error: { value: unknown } | null },
-): TData {
+function unwrapTreatyData<TData>(response: {
+  data: TData | null;
+  error: { value: unknown } | null;
+}): TData {
   if (response.error != null || response.data == null) {
     throw new Error('Storefront checkout request failed');
   }

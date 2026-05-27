@@ -70,16 +70,22 @@ export function CartSummary({
                     <button
                       type="button"
                       className="rounded border border-[#d4c4ac] px-2 py-0.5 text-xs text-[#1c1c15] disabled:opacity-60"
-                      onClick={() => onUpdateQuantity(item.lineId, item.quantity - 1)}
+                      onClick={() =>
+                        onUpdateQuantity(item.lineId, item.quantity - 1)
+                      }
                       disabled={isMutating}
                     >
                       -
                     </button>
-                    <span className="text-xs text-[#504533]">{item.quantity}</span>
+                    <span className="text-xs text-[#504533]">
+                      {item.quantity}
+                    </span>
                     <button
                       type="button"
                       className="rounded border border-[#d4c4ac] px-2 py-0.5 text-xs text-[#1c1c15] disabled:opacity-60"
-                      onClick={() => onUpdateQuantity(item.lineId, item.quantity + 1)}
+                      onClick={() =>
+                        onUpdateQuantity(item.lineId, item.quantity + 1)
+                      }
                       disabled={isMutating}
                     >
                       +

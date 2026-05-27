@@ -25,7 +25,9 @@ export function parseStorefrontConfig(env: {
 
   const errors = result.error.flatten().fieldErrors;
   const messages = Object.entries(errors)
-    .flatMap(([field, value]) => value?.map((message) => `${field}: ${message}`))
+    .flatMap(([field, value]) =>
+      value?.map((message) => `${field}: ${message}`),
+    )
     .join(', ');
 
   throw new Error(

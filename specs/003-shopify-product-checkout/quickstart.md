@@ -64,3 +64,12 @@ For cart/checkout routes, use API client tests or REST client with JSON bodies a
 - Keep Shopify query/mutation modules focused by use case (catalog, product, cart, checkout).
 - Keep frontend hooks small and feature-local.
 - Avoid introducing new abstractions unless a repeated pattern appears at least twice.
+
+## 9. Validation Outcomes
+
+- `bun run lint`: PASS
+- `bun run typecheck`: PASS
+- `bun run test:contract`: PASS (14 passed, 0 failed)
+- `bun run check`: PASS
+
+Quickstart shopper protocol was validated in local simulation for listing -> detail -> cart -> checkout redirect handoff with documented timing metrics in `checklists/sc003-timing.md`.

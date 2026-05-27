@@ -116,12 +116,12 @@
 
 **Purpose**: Final hardening across stories.
 
-- [ ] T040 [P] Document storefront env setup and flow behavior in `README.md`
-- [ ] T041 Refactor duplicated storefront mapper utilities into `apps/api/src/services/storefront/mappers.ts`
-- [ ] T042 [P] Add focused shared unit tests for storefront mapping and schema parsing in `apps/api/tests/contract/storefront.schemas.test.ts`
-- [ ] T043 Run full quickstart validation and record outcomes in `specs/003-shopify-product-checkout/quickstart.md`
-- [ ] T044 Execute timed end-to-end shopper protocol (minimum 10 runs) and record SC-003 pass/fail metrics in `specs/003-shopify-product-checkout/checklists/sc003-timing.md`
-- [ ] T045 Run `bun run check` and capture final quality-gate evidence in `specs/003-shopify-product-checkout/checklists/final-quality-gates.md`
+- [X] T040 [P] Document storefront env setup and flow behavior in `README.md`
+- [X] T041 Refactor duplicated storefront mapper utilities into `apps/api/src/services/storefront/mappers.ts`
+- [X] T042 [P] Add focused shared unit tests for storefront mapping and schema parsing in `apps/api/tests/contract/storefront.schemas.test.ts`
+- [X] T043 Run full quickstart validation and record outcomes in `specs/003-shopify-product-checkout/quickstart.md`
+- [X] T044 Execute timed end-to-end shopper protocol (minimum 10 runs) and record SC-003 pass/fail metrics in `specs/003-shopify-product-checkout/checklists/sc003-timing.md`
+- [X] T045 Run `bun run check` and capture final quality-gate evidence in `specs/003-shopify-product-checkout/checklists/final-quality-gates.md`
 
 ---
 

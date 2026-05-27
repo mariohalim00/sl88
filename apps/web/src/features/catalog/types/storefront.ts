@@ -95,7 +95,9 @@ export const storefrontCheckoutResponseSchema = z.object({
 export type StorefrontProductSummary = z.infer<
   typeof storefrontProductSummarySchema
 >;
-export type StorefrontProductDetail = z.infer<typeof storefrontProductDetailSchema>;
+export type StorefrontProductDetail = z.infer<
+  typeof storefrontProductDetailSchema
+>;
 export type StorefrontProductVariant = z.infer<
   typeof storefrontProductVariantSchema
 >;

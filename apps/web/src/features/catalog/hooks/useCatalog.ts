@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { listProducts } from '../api/catalog';
+
 import type { StorefrontProductSummary } from '../types/storefront';
 
 type CatalogStatus = 'idle' | 'loading' | 'ready' | 'error';

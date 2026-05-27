@@ -2,6 +2,7 @@ import { Heart } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { formatCurrency } from '@/lib/currency';
+
 import type { StorefrontProductSummary } from '../types/storefront';
 
 type ProductCardProps = {

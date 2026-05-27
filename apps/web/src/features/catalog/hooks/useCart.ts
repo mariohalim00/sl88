@@ -5,6 +5,7 @@ import {
   removeCartLines,
   updateCartLines,
 } from '../api/cart';
+
 import type { StorefrontCart } from '../types/storefront';
 
 const CART_STORAGE_KEY = 'sl88.storefront.cart';
@@ -40,7 +41,9 @@ function persistCart(cart: StorefrontCart | null) {
 }
 
 export function useCart() {
-  const [cart, setCart] = useState<StorefrontCart | null>(() => readPersistedCart());
+  const [cart, setCart] = useState<StorefrontCart | null>(() =>
+    readPersistedCart(),
+  );
   const [isMutating, setIsMutating] = useState(false);
 
   async function addVariant(merchandiseId: string, quantity = 1) {

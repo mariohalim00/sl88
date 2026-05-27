@@ -5,11 +5,12 @@ import { Link, useParams } from 'react-router-dom';
 import { ProductGallery } from '@/components/sections/product-details/ProductGallery';
 import { getProductDetail, listProducts } from '@/features/catalog/api/catalog';
 import { useCart } from '@/features/catalog/hooks/useCart';
+import { formatCurrency } from '@/lib/currency';
+
 import type {
   StorefrontProductDetail,
   StorefrontProductSummary,
 } from '@/features/catalog/types/storefront';
-import { formatCurrency } from '@/lib/currency';
 
 export function ProductDetailsPage() {
   const { t } = useTranslation();
@@ -19,7 +20,9 @@ export function ProductDetailsPage() {
   const [relatedProducts, setRelatedProducts] = useState<
     StorefrontProductSummary[]
   >([]);
-  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>(
+    'loading',
+  );
 
   useEffect(() => {
     let isActive = true;
@@ -93,7 +96,9 @@ export function ProductDetailsPage() {
   }
 
   const primaryVariant =
-    product.variants.find((item) => item.id === product.selectedOrFirstAvailableVariantId) ??
+    product.variants.find(
+      (item) => item.id === product.selectedOrFirstAvailableVariantId,
+    ) ??
     product.variants[0] ??
     null;
 
@@ -113,13 +118,13 @@ export function ProductDetailsPage() {
           </h1>
           <div className="mt-4 flex items-end gap-3">
             <p className="text-3xl font-semibold text-[#7a5900]">
-              {formatCurrency(
-                Number.parseFloat(primaryVariant?.price ?? '0'),
-              )}
+              {formatCurrency(Number.parseFloat(primaryVariant?.price ?? '0'))}
             </p>
             <p className="pb-1 text-sm text-[#504533] line-through">
               {formatCurrency(
-                Math.round(Number.parseFloat(primaryVariant?.price ?? '0') * 1.2),
+                Math.round(
+                  Number.parseFloat(primaryVariant?.price ?? '0') * 1.2,
+                ),
               )}
             </p>
           </div>
@@ -151,7 +156,11 @@ export function ProductDetailsPage() {
 
                 void addVariant(primaryVariant.id, 1);
               }}
-              disabled={primaryVariant == null || !primaryVariant.availableForSale || isMutating}
+              disabled={
+                primaryVariant == null ||
+                !primaryVariant.availableForSale ||
+                isMutating
+              }
               className="w-full rounded bg-[#f4b400] px-5 py-3 text-sm font-semibold tracking-[0.08em] text-[#1c1c15] uppercase transition hover:brightness-95"
             >
               {t('common.actions.addToBag')}
@@ -177,7 +186,9 @@ export function ProductDetailsPage() {
               <span className="font-semibold text-[#1c1c15]">
                 {t('productDetails.specs.stock')}
               </span>
-              <span>{primaryVariant?.availableForSale ? 'Available' : 'Sold out'}</span>
+              <span>
+                {primaryVariant?.availableForSale ? 'Available' : 'Sold out'}
+              </span>
               <span className="font-semibold text-[#1c1c15]">
                 {t('productDetails.specs.rating')}
               </span>

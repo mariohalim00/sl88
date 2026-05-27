@@ -1,5 +1,8 @@
 import { z } from 'zod';
-import { parseStorefrontConfig, type StorefrontConfig } from '../config/storefront.js';
+import {
+  parseStorefrontConfig,
+  type StorefrontConfig,
+} from '../config/storefront.js';
 
 const DEFAULT_DATABASE_URL =
   'postgresql://postgres:postgres@localhost:5432/sl88_dev';

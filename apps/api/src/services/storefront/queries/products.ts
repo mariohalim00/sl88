@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { runStorefrontOperation } from '../client.js';
-import { storefrontProductsResponseSchema } from '../schemas.js';
+import { mapProductsList } from '../mappers.js';
 
 const LIST_PRODUCTS_QUERY = /* GraphQL */ `
   query ListProducts($first: Int!, $after: String) {
@@ -86,17 +86,5 @@ export async function listStorefrontProducts(input?: {
     schema: listProductsRawSchema,
   });
 
-  return storefrontProductsResponseSchema.parse({
-    products: raw.products.edges.map((edge) => ({
-      id: edge.node.id,
-      handle: edge.node.handle,
-      title: edge.node.title,
-      featuredImageUrl: edge.node.featuredImage?.url ?? null,
-      priceMin: edge.node.priceRange.minVariantPrice.amount,
-      priceMax: edge.node.priceRange.maxVariantPrice.amount,
-      currencyCode: edge.node.priceRange.minVariantPrice.currencyCode,
-      availableForSale: edge.node.availableForSale,
-    })),
-    pageInfo: raw.products.pageInfo,
-  });
+  return mapProductsList(raw);
 }

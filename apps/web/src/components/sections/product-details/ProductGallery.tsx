@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+
 import type { StorefrontProductDetail } from '@/features/catalog/types/storefront';
 
 type ProductGalleryProps = {

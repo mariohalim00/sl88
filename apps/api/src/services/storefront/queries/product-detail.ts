@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { runStorefrontOperation } from '../client.js';
 import { StorefrontNotFoundError } from '../errors.js';
-import { storefrontProductDetailResponseSchema } from '../schemas.js';
+import { mapProductDetail } from '../mappers.js';
 
 const PRODUCT_DETAIL_QUERY = /* GraphQL */ `
   query ProductDetail($handle: String!) {
@@ -94,26 +94,6 @@ export async function getStorefrontProductDetail(handle: string) {
     throw new StorefrontNotFoundError(`No product found for handle: ${handle}`);
   }
 
-  return storefrontProductDetailResponseSchema.parse({
-    product: {
-      id: raw.product.id,
-      handle: raw.product.handle,
-      title: raw.product.title,
-      descriptionHtml: raw.product.descriptionHtml,
-      images: raw.product.images.nodes.map((image) => ({
-        url: image.url,
-        altText: image.altText ?? undefined,
-      })),
-      variants: raw.product.variants.nodes.map((variant) => ({
-        id: variant.id,
-        title: variant.title,
-        availableForSale: variant.availableForSale,
-        price: variant.price.amount,
-        currencyCode: variant.price.currencyCode,
-        selectedOptions: variant.selectedOptions,
-      })),
-      selectedOrFirstAvailableVariantId:
-        raw.product.selectedOrFirstAvailableVariant?.id ?? null,
-    },
-  });
+  const product = raw.product;
+  return mapProductDetail({ product });
 }

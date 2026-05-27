@@ -1,10 +1,7 @@
 import { z } from 'zod';
 import { runStorefrontOperation } from '../client.js';
 import { StorefrontValidationError } from '../errors.js';
-import {
-  storefrontCartResponseSchema,
-  type StorefrontCartResponse,
-} from '../schemas.js';
+import { mapCart } from '../mappers.js';
 
 const CART_SELECTION = /* GraphQL */ `
   id
@@ -174,43 +171,28 @@ const cartMutationRawSchema = z.object({
   cartLinesRemove: cartResponseRawSchema.optional(),
 });
 
-function mapCartResponse(raw: z.infer<typeof cartResponseRawSchema>): StorefrontCartResponse {
+function mapCartResponse(raw: z.infer<typeof cartResponseRawSchema>) {
   if (raw.userErrors.length > 0) {
-    throw new StorefrontValidationError('Storefront cart mutation returned user errors', {
-      detail: raw.userErrors.map((item) => item.message).join('; '),
-    });
+    throw new StorefrontValidationError(
+      'Storefront cart mutation returned user errors',
+      {
+        detail: raw.userErrors.map((item) => item.message).join('; '),
+      },
+    );
   }
 
   if (raw.cart == null) {
-    throw new StorefrontValidationError('Storefront cart mutation returned empty cart');
+    throw new StorefrontValidationError(
+      'Storefront cart mutation returned empty cart',
+    );
   }
 
-  return storefrontCartResponseSchema.parse({
-    cart: {
-      id: raw.cart.id,
-      checkoutUrl: raw.cart.checkoutUrl,
-      totalQuantity: raw.cart.totalQuantity,
-      cost: {
-        subtotalAmount: raw.cart.cost.subtotalAmount.amount,
-        totalAmount: raw.cart.cost.totalAmount.amount,
-        totalTaxAmount: raw.cart.cost.totalTaxAmount?.amount ?? null,
-        currencyCode: raw.cart.cost.totalAmount.currencyCode,
-      },
-      lines: raw.cart.lines.nodes.map((line) => ({
-        id: line.id,
-        quantity: line.quantity,
-        merchandiseId: line.merchandise.id,
-        title: `${line.merchandise.product.title} - ${line.merchandise.title}`,
-        imageUrl: line.merchandise.image?.url ?? null,
-        unitAmount: line.merchandise.price.amount,
-        lineAmount: line.cost.totalAmount.amount,
-        currencyCode: line.cost.totalAmount.currencyCode,
-      })),
-    },
-  });
+  return mapCart(raw.cart);
 }
 
-export async function createStorefrontCart(lines: Array<{ merchandiseId: string; quantity: number }>) {
+export async function createStorefrontCart(
+  lines: Array<{ merchandiseId: string; quantity: number }>,
+) {
   const raw = await runStorefrontOperation({
     query: CART_CREATE_MUTATION,
     variables: {
@@ -268,7 +250,10 @@ export async function updateStorefrontCartLines(
   return mapCartResponse(raw.cartLinesUpdate);
 }
 
-export async function removeStorefrontCartLines(cartId: string, lineIds: string[]) {
+export async function removeStorefrontCartLines(
+  cartId: string,
+  lineIds: string[],
+) {
   const raw = await runStorefrontOperation({
     query: CART_LINES_REMOVE_MUTATION,
     variables: {

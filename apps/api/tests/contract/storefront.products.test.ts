@@ -81,7 +81,9 @@ describe('Storefront products contract', () => {
     );
 
     expect(res.status).toBe(404);
-    expect(res.headers.get('content-type')).toContain('application/problem+json');
+    expect(res.headers.get('content-type')).toContain(
+      'application/problem+json',
+    );
 
     const payload = (await res.json()) as { title: string; status: number };
     expect(payload.status).toBe(404);

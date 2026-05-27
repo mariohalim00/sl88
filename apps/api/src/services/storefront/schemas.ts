@@ -106,7 +106,9 @@ export type StorefrontProductsResponse = z.infer<
 export type StorefrontProductDetailResponse = z.infer<
   typeof storefrontProductDetailResponseSchema
 >;
-export type StorefrontCartResponse = z.infer<typeof storefrontCartResponseSchema>;
+export type StorefrontCartResponse = z.infer<
+  typeof storefrontCartResponseSchema
+>;
 export type StorefrontCheckoutResponse = z.infer<
   typeof storefrontCheckoutResponseSchema
 >;
