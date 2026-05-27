@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { useCart } from '@/features/catalog/hooks/useCart';
 import {
   resolveCheckoutResult,
   type CheckoutResult,
@@ -32,6 +34,13 @@ export function CheckoutResultPage() {
   const [searchParams] = useSearchParams();
   const result = resolveCheckoutResult(searchParams.get('status'));
   const content = resultContent[result];
+  const { clearCart } = useCart();
+
+  useEffect(() => {
+    if (result === 'success') {
+      clearCart();
+    }
+  }, [clearCart, result]);
 
   return (
     <section className="mx-auto max-w-2xl rounded border border-[#d4c4ac] bg-white p-8 text-center">

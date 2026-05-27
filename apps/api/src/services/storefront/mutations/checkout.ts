@@ -22,7 +22,35 @@ const checkoutRawSchema = z.object({
     .nullable(),
 });
 
-export async function getStorefrontCheckoutUrl(cartId: string) {
+function buildCheckoutUrlWithReturnTargets(
+  checkoutUrl: string,
+  options?: {
+    successUrl?: string;
+    cancelUrl?: string;
+  },
+) {
+  const url = new URL(checkoutUrl);
+
+  if (options?.successUrl != null) {
+    // Support common Shopify redirect patterns after hosted checkout.
+    url.searchParams.set('return_to', options.successUrl);
+    url.searchParams.set('checkout[return_url]', options.successUrl);
+  }
+
+  if (options?.cancelUrl != null) {
+    url.searchParams.set('checkout[cancel_url]', options.cancelUrl);
+  }
+
+  return url.toString();
+}
+
+export async function getStorefrontCheckoutUrl(
+  cartId: string,
+  options?: {
+    successUrl?: string;
+    cancelUrl?: string;
+  },
+) {
   const raw = await runStorefrontOperation({
     query: CHECKOUT_URL_QUERY,
     variables: {
@@ -36,7 +64,7 @@ export async function getStorefrontCheckoutUrl(cartId: string) {
   }
 
   const parsed = storefrontCheckoutResponseSchema.safeParse({
-    checkoutUrl: raw.cart.checkoutUrl,
+    checkoutUrl: buildCheckoutUrlWithReturnTargets(raw.cart.checkoutUrl, options),
     mode: 'hosted_redirect',
   });
 

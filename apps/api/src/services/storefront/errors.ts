@@ -1,4 +1,5 @@
 import { createProblemDetail } from '@sl88/shared/schemas';
+import { logger } from '../../lib/logger.js';
 
 export class StorefrontUpstreamError extends Error {
   status: number;
@@ -37,6 +38,14 @@ export class StorefrontNotFoundError extends Error {
 
 export function toStorefrontProblem(error: unknown, instance: string) {
   if (error instanceof StorefrontNotFoundError) {
+    logger.warn(
+      {
+        err: error,
+        instance,
+      },
+      'storefront resource not found',
+    );
+
     return {
       status: 404,
       body: createProblemDetail(
@@ -52,6 +61,14 @@ export function toStorefrontProblem(error: unknown, instance: string) {
   }
 
   if (error instanceof StorefrontValidationError) {
+    logger.error(
+      {
+        err: error,
+        instance,
+      },
+      'storefront payload validation failed',
+    );
+
     return {
       status: 502,
       body: createProblemDetail(
@@ -67,6 +84,15 @@ export function toStorefrontProblem(error: unknown, instance: string) {
   }
 
   if (error instanceof StorefrontUpstreamError) {
+    logger.error(
+      {
+        err: error,
+        instance,
+        status: error.status,
+      },
+      'storefront upstream error',
+    );
+
     return {
       status: error.status,
       body: createProblemDetail(
@@ -80,6 +106,14 @@ export function toStorefrontProblem(error: unknown, instance: string) {
       ),
     };
   }
+
+  logger.error(
+    {
+      err: error,
+      instance,
+    },
+    'storefront unknown error',
+  );
 
   return {
     status: 500,

@@ -1,4 +1,5 @@
 import pino from 'pino';
+import pinoPretty from 'pino-pretty';
 
 const isProduction = process.env['NODE_ENV'] === 'production';
 
@@ -12,17 +13,15 @@ const loggerOptions: pino.LoggerOptions = {
   timestamp: pino.stdTimeFunctions.isoTime,
 };
 
-const transport =
+const prettyStream =
   isProduction
     ? undefined
-    : pino.transport({
-        target: 'pino-pretty',
-        options: {
-          colorize: true,
-          translateTime: 'SYS:standard',
-          ignore: 'pid,hostname',
-          singleLine: true,
-        },
+    : pinoPretty({
+        colorize: true,
+        translateTime: 'SYS:standard',
+        ignore: 'pid,hostname',
+        singleLine: true,
       });
 
-export const logger = pino(loggerOptions, transport);
+export const logger =
+  prettyStream == null ? pino(loggerOptions) : pino(loggerOptions, prettyStream);

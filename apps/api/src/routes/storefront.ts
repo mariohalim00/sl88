@@ -1,4 +1,5 @@
 import { Elysia, t } from 'elysia';
+import { logger } from '../lib/logger.js';
 import { toStorefrontProblem } from '../services/storefront/errors.js';
 import {
   addStorefrontCartLines,
@@ -190,8 +191,28 @@ export const storefrontRoute = new Elysia({ prefix: '/api/storefront' })
     '/cart/:cartId/checkout',
     async ({ params, request, set }) => {
       try {
-        return await getStorefrontCheckoutUrl(normalizeCartId(params.cartId));
+        const requestUrl = new URL(request.url);
+        const appBaseUrl =
+          request.headers.get('origin') ??
+          process.env['APP_PUBLIC_URL'] ??
+          requestUrl.origin;
+
+        const successUrl = new URL('/checkout/result?status=success', appBaseUrl);
+        const cancelUrl = new URL('/checkout/result?status=cancel', appBaseUrl);
+
+        return await getStorefrontCheckoutUrl(normalizeCartId(params.cartId), {
+          successUrl: successUrl.toString(),
+          cancelUrl: cancelUrl.toString(),
+        });
       } catch (error) {
+        logger.error(
+          {
+            err: error,
+            cartId: params.cartId,
+            path: new URL(request.url).pathname,
+          },
+          'checkout endpoint failed',
+        );
         const problem = toStorefrontProblem(
           error,
           new URL(request.url).pathname,

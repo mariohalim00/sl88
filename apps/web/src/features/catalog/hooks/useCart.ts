@@ -95,6 +95,10 @@ function commitCart(nextCart: StorefrontCart | null) {
   persistCart(normalizedCart);
 }
 
+function clearCartStore() {
+  commitCart(null);
+}
+
 function handleStorageChange(event: StorageEvent) {
   if (event.key !== CART_STORAGE_KEY) {
     return;
@@ -132,10 +136,21 @@ export function useCart() {
     updateCartStoreSnapshot({ isMutating: true });
     try {
       const currentCart = getCartStoreSnapshot().cart;
-      const nextCart =
-        currentCart == null
-          ? await createCart([{ merchandiseId, quantity }])
-          : await addCartLines(currentCart.id, [{ merchandiseId, quantity }]);
+
+      let nextCart: StorefrontCart;
+
+      if (currentCart == null) {
+        nextCart = await createCart([{ merchandiseId, quantity }]);
+      } else {
+        try {
+          nextCart = await addCartLines(currentCart.id, [
+            { merchandiseId, quantity },
+          ]);
+        } catch {
+          // If the server-side cart is gone, recover by creating a fresh cart.
+          nextCart = await createCart([{ merchandiseId, quantity }]);
+        }
+      }
 
       commitCart(nextCart);
     } finally {
@@ -158,6 +173,8 @@ export function useCart() {
           : await updateCartLines(currentCart.id, [{ id: lineId, quantity }]);
 
       commitCart(nextCart);
+    } catch {
+      clearCartStore();
     } finally {
       updateCartStoreSnapshot({ isMutating: false });
     }
@@ -174,6 +191,8 @@ export function useCart() {
     try {
       const nextCart = await removeCartLines(currentCart.id, [lineId]);
       commitCart(nextCart);
+    } catch {
+      clearCartStore();
     } finally {
       updateCartStoreSnapshot({ isMutating: false });
     }
@@ -207,5 +226,6 @@ export function useCart() {
     addVariant,
     updateLine,
     removeLine,
+    clearCart: clearCartStore,
   };
 }
