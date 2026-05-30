@@ -10,6 +10,8 @@ export const en = {
       prev: 'Prev',
       next: 'Next',
       addToBag: 'Add to Bag',
+      addToCart: 'Add to cart',
+      buyNow: 'Buy it now',
     },
     labels: {
       cartItems: 'Cart Items',
@@ -138,6 +140,13 @@ Sukses Lestari exists not only to provide household and automotive essentials, b
     loadingCatalog: 'Loading catalog...',
     loadError: 'Could not load catalog data.',
   },
+  notFound: {
+    title: 'Page not found',
+    description:
+      'The page you requested does not exist or may have moved. Return home or continue browsing the catalog.',
+    backHome: 'Back Home',
+    backCatalog: 'Browse Catalog',
+  },
   storeHeader: {
     badge: 'SL88 MVP Catalog',
     title: 'Find carpets that match your space',
@@ -173,6 +182,10 @@ Sukses Lestari exists not only to provide household and automotive essentials, b
     descriptionSuffix:
       'Crafted for comfort and visual clarity, this piece adds quiet luxury to everyday spaces.',
     inquireNow: 'Inquire Now',
+    decreaseQuantity: 'Decrease quantity',
+    increaseQuantity: 'Increase quantity',
+    openImageViewer: 'Open image viewer',
+    closeImageViewer: 'Close image viewer',
     specs: {
       origin: 'Origin:',
       originValue: 'Indonesia',

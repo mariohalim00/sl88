@@ -3,6 +3,7 @@ import { AppShell } from '@/components/layout/AppShell';
 import { AdminPage } from '@/pages/AdminPage';
 import { CheckoutResultPage } from '@/pages/CheckoutResultPage';
 import { LandingPage } from '@/pages/LandingPage';
+import { NotFoundPage } from '@/pages/NotFoundPage';
 import { ProductDetailsPage } from '@/pages/ProductDetailsPage';
 import { ShopAllPage } from '@/pages/ShopAllPage';
 
@@ -16,6 +17,7 @@ export function App() {
           <Route path="/products/:handle" element={<ProductDetailsPage />} />
           <Route path="/checkout/result" element={<CheckoutResultPage />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </AppShell>
     </BrowserRouter>

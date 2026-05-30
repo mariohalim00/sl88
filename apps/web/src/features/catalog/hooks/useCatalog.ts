@@ -11,8 +11,6 @@ type CatalogFilterOption = {
 };
 
 const DEFAULT_MAX_PRICE = 5_000_000;
-const materialKeywordPattern =
-  /(wool|silk|cotton|jute|linen|nylon|polyester|leather|rubber|pvc|bamboo|viscose|acrylic|hemp|microfiber|fur|cashmere|suede)/i;
 
 function normalizeFacetValue(value: string) {
   return value.trim().toLowerCase().replace(/[_-]+/g, ' ');

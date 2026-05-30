@@ -13,7 +13,13 @@ type CartDrawerProps = {
 
 export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const { t } = useTranslation();
-  const { summary, isMutating, updateLine, removeLine } = useCart();
+  const {
+    summary,
+    isMutating,
+    updateLine,
+    removeLine,
+    stageCartForCheckout,
+  } = useCart();
   const { isRedirecting, startCheckout } = useCheckout();
 
   useEffect(() => {
@@ -84,6 +90,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 return;
               }
 
+              stageCartForCheckout();
               await startCheckout(summary.cartId);
             }}
             onUpdateQuantity={updateLine}

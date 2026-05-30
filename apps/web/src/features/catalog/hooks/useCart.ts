@@ -12,6 +12,7 @@ import {
 } from '../types/storefront';
 
 const CART_STORAGE_KEY = 'sl88.storefront.cart';
+const CHECKOUT_BACKUP_STORAGE_KEY = 'sl88.storefront.checkout.backup';
 
 type CartStoreSnapshot = {
   cart: StorefrontCart | null;
@@ -110,6 +111,49 @@ function clearCartStore() {
   commitCart(null);
 }
 
+function stageCartForCheckout() {
+  const cart = getCartStoreSnapshot().cart;
+
+  if (typeof window !== 'undefined' && cart != null) {
+    window.sessionStorage.setItem(
+      CHECKOUT_BACKUP_STORAGE_KEY,
+      JSON.stringify(cart),
+    );
+  }
+
+  clearCartStore();
+}
+
+function restoreCheckoutCartBackup() {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  const raw = window.sessionStorage.getItem(CHECKOUT_BACKUP_STORAGE_KEY);
+
+  if (raw == null) {
+    return;
+  }
+
+  try {
+    const parsed = storefrontCartSchema.safeParse(JSON.parse(raw));
+
+    if (parsed.success) {
+      commitCart(parsed.data);
+    }
+  } finally {
+    window.sessionStorage.removeItem(CHECKOUT_BACKUP_STORAGE_KEY);
+  }
+}
+
+function clearCheckoutCartBackup() {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  window.sessionStorage.removeItem(CHECKOUT_BACKUP_STORAGE_KEY);
+}
+
 function handleStorageChange(event: StorageEvent) {
   if (event.key !== CART_STORAGE_KEY) {
     return;
@@ -164,6 +208,7 @@ export function useCart() {
       }
 
       commitCart(nextCart);
+      return nextCart;
     } finally {
       updateCartStoreSnapshot({ isMutating: false });
     }
@@ -238,5 +283,8 @@ export function useCart() {
     updateLine,
     removeLine,
     clearCart: clearCartStore,
+    stageCartForCheckout,
+    restoreCheckoutCartBackup,
+    clearCheckoutCartBackup,
   };
 }

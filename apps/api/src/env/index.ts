@@ -7,6 +7,7 @@ import { logger } from '../lib/logger.js';
 
 const DEFAULT_DATABASE_URL =
   'postgresql://postgres:postgres@localhost:5432/sl88_dev';
+const DEFAULT_APP_PUBLIC_URL = 'http://localhost:5173';
 
 const runtimeEnvSchema = z.object({
   API_PORT: z.coerce
@@ -61,9 +62,16 @@ export const getDatabaseUrl = (): string => {
 };
 
 export const getAppPublicUrl = (): string => {
-  const result = appPublicUrlSchema.safeParse(process.env['APP_PUBLIC_URL']);
+  const candidate = process.env['APP_PUBLIC_URL'] ?? DEFAULT_APP_PUBLIC_URL;
+  const result = appPublicUrlSchema.safeParse(candidate);
 
   if (result.success) {
+    if (process.env['APP_PUBLIC_URL'] == null) {
+      logger.warn(
+        `[env] APP_PUBLIC_URL is not set. Falling back to ${DEFAULT_APP_PUBLIC_URL} for hosted checkout returns.`,
+      );
+    }
+
     return result.data;
   }
 

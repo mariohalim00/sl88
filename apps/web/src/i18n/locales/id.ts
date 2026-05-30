@@ -10,6 +10,8 @@ export const id = {
       prev: 'Sebelumnya',
       next: 'Berikutnya',
       addToBag: 'Tambah ke Tas',
+      addToCart: 'Tambah ke keranjang',
+      buyNow: 'Beli sekarang',
     },
     labels: {
       cartItems: 'Item Keranjang',
@@ -138,6 +140,13 @@ Sukses Lestari hadir bukan hanya untuk menyediakan kebutuhan rumah tangga dan ot
     loadingCatalog: 'Memuat katalog...',
     loadError: 'Data katalog gagal dimuat.',
   },
+  notFound: {
+    title: 'Halaman tidak ditemukan',
+    description:
+      'Halaman yang Anda buka tidak tersedia atau sudah dipindahkan. Kembali ke beranda atau lanjutkan melihat katalog.',
+    backHome: 'Kembali ke Beranda',
+    backCatalog: 'Lihat Katalog',
+  },
   storeHeader: {
     badge: 'Katalog MVP SL88',
     title: 'Temukan karpet yang cocok untuk ruang Anda',
@@ -173,6 +182,10 @@ Sukses Lestari hadir bukan hanya untuk menyediakan kebutuhan rumah tangga dan ot
     descriptionSuffix:
       'Dibuat untuk kenyamanan dan kejernihan visual, produk ini menambah kemewahan tenang pada ruang sehari-hari.',
     inquireNow: 'Konsultasi Sekarang',
+    decreaseQuantity: 'Kurangi jumlah',
+    increaseQuantity: 'Tambah jumlah',
+    openImageViewer: 'Buka penampil gambar',
+    closeImageViewer: 'Tutup penampil gambar',
     specs: {
       origin: 'Asal:',
       originValue: 'Indonesia',
