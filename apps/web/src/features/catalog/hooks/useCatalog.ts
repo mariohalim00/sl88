@@ -5,22 +5,37 @@ import type { StorefrontProductSummary } from '../types/storefront';
 
 type CatalogStatus = 'idle' | 'loading' | 'ready' | 'error';
 
-const CATEGORY_ALIASES: Record<string, string[]> = {
-  kitchen: ['kitchen'],
-  welcomeMats: ['welcome mat', 'welcome mats', 'doormat', 'door mat'],
-  car: ['car', 'automotive', 'vehicle'],
-  office: ['office', 'workspace'],
-  outdoor: ['outdoor', 'patio', 'garden'],
-};
-
-const MATERIAL_ALIASES: Record<string, string[]> = {
-  wool: ['wool'],
-  silk: ['silk'],
-  cotton: ['cotton'],
-  jute: ['jute'],
+type CatalogFilterOption = {
+  value: string;
+  label: string;
 };
 
 const DEFAULT_MAX_PRICE = 5_000_000;
+const materialKeywordPattern =
+  /(wool|silk|cotton|jute|linen|nylon|polyester|leather|rubber|pvc|bamboo|viscose|acrylic|hemp|microfiber|fur|cashmere|suede)/i;
+
+function normalizeFacetValue(value: string) {
+  return value.trim().toLowerCase().replace(/[_-]+/g, ' ');
+}
+
+function toFacetLabel(value: string) {
+  return value
+    .split(' ')
+    .filter(Boolean)
+    .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
+    .join(' ');
+}
+
+function sortFacetValues(values: string[]) {
+  return [...values].sort((left, right) => left.localeCompare(right));
+}
+
+function buildFacetOptions(values: string[]) {
+  return values.map((value) => ({
+    value,
+    label: toFacetLabel(value),
+  }));
+}
 
 function getSearchableText(product: StorefrontProductSummary) {
   return [
@@ -33,22 +48,30 @@ function getSearchableText(product: StorefrontProductSummary) {
     .toLowerCase();
 }
 
-function matchesFilter(
+function matchesCategoryFilter(
   product: StorefrontProductSummary,
   filters: string[],
-  aliases: Record<string, string[]>,
 ) {
   if (filters.length === 0) {
     return true;
   }
 
-  const searchableText = getSearchableText(product);
+  const normalizedProductType = normalizeFacetValue(product.productType);
 
-  return filters.some((filterValue) => {
-    const candidates = aliases[filterValue] ?? [filterValue];
+  return filters.includes(normalizedProductType);
+}
 
-    return candidates.some((candidate) => searchableText.includes(candidate));
-  });
+function matchesMaterialFilter(
+  product: StorefrontProductSummary,
+  filters: string[],
+) {
+  if (filters.length === 0) {
+    return true;
+  }
+
+  const normalizedTags = product.tags.map(normalizeFacetValue);
+
+  return filters.some((value) => normalizedTags.includes(value));
 }
 
 export function useCatalog() {
@@ -107,6 +130,56 @@ export function useCatalog() {
     setMaxPrice((current) => Math.min(current, priceUpperBound));
   }, [priceUpperBound]);
 
+  const categoryOptions = useMemo<CatalogFilterOption[]>(() => {
+    const uniqueCategories = new Set<string>();
+
+    products.forEach((product) => {
+      const normalizedProductType = normalizeFacetValue(product.productType);
+
+      if (normalizedProductType.length > 0) {
+        uniqueCategories.add(normalizedProductType);
+      }
+    });
+
+    return buildFacetOptions(sortFacetValues(Array.from(uniqueCategories)));
+  }, [products]);
+
+  const materialOptions = useMemo<CatalogFilterOption[]>(() => {
+    const uniqueMaterials = new Set<string>();
+
+    products.forEach((product) => {
+      product.tags.forEach((tag) => {
+        const normalizedTag = normalizeFacetValue(tag);
+
+        if (
+          normalizedTag.length > 0 &&
+          normalizedTag.length <= 30 &&
+          materialKeywordPattern.test(normalizedTag)
+        ) {
+          uniqueMaterials.add(normalizedTag);
+        }
+      });
+    });
+
+    return buildFacetOptions(sortFacetValues(Array.from(uniqueMaterials)));
+  }, [products]);
+
+  useEffect(() => {
+    const categoryValues = new Set(categoryOptions.map((option) => option.value));
+
+    setSelectedCategories((current) =>
+      current.filter((value) => categoryValues.has(value)),
+    );
+  }, [categoryOptions]);
+
+  useEffect(() => {
+    const materialValues = new Set(materialOptions.map((option) => option.value));
+
+    setSelectedMaterials((current) =>
+      current.filter((value) => materialValues.has(value)),
+    );
+  }, [materialOptions]);
+
   function toggleSelectedValue(
     value: string,
     setCurrent: (next: string[] | ((previous: string[]) => string[])) => void,
@@ -124,16 +197,8 @@ export function useCatalog() {
     return products.filter((product) => {
       const matchesSearch =
         normalized.length === 0 || getSearchableText(product).includes(normalized);
-      const matchesCategory = matchesFilter(
-        product,
-        selectedCategories,
-        CATEGORY_ALIASES,
-      );
-      const matchesMaterial = matchesFilter(
-        product,
-        selectedMaterials,
-        MATERIAL_ALIASES,
-      );
+      const matchesCategory = matchesCategoryFilter(product, selectedCategories);
+      const matchesMaterial = matchesMaterialFilter(product, selectedMaterials);
       const productPrice = Number.parseFloat(product.priceMin);
       const matchesPrice =
         !Number.isFinite(productPrice) || productPrice <= maxPrice;
@@ -150,6 +215,8 @@ export function useCatalog() {
   return {
     searchTerm,
     setSearchTerm,
+    categoryOptions,
+    materialOptions,
     selectedCategories,
     selectedMaterials,
     maxPrice,

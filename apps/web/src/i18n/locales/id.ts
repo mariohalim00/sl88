@@ -26,6 +26,7 @@ export const id = {
       openMenu: 'Buka menu',
       closeMenu: 'Tutup menu',
       bag: 'Tas',
+      closeCart: 'Tutup keranjang',
       favorites: 'Favorit',
       account: 'Akun',
     },

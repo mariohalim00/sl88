@@ -26,6 +26,7 @@ export const en = {
       openMenu: 'Open menu',
       closeMenu: 'Close menu',
       bag: 'Bag',
+      closeCart: 'Close cart',
       favorites: 'Favorites',
       account: 'Account',
     },
