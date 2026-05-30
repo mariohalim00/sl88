@@ -4,22 +4,18 @@ import { ProductGrid } from '@/features/catalog/components/ProductGrid';
 import { StoreHeader } from '@/features/catalog/components/StoreHeader';
 import { useCart } from '@/features/catalog/hooks/useCart';
 import { useCatalog } from '@/features/catalog/hooks/useCatalog';
+import { useCheckout } from '@/features/catalog/hooks/useCheckout';
 
 /**
  * @deprecated This is part of the original scaffolding, will be deleted soon
  */
 export function StorefrontPage() {
   const { t } = useTranslation();
-  const {
-    searchTerm,
-    setSearchTerm,
-    isLoading,
-    isError,
-    products,
-    filteredProducts,
-  } = useCatalog();
+  const { searchTerm, setSearchTerm, isLoading, isError, filteredProducts } =
+    useCatalog();
 
-  const { summary, addToCart, removeFromCart } = useCart(products);
+  const { summary, isMutating, addVariant, updateLine, removeLine } = useCart();
+  const { isRedirecting, startCheckout } = useCheckout();
 
   if (isLoading) {
     return (
@@ -50,11 +46,31 @@ export function StorefrontPage() {
         />
 
         <section className="grid gap-6 lg:grid-cols-[1fr_320px]">
-          <ProductGrid products={filteredProducts} onAddToCart={addToCart} />
+          <ProductGrid
+            products={filteredProducts}
+            onAddToCart={(product) => {
+              if (product.selectedOrFirstAvailableVariantId == null) {
+                return;
+              }
+
+              void addVariant(product.selectedOrFirstAvailableVariantId, 1);
+            }}
+          />
           <CartSummary
             items={summary.lineItems}
             subtotal={summary.subtotal}
-            onRemoveItem={removeFromCart}
+            isMutating={isMutating}
+            isCheckingOut={isRedirecting}
+            canCheckout={summary.cartId != null && summary.lineItems.length > 0}
+            onCheckout={async () => {
+              if (summary.cartId == null) {
+                return;
+              }
+
+              await startCheckout(summary.cartId);
+            }}
+            onUpdateQuantity={updateLine}
+            onRemoveItem={removeLine}
           />
         </section>
       </div>

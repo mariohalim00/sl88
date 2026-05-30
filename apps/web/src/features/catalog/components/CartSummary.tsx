@@ -4,10 +4,11 @@ import { formatCurrency } from '@/lib/currency';
 
 type CatalogProduct = {
   id: string;
-  name: string;
+  title: string;
 };
 
 type CartLineItem = {
+  lineId: string;
   product: CatalogProduct;
   quantity: number;
   subtotal: number;
@@ -16,12 +17,22 @@ type CartLineItem = {
 type CartSummaryProps = {
   items: CartLineItem[];
   subtotal: number;
-  onRemoveItem: (productId: string) => void;
+  isMutating: boolean;
+  isCheckingOut: boolean;
+  canCheckout: boolean;
+  onCheckout: () => Promise<void>;
+  onUpdateQuantity: (lineId: string, quantity: number) => Promise<void>;
+  onRemoveItem: (lineId: string) => Promise<void>;
 };
 
 export function CartSummary({
   items,
   subtotal,
+  isMutating,
+  isCheckingOut,
+  canCheckout,
+  onCheckout,
+  onUpdateQuantity,
   onRemoveItem,
 }: CartSummaryProps) {
   const { t } = useTranslation();
@@ -42,12 +53,12 @@ export function CartSummary({
           {items.map((item) => {
             return (
               <li
-                key={item.product.id}
+                key={item.lineId}
                 className="flex items-start justify-between gap-2 rounded border border-[#e5e2d8] p-3"
               >
                 <div>
                   <p className="text-sm font-medium text-[#1c1c15]">
-                    {item.product.name}
+                    {item.product.title}
                   </p>
                   <p className="text-xs text-[#504533]">
                     {t('cartSummary.qtyLine', {
@@ -55,13 +66,39 @@ export function CartSummary({
                       amount: formatCurrency(item.subtotal),
                     })}
                   </p>
+                  <div className="mt-2 flex items-center gap-2">
+                    <button
+                      type="button"
+                      className="rounded border border-[#d4c4ac] px-2 py-0.5 text-xs text-[#1c1c15] disabled:opacity-60"
+                      onClick={() =>
+                        onUpdateQuantity(item.lineId, item.quantity - 1)
+                      }
+                      disabled={isMutating}
+                    >
+                      -
+                    </button>
+                    <span className="text-xs text-[#504533]">
+                      {item.quantity}
+                    </span>
+                    <button
+                      type="button"
+                      className="rounded border border-[#d4c4ac] px-2 py-0.5 text-xs text-[#1c1c15] disabled:opacity-60"
+                      onClick={() =>
+                        onUpdateQuantity(item.lineId, item.quantity + 1)
+                      }
+                      disabled={isMutating}
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
                 <button
                   type="button"
                   className="rounded border border-[#d4c4ac] p-1.5 text-[#504533] transition hover:bg-[#f7f4e9]"
-                  onClick={() => onRemoveItem(item.product.id)}
+                  onClick={() => onRemoveItem(item.lineId)}
+                  disabled={isMutating}
                   aria-label={t('cartSummary.removeAria', {
-                    name: item.product.name,
+                    name: item.product.title,
                   })}
                 >
                   <Trash2 className="size-4" />
@@ -78,6 +115,21 @@ export function CartSummary({
           {formatCurrency(subtotal)}
         </span>
       </div>
+
+      <button
+        type="button"
+        className="mt-4 w-full rounded bg-[#1c1c15] px-4 py-2 text-sm font-semibold tracking-[0.08em] text-white uppercase disabled:opacity-60"
+        onClick={() => {
+          void onCheckout();
+        }}
+        disabled={!canCheckout || isCheckingOut || isMutating}
+      >
+        {isCheckingOut ? 'Redirecting...' : 'Checkout'}
+      </button>
+
+      {isMutating ? (
+        <p className="mt-2 text-xs text-[#504533]">Updating cart...</p>
+      ) : null}
     </section>
   );
 }

@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
 
-import type { MockProduct } from '@/features/catalog/model/schemas';
+import type { StorefrontProductDetail } from '@/features/catalog/types/storefront';
 
 type ProductGalleryProps = {
-  product: MockProduct;
+  product: StorefrontProductDetail;
 };
 
 export function ProductGallery({ product }: ProductGalleryProps) {
@@ -14,12 +14,12 @@ export function ProductGallery({ product }: ProductGalleryProps) {
       <div className="aspect-4/5 overflow-hidden rounded border border-[#d4c4ac] bg-[#f1eee3]">
         <img
           className="h-full w-full object-cover"
-          src={product.imageUrl}
-          alt={product.name}
+          src={product.images[0]?.url ?? '/branding/logo.png'}
+          alt={product.title}
         />
       </div>
       <div className="grid grid-cols-4 gap-2">
-        {product.gallery.map((image, index) => (
+        {product.images.map((image, index) => (
           <div
             key={`${product.id}-${index}`}
             className={[
@@ -29,9 +29,9 @@ export function ProductGallery({ product }: ProductGalleryProps) {
           >
             <img
               className="h-full w-full object-cover"
-              src={image}
+              src={image.url}
               alt={t('productDetails.galleryView', {
-                name: product.name,
+                name: product.title,
                 index: index + 1,
               })}
             />

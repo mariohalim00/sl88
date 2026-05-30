@@ -25,8 +25,17 @@ bun install
 
 ```sh
 cp .env.example .env
-# Edit DATABASE_URL / API_PORT if needed
+# Edit DATABASE_URL / API_PORT / APP_PUBLIC_URL / SHOPIFY_* values if needed
 ```
+
+Required storefront proxy variables:
+
+- `APP_PUBLIC_URL` (example: `http://localhost:5173`)
+- `SHOPIFY_STORE_DOMAIN` (example: `your-shop.myshopify.com`)
+- `SHOPIFY_STOREFRONT_API_VERSION` (example: `2026-01`)
+- `SHOPIFY_STOREFRONT_ACCESS_TOKEN`
+
+Storefront credentials must remain server-side only and are never exposed to browser code.
 
 ### 4. Start Postgres
 
@@ -103,3 +112,22 @@ sl88/
 | `GET`  | `/api/health`             | —      | Liveness check                   |
 | `GET`  | `/api/scaffold/ping`      | —      | Echo demo with optional `?name=` |
 | `GET`  | `/api/scaffold/protected` | Bearer | Auth-guarded demo route          |
+
+## API endpoints (storefront)
+
+| Method   | Path                                    | Description                                  |
+| -------- | --------------------------------------- | -------------------------------------------- |
+| `GET`    | `/api/storefront/products`              | List storefront products                     |
+| `GET`    | `/api/storefront/products/:handle`      | Get storefront product detail by handle      |
+| `POST`   | `/api/storefront/cart`                  | Create cart with initial lines               |
+| `POST`   | `/api/storefront/cart/:cartId/lines`    | Add cart lines                               |
+| `PATCH`  | `/api/storefront/cart/:cartId/lines`    | Update cart line quantities                  |
+| `DELETE` | `/api/storefront/cart/:cartId/lines`    | Remove cart lines                            |
+| `POST`   | `/api/storefront/cart/:cartId/checkout` | Resolve Shopify hosted checkout redirect URL |
+
+## Shopper flow behavior
+
+- Listing (`/shop/all`) and product detail (`/products/:handle`) consume live storefront payloads through the API proxy.
+- Cart operations are server-synchronized and persisted in browser local storage for continuity between pages.
+- Checkout always redirects to Shopify-hosted checkout.
+- App return screen (`/checkout/result?status=success|cancel|failed`) handles post-checkout outcomes for guest shoppers.

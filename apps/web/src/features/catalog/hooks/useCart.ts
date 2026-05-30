@@ -1,73 +1,242 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useSyncExternalStore } from 'react';
+import {
+  addCartLines,
+  createCart,
+  removeCartLines,
+  updateCartLines,
+} from '../api/cart';
 
-import type { CartItem, Product } from '../types';
+import {
+  storefrontCartSchema,
+  type StorefrontCart,
+} from '../types/storefront';
 
-function getDefaultCart(): CartItem[] {
-  return [];
-}
+const CART_STORAGE_KEY = 'sl88.storefront.cart';
 
-export function useCart(products: Product[]) {
-  const [items, setItems] = useState<CartItem[]>(() => getDefaultCart());
+type CartStoreSnapshot = {
+  cart: StorefrontCart | null;
+  isMutating: boolean;
+};
 
-  const productById = useMemo(() => {
-    return new Map(products.map((product) => [product.id, product]));
-  }, [products]);
+const cartStoreListeners = new Set<() => void>();
 
-  function addToCart(productId: Product['id']) {
-    setItems((previous) => {
-      const existing = previous.find((item) => item.productId === productId);
-      if (existing == null) {
-        return [...previous, { productId, quantity: 1 }];
-      }
+let hasInitializedCartStore = false;
+let cartStoreSnapshot: CartStoreSnapshot = {
+  cart: null,
+  isMutating: false,
+};
 
-      return previous.map((item) => {
-        if (item.productId !== productId) {
-          return item;
-        }
-
-        return { ...item, quantity: item.quantity + 1 };
-      });
-    });
+function readPersistedCart(): StorefrontCart | null {
+  if (typeof window === 'undefined') {
+    return null;
   }
 
-  function removeFromCart(productId: Product['id']) {
-    setItems((previous) =>
-      previous.filter((item) => item.productId !== productId),
-    );
+  const raw = window.localStorage.getItem(CART_STORAGE_KEY);
+  if (raw == null) {
+    return null;
+  }
+
+  try {
+    const result = storefrontCartSchema.safeParse(JSON.parse(raw));
+
+    if (result.success) {
+      return result.data;
+    }
+  } catch {
+    window.localStorage.removeItem(CART_STORAGE_KEY);
+    return null;
+  }
+
+  window.localStorage.removeItem(CART_STORAGE_KEY);
+  return null;
+}
+
+function persistCart(cart: StorefrontCart | null) {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  if (cart == null) {
+    window.localStorage.removeItem(CART_STORAGE_KEY);
+    return;
+  }
+
+  window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+}
+
+function subscribeToCartStore(listener: () => void) {
+  cartStoreListeners.add(listener);
+
+  return () => {
+    cartStoreListeners.delete(listener);
+  };
+}
+
+function getCartStoreSnapshot() {
+  return cartStoreSnapshot;
+}
+
+function emitCartStoreChange() {
+  cartStoreListeners.forEach((listener) => {
+    listener();
+  });
+}
+
+function updateCartStoreSnapshot(nextSnapshot: Partial<CartStoreSnapshot>) {
+  cartStoreSnapshot = {
+    ...cartStoreSnapshot,
+    ...nextSnapshot,
+  };
+
+  emitCartStoreChange();
+}
+
+function normalizeCart(cart: StorefrontCart | null) {
+  if (cart == null || cart.lines.length === 0) {
+    return null;
+  }
+
+  return cart;
+}
+
+function commitCart(nextCart: StorefrontCart | null) {
+  const normalizedCart = normalizeCart(nextCart);
+
+  updateCartStoreSnapshot({ cart: normalizedCart });
+  persistCart(normalizedCart);
+}
+
+function clearCartStore() {
+  commitCart(null);
+}
+
+function handleStorageChange(event: StorageEvent) {
+  if (event.key !== CART_STORAGE_KEY) {
+    return;
+  }
+
+  updateCartStoreSnapshot({ cart: readPersistedCart() });
+}
+
+function initializeCartStore() {
+  if (hasInitializedCartStore) {
+    return;
+  }
+
+  hasInitializedCartStore = true;
+  cartStoreSnapshot = {
+    cart: readPersistedCart(),
+    isMutating: false,
+  };
+
+  if (typeof window !== 'undefined') {
+    window.addEventListener('storage', handleStorageChange);
+  }
+}
+
+export function useCart() {
+  initializeCartStore();
+
+  const { cart, isMutating } = useSyncExternalStore(
+    subscribeToCartStore,
+    getCartStoreSnapshot,
+    getCartStoreSnapshot,
+  );
+
+  async function addVariant(merchandiseId: string, quantity = 1) {
+    updateCartStoreSnapshot({ isMutating: true });
+    try {
+      const currentCart = getCartStoreSnapshot().cart;
+
+      let nextCart: StorefrontCart;
+
+      if (currentCart == null) {
+        nextCart = await createCart([{ merchandiseId, quantity }]);
+      } else {
+        try {
+          nextCart = await addCartLines(currentCart.id, [
+            { merchandiseId, quantity },
+          ]);
+        } catch {
+          // If the server-side cart is gone, recover by creating a fresh cart.
+          nextCart = await createCart([{ merchandiseId, quantity }]);
+        }
+      }
+
+      commitCart(nextCart);
+    } finally {
+      updateCartStoreSnapshot({ isMutating: false });
+    }
+  }
+
+  async function updateLine(lineId: string, quantity: number) {
+    const currentCart = getCartStoreSnapshot().cart;
+
+    if (currentCart == null) {
+      return;
+    }
+
+    updateCartStoreSnapshot({ isMutating: true });
+    try {
+      const nextCart =
+        quantity <= 0
+          ? await removeCartLines(currentCart.id, [lineId])
+          : await updateCartLines(currentCart.id, [{ id: lineId, quantity }]);
+
+      commitCart(nextCart);
+    } catch {
+      clearCartStore();
+    } finally {
+      updateCartStoreSnapshot({ isMutating: false });
+    }
+  }
+
+  async function removeLine(lineId: string) {
+    const currentCart = getCartStoreSnapshot().cart;
+
+    if (currentCart == null) {
+      return;
+    }
+
+    updateCartStoreSnapshot({ isMutating: true });
+    try {
+      const nextCart = await removeCartLines(currentCart.id, [lineId]);
+      commitCart(nextCart);
+    } catch {
+      clearCartStore();
+    } finally {
+      updateCartStoreSnapshot({ isMutating: false });
+    }
   }
 
   const summary = useMemo(() => {
-    const lineItems = items.flatMap((item) => {
-      const product = productById.get(item.productId);
-      if (product == null) {
-        return [];
-      }
+    const lineItems = (cart?.lines ?? []).map((line) => ({
+      lineId: line.id,
+      quantity: line.quantity,
+      subtotal: Number.parseFloat(line.lineAmount),
+      product: {
+        id: line.merchandiseId,
+        title: line.title,
+      },
+    }));
 
-      return [
-        {
-          product,
-          quantity: item.quantity,
-          subtotal: product.price * item.quantity,
-        },
-      ];
-    });
-
-    const totalItems = lineItems.reduce(
-      (count, item) => count + item.quantity,
-      0,
-    );
-    const subtotal = lineItems.reduce((sum, item) => sum + item.subtotal, 0);
+    const subtotal = Number.parseFloat(cart?.cost.subtotalAmount ?? '0');
 
     return {
       lineItems,
-      totalItems,
+      totalItems: cart?.totalQuantity ?? 0,
       subtotal,
+      cartId: cart?.id ?? null,
     };
-  }, [items, productById]);
+  }, [cart]);
 
   return {
+    cart,
     summary,
-    addToCart,
-    removeFromCart,
+    isMutating,
+    addVariant,
+    updateLine,
+    removeLine,
+    clearCart: clearCartStore,
   };
 }

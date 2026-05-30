@@ -93,6 +93,7 @@
 - **FR-007**: For advanced client state, system MUST use TanStack-based patterns and MUST NOT introduce Redux without an approved exception.
 - **FR-008**: UI implementation MUST prefer existing shadcn primitives and document any justified deviations.
 - **FR-009**: When a design specification exists, delivered UI MUST be faithful to it, with any intentional differences explicitly documented.
+- **FR-010**: Features that implement Shopify custom storefront product-page or cart behavior through direct Storefront GraphQL operations MUST follow `shopify-storefront-graphql` skill guidance and define typed, schema-validated operation boundaries.
 
 _Example of marking unclear requirements:_
 

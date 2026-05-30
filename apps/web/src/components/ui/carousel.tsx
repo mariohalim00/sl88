@@ -204,7 +204,9 @@ function CarouselPrevious({
       onClick={scrollPrev}
       {...props}
     >
-      {hasCustomChildren ? children : (
+      {hasCustomChildren ? (
+        children
+      ) : (
         <>
           <ArrowLeft />
           <span className="sr-only">{t('common.actions.prev')}</span>
@@ -241,7 +243,9 @@ function CarouselNext({
       onClick={scrollNext}
       {...props}
     >
-      {hasCustomChildren ? children : (
+      {hasCustomChildren ? (
+        children
+      ) : (
         <>
           <ArrowRight />
           <span className="sr-only">{t('common.actions.next')}</span>

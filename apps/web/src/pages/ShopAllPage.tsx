@@ -1,11 +1,10 @@
 import { useTranslation } from 'react-i18next';
-import { MockModeNotice } from '@/components/sections/shop-all/MockModeNotice';
 import { ShopAllFilterBar } from '@/components/sections/shop-all/ShopAllFilterBar';
 import { CartSummary } from '@/features/catalog/components/CartSummary';
 import { ProductGrid } from '@/features/catalog/components/ProductGrid';
-import { useCartState } from '@/features/catalog/hooks/useCartState';
-import { useCatalogViewState } from '@/features/catalog/hooks/useCatalogViewState';
-import { getCatalogProducts } from '@/features/catalog/model/selectors';
+import { useCart } from '@/features/catalog/hooks/useCart';
+import { useCatalog } from '@/features/catalog/hooks/useCatalog';
+import { useCheckout } from '@/features/catalog/hooks/useCheckout';
 import { formatCurrency } from '@/lib/currency';
 
 const categories = [
@@ -25,15 +24,23 @@ const materials = [
 
 export function ShopAllPage() {
   const { t } = useTranslation();
-  const products = getCatalogProducts();
-  const { searchTerm, setSearchTerm, filteredProducts } =
-    useCatalogViewState(products);
-  const { summary, add, remove } = useCartState(products);
+  const {
+    searchTerm,
+    setSearchTerm,
+    selectedCategories,
+    selectedMaterials,
+    maxPrice,
+    priceUpperBound,
+    toggleCategory,
+    toggleMaterial,
+    setMaxPrice,
+    filteredProducts,
+  } = useCatalog();
+  const { summary, isMutating, addVariant, updateLine, removeLine } = useCart();
+  const { isRedirecting, startCheckout } = useCheckout();
 
   return (
     <div className="space-y-6">
-      <MockModeNotice />
-
       <div className="flex gap-8">
         <aside className="sticky top-28 hidden h-fit w-64 shrink-0 flex-col gap-8 self-start border-r border-[#d4c4ac]/40 pr-6 lg:flex">
           <section className="space-y-4">
@@ -48,6 +55,10 @@ export function ShopAllPage() {
                 >
                   <input
                     type="checkbox"
+                    checked={selectedCategories.includes(category.value)}
+                    onChange={() => {
+                      toggleCategory(category.value);
+                    }}
                     className="h-4 w-4 rounded border-[#d4c4ac] accent-[#f4b400]"
                   />
                   {t(category.key)}
@@ -63,12 +74,16 @@ export function ShopAllPage() {
             <input
               type="range"
               min={0}
-              max={5000000}
+              max={priceUpperBound}
+              value={maxPrice}
+              onChange={(event) => {
+                setMaxPrice(Number.parseInt(event.currentTarget.value, 10));
+              }}
               className="w-full accent-[#f4b400]"
             />
             <div className="flex justify-between text-xs text-[#504533]">
               <span>{formatCurrency(0)}</span>
-              <span>{formatCurrency(5000000)}+</span>
+              <span>{formatCurrency(maxPrice)}</span>
             </div>
           </section>
 
@@ -81,9 +96,13 @@ export function ShopAllPage() {
                 <button
                   key={material.value}
                   type="button"
+                  onClick={() => {
+                    toggleMaterial(material.value);
+                  }}
+                  aria-pressed={selectedMaterials.includes(material.value)}
                   className={[
                     'rounded border px-3 py-1.5 text-xs font-semibold tracking-[0.08em] uppercase',
-                    material.value === 'silk'
+                    selectedMaterials.includes(material.value)
                       ? 'border-[#f4b400] bg-[#f4b400]/10 text-[#7a5900]'
                       : 'border-[#d4c4ac] text-[#504533]',
                   ].join(' ')}
@@ -107,7 +126,16 @@ export function ShopAllPage() {
             />
           </header>
 
-          <ProductGrid products={filteredProducts} onAddToCart={add} />
+          <ProductGrid
+            products={filteredProducts}
+            onAddToCart={(product) => {
+              if (product.selectedOrFirstAvailableVariantId == null) {
+                return;
+              }
+
+              void addVariant(product.selectedOrFirstAvailableVariantId, 1);
+            }}
+          />
 
           <button
             type="button"
@@ -119,7 +147,18 @@ export function ShopAllPage() {
           <CartSummary
             items={summary.lineItems}
             subtotal={summary.subtotal}
-            onRemoveItem={remove}
+            isMutating={isMutating}
+            isCheckingOut={isRedirecting}
+            canCheckout={summary.cartId != null && summary.lineItems.length > 0}
+            onCheckout={async () => {
+              if (summary.cartId == null) {
+                return;
+              }
+
+              await startCheckout(summary.cartId);
+            }}
+            onUpdateQuantity={updateLine}
+            onRemoveItem={removeLine}
           />
         </main>
       </div>

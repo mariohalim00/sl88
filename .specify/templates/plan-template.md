@@ -36,6 +36,7 @@ _GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 - The selected architecture uses Bun as runtime, ElysiaJS for backend services, React for frontend delivery, and Eden Treaty for typed client-server integration.
 - Drizzle ownership of schema definitions, migrations, and typed data access is documented wherever persistent data is involved.
 - Frontend design specifies modular React composition (no monolithic TSX), shadcn-first component reuse, and TanStack-based advanced state management boundaries.
+- If scope includes Shopify custom storefront product or cart flows using direct Storefront GraphQL, the plan references `shopify-storefront-graphql` skill usage and defines typed + Zod-validated operation boundaries.
 - Validation commands for formatting, linting, typechecking, and any required contract or integration tests are listed before implementation begins.
 
 ## Project Structure
