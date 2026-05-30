@@ -6,7 +6,10 @@ import {
   updateCartLines,
 } from '../api/cart';
 
-import type { StorefrontCart } from '../types/storefront';
+import {
+  storefrontCartSchema,
+  type StorefrontCart,
+} from '../types/storefront';
 
 const CART_STORAGE_KEY = 'sl88.storefront.cart';
 
@@ -34,10 +37,18 @@ function readPersistedCart(): StorefrontCart | null {
   }
 
   try {
-    return JSON.parse(raw) as StorefrontCart;
+    const result = storefrontCartSchema.safeParse(JSON.parse(raw));
+
+    if (result.success) {
+      return result.data;
+    }
   } catch {
+    window.localStorage.removeItem(CART_STORAGE_KEY);
     return null;
   }
+
+  window.localStorage.removeItem(CART_STORAGE_KEY);
+  return null;
 }
 
 function persistCart(cart: StorefrontCart | null) {

@@ -12,6 +12,7 @@ Create or update `.env` with storefront variables used by API proxy.
 
 Minimum required additions:
 
+- `APP_PUBLIC_URL` (example: `http://localhost:5173`)
 - `SHOPIFY_STORE_DOMAIN` (example: `your-shop.myshopify.com`)
 - `SHOPIFY_STOREFRONT_API_VERSION` (example: `2026-01`)
 - `SHOPIFY_STOREFRONT_ACCESS_TOKEN`

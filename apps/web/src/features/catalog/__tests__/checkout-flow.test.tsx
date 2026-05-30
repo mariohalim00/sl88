@@ -1,12 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-
-function resolveResult(value: string | null) {
-  if (value === 'success' || value === 'cancel' || value === 'failed') {
-    return value;
-  }
-
-  return 'failed';
-}
+import { resolveCheckoutResult } from '../hooks/useCheckout';
 
 function buildHostedRedirect(url: string) {
   return {
@@ -21,8 +14,8 @@ describe('Checkout flow integration', () => {
     expect(redirect.mode).toBe('hosted_redirect');
     expect(redirect.checkoutUrl).toContain('checkouts');
 
-    expect(resolveResult('success')).toBe('success');
-    expect(resolveResult('cancel')).toBe('cancel');
-    expect(resolveResult(null)).toBe('failed');
+    expect(resolveCheckoutResult('success')).toBe('success');
+    expect(resolveCheckoutResult('cancel')).toBe('cancel');
+    expect(resolveCheckoutResult(null)).toBe('failed');
   });
 });

@@ -1,4 +1,5 @@
 import { Elysia, t } from 'elysia';
+import { getAppPublicUrl } from '../env/index.js';
 import { logger } from '../lib/logger.js';
 import { toStorefrontProblem } from '../services/storefront/errors.js';
 import {
@@ -191,11 +192,7 @@ export const storefrontRoute = new Elysia({ prefix: '/api/storefront' })
     '/cart/:cartId/checkout',
     async ({ params, request, set }) => {
       try {
-        const requestUrl = new URL(request.url);
-        const appBaseUrl =
-          request.headers.get('origin') ??
-          process.env['APP_PUBLIC_URL'] ??
-          requestUrl.origin;
+        const appBaseUrl = getAppPublicUrl();
 
         const successUrl = new URL('/checkout/result?status=success', appBaseUrl);
         const cancelUrl = new URL('/checkout/result?status=cancel', appBaseUrl);

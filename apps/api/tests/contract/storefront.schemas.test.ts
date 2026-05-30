@@ -47,6 +47,7 @@ describe('Storefront schema and mapper coverage', () => {
         id: 'gid://shopify/Product/1',
         handle: 'woven-mat',
         title: 'Woven Mat',
+        productType: 'Welcome Mats',
         descriptionHtml: '<p>Soft</p>',
         images: {
           nodes: [{ url: 'https://cdn.test/mat.jpg', altText: 'Front' }],
@@ -69,6 +70,7 @@ describe('Storefront schema and mapper coverage', () => {
     });
 
     expect(mapped.product.handle).toBe('woven-mat');
+    expect(mapped.product.productType).toBe('Welcome Mats');
     expect(mapped.product.variants).toHaveLength(1);
   });
 

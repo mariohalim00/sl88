@@ -35,6 +35,13 @@ const databaseUrlSchema = z
   .min(1, 'DATABASE_URL is required')
   .describe('PostgreSQL connection string');
 
+const appPublicUrlSchema = z
+  .string()
+  .trim()
+  .min(1, 'APP_PUBLIC_URL is required')
+  .url('APP_PUBLIC_URL must be a valid absolute URL')
+  .describe('Public storefront base URL used for hosted checkout returns');
+
 export const env = runtimeResult.data;
 
 let cachedStorefrontConfig: StorefrontConfig | null = null;
@@ -50,6 +57,18 @@ export const getDatabaseUrl = (): string => {
 
   const messages =
     result.error.flatten().formErrors.join(', ') || 'Invalid DATABASE_URL';
+  throw new Error(`[env] ${messages}`);
+};
+
+export const getAppPublicUrl = (): string => {
+  const result = appPublicUrlSchema.safeParse(process.env['APP_PUBLIC_URL']);
+
+  if (result.success) {
+    return result.data;
+  }
+
+  const messages =
+    result.error.flatten().formErrors.join(', ') || 'Invalid APP_PUBLIC_URL';
   throw new Error(`[env] ${messages}`);
 };
 

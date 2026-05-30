@@ -9,6 +9,7 @@ const PRODUCT_DETAIL_QUERY = /* GraphQL */ `
       id
       handle
       title
+      productType
       descriptionHtml
       images(first: 8) {
         nodes {
@@ -44,6 +45,7 @@ const productDetailRawSchema = z.object({
       id: z.string().min(1),
       handle: z.string().min(1),
       title: z.string().min(1),
+      productType: z.string(),
       descriptionHtml: z.string(),
       images: z.object({
         nodes: z.array(

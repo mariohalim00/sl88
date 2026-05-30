@@ -5,6 +5,7 @@ const originalFetch = globalThis.fetch;
 
 describe('Storefront checkout contract', () => {
   beforeEach(() => {
+    process.env['APP_PUBLIC_URL'] = 'https://storefront.example';
     process.env['SHOPIFY_STORE_DOMAIN'] = 'example.myshopify.com';
     process.env['SHOPIFY_STOREFRONT_API_VERSION'] = '2026-01';
     process.env['SHOPIFY_STOREFRONT_ACCESS_TOKEN'] = 'token';
@@ -12,6 +13,7 @@ describe('Storefront checkout contract', () => {
 
   afterEach(() => {
     globalThis.fetch = originalFetch;
+    delete process.env['APP_PUBLIC_URL'];
   });
 
   it('returns hosted redirect checkout URL', async () => {

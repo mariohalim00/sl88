@@ -28,6 +28,7 @@ export const storefrontProductDetailSchema = z.object({
   id: z.string().min(1),
   handle: z.string().min(1),
   title: z.string().min(1),
+  productType: z.string(),
   descriptionHtml: z.string(),
   images: z.array(
     z.object({

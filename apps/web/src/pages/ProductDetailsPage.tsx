@@ -6,6 +6,7 @@ import { ProductGallery } from '@/components/sections/product-details/ProductGal
 import { getProductDetail, listProducts } from '@/features/catalog/api/catalog';
 import { useCart } from '@/features/catalog/hooks/useCart';
 import { formatCurrency } from '@/lib/currency';
+import { sanitizeHtml } from '@/lib/sanitize-html';
 
 import type {
   StorefrontProductDetail,
@@ -101,6 +102,12 @@ export function ProductDetailsPage() {
     ) ??
     product.variants[0] ??
     null;
+  const isPrimaryVariantAvailable = primaryVariant?.availableForSale ?? false;
+  const descriptionHtml = sanitizeHtml(
+    product.descriptionHtml.length > 0
+      ? product.descriptionHtml
+      : `<p>${t('productDetails.descriptionSuffix')}</p>`,
+  );
 
   return (
     <div className="space-y-12 md:space-y-16">
@@ -110,7 +117,7 @@ export function ProductDetailsPage() {
         <div className="pt-2 md:px-3 md:pt-6">
           <span className="inline-block rounded-full border border-[#d4c4ac] bg-[#f1eee3] px-3 py-1 text-xs font-semibold tracking-[0.08em] text-[#504533] uppercase">
             {t('productDetails.handcraftedCategory', {
-              category: product.handle,
+              category: product.productType.length > 0 ? product.productType : product.title,
             })}
           </span>
           <h1 className="mt-4 font-heading text-3xl font-semibold text-[#1c1c15] md:text-4xl">
@@ -129,20 +136,19 @@ export function ProductDetailsPage() {
             </p>
           </div>
 
-          <div className="mt-5 flex items-center gap-2 text-[#7a5900]">
-            <CheckCircle2 className="size-4" />
-            <span className="text-sm font-semibold">
-              {t('productDetails.inStockReadyToShip')}
-            </span>
-          </div>
+          {isPrimaryVariantAvailable ? (
+            <div className="mt-5 flex items-center gap-2 text-[#7a5900]">
+              <CheckCircle2 className="size-4" />
+              <span className="text-sm font-semibold">
+                {t('productDetails.inStockReadyToShip')}
+              </span>
+            </div>
+          ) : null}
 
           <div
             className="mt-6 border-l-2 border-[#d4c4ac] pl-4 text-sm leading-relaxed text-[#504533] md:text-base"
             dangerouslySetInnerHTML={{
-              __html:
-                product.descriptionHtml.length > 0
-                  ? product.descriptionHtml
-                  : `<p>${t('productDetails.descriptionSuffix')}</p>`,
+              __html: descriptionHtml,
             }}
           />
 
@@ -158,7 +164,7 @@ export function ProductDetailsPage() {
               }}
               disabled={
                 primaryVariant == null ||
-                !primaryVariant.availableForSale ||
+                !isPrimaryVariantAvailable ||
                 isMutating
               }
               className="w-full rounded bg-[#f4b400] px-5 py-3 text-sm font-semibold tracking-[0.08em] text-[#1c1c15] uppercase transition hover:brightness-95"
@@ -187,7 +193,7 @@ export function ProductDetailsPage() {
                 {t('productDetails.specs.stock')}
               </span>
               <span>
-                {primaryVariant?.availableForSale ? 'Available' : 'Sold out'}
+                {isPrimaryVariantAvailable ? 'Available' : 'Sold out'}
               </span>
               <span className="font-semibold text-[#1c1c15]">
                 {t('productDetails.specs.rating')}

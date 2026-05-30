@@ -98,18 +98,23 @@ export function useCatalog() {
         : highest;
     }, 0);
 
-    return Math.max(DEFAULT_MAX_PRICE, Math.ceil(highestProductPrice));
+    return highestProductPrice > 0
+      ? Math.max(1, Math.ceil(highestProductPrice))
+      : DEFAULT_MAX_PRICE;
   }, [products]);
+
+  useEffect(() => {
+    setMaxPrice((current) => Math.min(current, priceUpperBound));
+  }, [priceUpperBound]);
 
   function toggleSelectedValue(
     value: string,
-    current: string[],
-    setCurrent: (next: string[]) => void,
+    setCurrent: (next: string[] | ((previous: string[]) => string[])) => void,
   ) {
-    setCurrent(
-      current.includes(value)
-        ? current.filter((item) => item !== value)
-        : [...current, value],
+    setCurrent((previous) =>
+      previous.includes(value)
+        ? previous.filter((item) => item !== value)
+        : [...previous, value],
     );
   }
 
@@ -150,10 +155,10 @@ export function useCatalog() {
     maxPrice,
     priceUpperBound,
     toggleCategory: (value: string) => {
-      toggleSelectedValue(value, selectedCategories, setSelectedCategories);
+      toggleSelectedValue(value, setSelectedCategories);
     },
     toggleMaterial: (value: string) => {
-      toggleSelectedValue(value, selectedMaterials, setSelectedMaterials);
+      toggleSelectedValue(value, setSelectedMaterials);
     },
     setMaxPrice,
     isLoading: status === 'idle' || status === 'loading',

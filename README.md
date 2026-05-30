@@ -25,11 +25,12 @@ bun install
 
 ```sh
 cp .env.example .env
-# Edit DATABASE_URL / API_PORT / SHOPIFY_* values if needed
+# Edit DATABASE_URL / API_PORT / APP_PUBLIC_URL / SHOPIFY_* values if needed
 ```
 
 Required storefront proxy variables:
 
+- `APP_PUBLIC_URL` (example: `http://localhost:5173`)
 - `SHOPIFY_STORE_DOMAIN` (example: `your-shop.myshopify.com`)
 - `SHOPIFY_STOREFRONT_API_VERSION` (example: `2026-01`)
 - `SHOPIFY_STOREFRONT_ACCESS_TOKEN`

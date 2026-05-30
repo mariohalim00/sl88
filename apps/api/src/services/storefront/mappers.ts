@@ -2,7 +2,7 @@ import {
   storefrontCartResponseSchema,
   storefrontProductDetailResponseSchema,
   storefrontProductsResponseSchema,
-} from './schemas.js';
+} from "./schemas";
 
 export function mapProductsList(raw: {
   products: {
@@ -52,6 +52,7 @@ export function mapProductDetail(raw: {
     id: string;
     handle: string;
     title: string;
+    productType: string;
     descriptionHtml: string;
     images: { nodes: Array<{ url: string; altText: string | null }> };
     variants: {
@@ -71,6 +72,7 @@ export function mapProductDetail(raw: {
       id: raw.product.id,
       handle: raw.product.handle,
       title: raw.product.title,
+      productType: raw.product.productType,
       descriptionHtml: raw.product.descriptionHtml,
       images: raw.product.images.nodes.map((image) => ({
         url: image.url,
