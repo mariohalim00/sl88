@@ -13,16 +13,24 @@ import { companyInfo } from '@/config/company';
 
 const heroSlides = [
   {
-    src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCScIoPvzwHKo5Pep6Pokunvngg3MdR3j0rfRkuCOPBvoUAu-A0CQrXuv4jOvOFGXSKaNRVGHjJ-VbU9uFJUEQXJ9qJMgFaV6UQEgsHmDrGdV9qbRw0XoJDpKfEuG4ZHeA0IBstiJ73JwY94OOWxPivQfv-He4ggaA4PzYc_PM1V4-DbKLx-dQtxFH8YiPhR9I0BrRwI1WF64ugNImQiERZJjK-vsLBU9Lf4milvRVV6kqxBka5ydxHeJfL_gpx8dziFFn5441if80',
-    alt: 'landing.hero.slideAlt1',
+    src: '/branding/Carousel/SAMPLE%20WEBSITE%20BANNER%20-%206.jpg',
+    alt: `${companyInfo.name} banner 1`,
   },
   {
-    src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBt5c2NFj1J8sZIt3l0sv7r9YAVgsCbYyodiZWT0MZnweWBZDosBUmaoLOWefJ44iWPEfg5tDRjYr5dDy1vIIZcBd1fnPMuh_70Mc9Y5LfCDDguq-2BP8kBK_HmyiLcY0KaPUBeDW46kxaprpYvii-0UwMzbSPAXR4GagM4c5-mgrEbEfG5yXBGMCT62O7OORLgem6vMscBZi4Qb5hjCgTsgwYDy1-W-5ERsWItYNU_w-EJqEjvuqsaEiho7QbHTMHTIM6uWpuJ5MI',
-    alt: 'landing.hero.slideAlt2',
+    src: '/branding/Carousel/SAMPLE%20WEBSITE%20BANNER%20-%207.jpg',
+    alt: `${companyInfo.name} banner 2`,
   },
   {
-    src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCldSvOeUbOhfYmk3NN4oRhUYagbhpKIvjxcwFcT6kBqedI3u2C5CTXBHSEdVxsvmV7i25CPfpWoNXL3crB7zWC3zfo8gV1QyqiXmFrK8y00vaAH0Obs_epPTbmDxAg4w4PuekJ3WlYJaY-yBPGh1TW2AO8XRStDz1fh6LBD9mgkLP3ZEtykwlk195jSkBTP3stwcXNzjmIjuzjeQ5ApF0Dx0KVOu0tJGLuEbGkN2DAk4OVGlF4S431rx3SePNIpuASFdkCw3DtuAI',
-    alt: 'landing.hero.slideAlt3',
+    src: '/branding/Carousel/SAMPLE%20WEBSITE%20BANNER%20-%208.jpg',
+    alt: `${companyInfo.name} banner 3`,
+  },
+  {
+    src: '/branding/Carousel/SAMPLE%20WEBSITE%20BANNER%20-%209.jpg',
+    alt: `${companyInfo.name} banner 4`,
+  },
+  {
+    src: '/branding/Carousel/SAMPLE%20WEBSITE%20BANNER%20-%2010.jpg',
+    alt: `${companyInfo.name} banner 5`,
   },
 ];
 
@@ -103,7 +111,7 @@ export function LandingHero() {
             <CarouselItem key={slide.src} className="pl-0">
               <img
                 src={slide.src}
-                alt={t(slide.alt)}
+                alt={slide.alt}
                 className="h-85 w-full object-cover md:h-150"
               />
             </CarouselItem>

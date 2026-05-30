@@ -153,8 +153,8 @@ export function useCatalog() {
 
         if (
           normalizedTag.length > 0 &&
-          normalizedTag.length <= 30 &&
-          materialKeywordPattern.test(normalizedTag)
+          normalizedTag.length <= 30 
+          // && materialKeywordPattern.test(normalizedTag) // OPTIONAL
         ) {
           uniqueMaterials.add(normalizedTag);
         }
