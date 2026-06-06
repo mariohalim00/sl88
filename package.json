@@ -20,7 +20,8 @@
     "check": "vp check",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "test:contract": "bun test apps/api/tests/contract"
+    "test:contract": "bun test apps/api/tests/contract",
+    "doctor": "npx react-doctor@latest"
   },
   "devDependencies": {
     "concurrently": "latest",

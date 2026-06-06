@@ -5,6 +5,7 @@ import { formatCurrency } from '@/lib/currency';
 type CatalogProduct = {
   id: string;
   title: string;
+  thumbnailUrl?: string | null;
 };
 
 type CartLineItem = {
@@ -56,40 +57,47 @@ export function CartSummary({
                 key={item.lineId}
                 className="flex items-start justify-between gap-2 rounded border border-[#e5e2d8] p-3"
               >
-                <div>
-                  <p className="text-sm font-medium text-[#1c1c15]">
-                    {item.product.title}
-                  </p>
-                  <p className="text-xs text-[#504533]">
-                    {t('cartSummary.qtyLine', {
-                      quantity: item.quantity,
-                      amount: formatCurrency(item.subtotal),
-                    })}
-                  </p>
-                  <div className="mt-2 flex items-center gap-2">
-                    <button
-                      type="button"
-                      className="rounded border border-[#d4c4ac] px-2 py-0.5 text-xs text-[#1c1c15] disabled:opacity-60"
-                      onClick={() =>
-                        onUpdateQuantity(item.lineId, item.quantity - 1)
-                      }
-                      disabled={isMutating}
-                    >
-                      -
-                    </button>
-                    <span className="text-xs text-[#504533]">
-                      {item.quantity}
-                    </span>
-                    <button
-                      type="button"
-                      className="rounded border border-[#d4c4ac] px-2 py-0.5 text-xs text-[#1c1c15] disabled:opacity-60"
-                      onClick={() =>
-                        onUpdateQuantity(item.lineId, item.quantity + 1)
-                      }
-                      disabled={isMutating}
-                    >
-                      +
-                    </button>
+                <div className="flex min-w-0 items-start gap-3">
+                  <img
+                    src={item.product.thumbnailUrl ?? '/branding/sl88-logo.png'}
+                    alt={item.product.title}
+                    className="h-12 w-12 shrink-0 rounded border border-[#d4c4ac] object-cover"
+                  />
+                  <div>
+                    <p className="text-sm font-medium text-[#1c1c15]">
+                      {item.product.title}
+                    </p>
+                    <p className="text-xs text-[#504533]">
+                      {t('cartSummary.qtyLine', {
+                        quantity: item.quantity,
+                        amount: formatCurrency(item.subtotal),
+                      })}
+                    </p>
+                    <div className="mt-2 flex items-center gap-2">
+                      <button
+                        type="button"
+                        className="rounded border border-[#d4c4ac] px-2 py-0.5 text-xs text-[#1c1c15] disabled:opacity-60"
+                        onClick={() =>
+                          onUpdateQuantity(item.lineId, item.quantity - 1)
+                        }
+                        disabled={isMutating}
+                      >
+                        -
+                      </button>
+                      <span className="text-xs text-[#504533]">
+                        {item.quantity}
+                      </span>
+                      <button
+                        type="button"
+                        className="rounded border border-[#d4c4ac] px-2 py-0.5 text-xs text-[#1c1c15] disabled:opacity-60"
+                        onClick={() =>
+                          onUpdateQuantity(item.lineId, item.quantity + 1)
+                        }
+                        disabled={isMutating}
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <button

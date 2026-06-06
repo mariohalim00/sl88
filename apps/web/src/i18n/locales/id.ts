@@ -177,7 +177,7 @@ Sukses Lestari hadir bukan hanya untuk menyediakan kebutuhan rumah tangga dan ot
     notFoundTitle: 'Produk tidak ditemukan',
     notFoundDescription: 'Produk yang dipilih tidak tersedia di koleksi ini.',
     returnToShopAll: 'Kembali ke Shop All',
-    handcraftedCategory: 'Buatan tangan {{category}}',
+    category: '{{category}}',
     inStockReadyToShip: 'Stok tersedia dan siap kirim',
     descriptionSuffix:
       'Dibuat untuk kenyamanan dan kejernihan visual, produk ini menambah kemewahan tenang pada ruang sehari-hari.',
@@ -194,6 +194,7 @@ Sukses Lestari hadir bukan hanya untuk menyediakan kebutuhan rumah tangga dan ot
       stock: 'Stok:',
       stockAvailable: '{{count}} tersedia',
       rating: 'Rating:',
+      variants: 'Varian:',
     },
     galleryView: '{{name}} tampilan {{index}}',
     relatedTitle: 'Anda Mungkin Juga Suka',

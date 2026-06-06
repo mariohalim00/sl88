@@ -262,6 +262,7 @@ export function useCart() {
       product: {
         id: line.merchandiseId,
         title: line.title,
+        thumbnailUrl: line.imageUrl,
       },
     }));
 

@@ -148,7 +148,7 @@ export function ProductDetailsPage() {
 
         <div className="pt-2 md:px-3 md:pt-6">
           <span className="inline-block rounded-full border border-[#d4c4ac] bg-[#f1eee3] px-3 py-1 text-xs font-semibold tracking-[0.08em] text-[#504533] uppercase">
-            {t('productDetails.handcraftedCategory', {
+            {t('productDetails.category', {
               category: product.productType.length > 0 ? product.productType : product.title,
             })}
           </span>
@@ -186,7 +186,7 @@ export function ProductDetailsPage() {
 
           <div className="mt-8 space-y-3">
             <div className="flex items-center gap-3">
-              <div className="flex h-12 w-48 items-center justify-between rounded-2xl border border-[#d4c4ac] px-4 text-lg text-[#1c1c15]">
+              <div className="flex h-12 w-48 items-center justify-between rounded-md border border-[#d4c4ac] bg-[#f7f4e9] px-4 text-lg text-[#1c1c15]">
                 <button
                   type="button"
                   onClick={() => setQuantity((current) => Math.max(1, current - 1))}
@@ -215,7 +215,7 @@ export function ProductDetailsPage() {
                   isMutating ||
                   isRedirecting
                 }
-                className="flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl bg-[#020303] px-5 text-sm font-semibold tracking-[0.02em] text-white transition hover:bg-black/90 disabled:opacity-60"
+                className="flex h-12 flex-1 items-center justify-center gap-2 rounded-md bg-[#f4b400] px-5 text-sm font-semibold tracking-[0.08em] text-[#1c1c15] uppercase transition hover:brightness-95 disabled:opacity-60"
               >
                 <ShoppingCart className="size-4" />
                 {t('common.actions.addToCart')}
@@ -233,7 +233,7 @@ export function ProductDetailsPage() {
                 isMutating ||
                 isRedirecting
               }
-              className="h-12 w-full rounded-2xl bg-[#020303] px-5 text-lg font-medium text-white transition hover:bg-black/90 disabled:opacity-60"
+              className="h-12 w-full rounded-md border border-[#1c1c15] px-5 text-sm font-semibold tracking-[0.08em] text-[#1c1c15] uppercase transition hover:bg-[#f7f4e9] disabled:opacity-60"
             >
               {t('common.actions.buyNow')}
             </button>
@@ -256,9 +256,9 @@ export function ProductDetailsPage() {
                 {isPrimaryVariantAvailable ? 'Available' : 'Sold out'}
               </span>
               <span className="font-semibold text-[#1c1c15]">
-                {t('productDetails.specs.rating')}
+                {t('productDetails.specs.variants')}
               </span>
-              <span>{product.variants.length} variants</span>
+              <span>{product.variants.length}</span>
             </div>
           </section>
         </div>

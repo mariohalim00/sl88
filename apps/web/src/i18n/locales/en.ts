@@ -177,7 +177,7 @@ Sukses Lestari exists not only to provide household and automotive essentials, b
     notFoundDescription:
       'The selected piece is not available in this collection.',
     returnToShopAll: 'Return to Shop All',
-    handcraftedCategory: 'Handcrafted {{category}}',
+    category: '{{category}}',
     inStockReadyToShip: 'In stock and ready to ship',
     descriptionSuffix:
       'Crafted for comfort and visual clarity, this piece adds quiet luxury to everyday spaces.',
@@ -194,6 +194,7 @@ Sukses Lestari exists not only to provide household and automotive essentials, b
       stock: 'Stock:',
       stockAvailable: '{{count}} available',
       rating: 'Rating:',
+      variants: 'Variants:',
     },
     galleryView: '{{name}} view {{index}}',
     relatedTitle: 'You May Also Like',
