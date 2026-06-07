@@ -41,7 +41,10 @@ if (import.meta.main) {
         assets: brandingAssets,
         prefix: '/branding',
       }),
-    );
+    )
+    // SPA fallback: serve index.html for any route not handled above so that
+    // React Router can take over on hard refresh or direct URL access.
+    .get('/*', () => Bun.file(indexHtmlPath));
 
   app.listen(env.API_PORT, ({ hostname, port }) => {
     logger.info(
