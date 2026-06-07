@@ -178,6 +178,7 @@ export function ProductDetailsPage() {
           ) : null}
 
           <div
+            // react-doctor/no-danger: HTML is pre-sanitized via sanitizeHtml() which escapes text, blocks dangerous tags, and validates href protocols
             className="mt-6 border-l-2 border-[#d4c4ac] pl-4 text-sm leading-relaxed text-[#504533] md:text-base"
             dangerouslySetInnerHTML={{
               __html: descriptionHtml,
