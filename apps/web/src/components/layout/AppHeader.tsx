@@ -3,28 +3,36 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { iconButtonClass } from './header/constants';
+import { CartDrawer } from './header/CartDrawer';
 import { HeaderActionButtons } from './header/HeaderActionButtons';
 import { HeaderBrand } from './header/HeaderBrand';
 import { HeaderDesktopNav } from './header/HeaderDesktopNav';
 import { MobileMenuDrawer } from './header/MobileMenuDrawer';
+import { useCart } from '@/features/catalog/hooks/useCart';
 import { cn } from '@/lib/utils';
 
 export function AppHeader() {
   const { t } = useTranslation();
   const location = useLocation();
+  const { pathname, hash } = location;
+  const { summary } = useCart();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const isLandingRoute = location.pathname === '/';
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const isLandingRoute = pathname === '/';
 
   const isScrollLinkActive = (id: string) => {
-    return isLandingRoute && location.hash === `#${id}`;
+    return isLandingRoute && hash === `#${id}`;
   };
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
-  }, [location.pathname, location.hash]);
+    setIsCartOpen(false);
+  }, [pathname, hash]);
 
   const openMobileMenu = () => setIsMobileMenuOpen(true);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
+  const toggleCart = () => setIsCartOpen((current) => !current);
+  const closeCart = () => setIsCartOpen(false);
 
   return (
     <>
@@ -44,7 +52,11 @@ export function AppHeader() {
           </div>
 
           <HeaderDesktopNav isScrollLinkActive={isScrollLinkActive} />
-          <HeaderActionButtons />
+          <HeaderActionButtons
+            cartItemCount={summary.totalItems}
+            isCartOpen={isCartOpen}
+            onToggleCart={toggleCart}
+          />
         </div>
       </header>
 
@@ -53,6 +65,8 @@ export function AppHeader() {
         onClose={closeMobileMenu}
         isScrollLinkActive={isScrollLinkActive}
       />
+
+      <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
     </>
   );
 }

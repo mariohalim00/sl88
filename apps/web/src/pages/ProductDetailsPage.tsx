@@ -1,11 +1,13 @@
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, ShoppingCart } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { ProductGallery } from '@/components/sections/product-details/ProductGallery';
 import { getProductDetail, listProducts } from '@/features/catalog/api/catalog';
 import { useCart } from '@/features/catalog/hooks/useCart';
+import { useCheckout } from '@/features/catalog/hooks/useCheckout';
 import { formatCurrency } from '@/lib/currency';
+import { renderSanitizedHtml } from '@/lib/render-sanitized-html';
 import { sanitizeHtml } from '@/lib/sanitize-html';
 
 import type {
@@ -15,9 +17,16 @@ import type {
 
 export function ProductDetailsPage() {
   const { t } = useTranslation();
-  const { addVariant, isMutating } = useCart();
+  const {
+    addVariant,
+    summary,
+    isMutating,
+    stageCartForCheckout,
+  } = useCart();
+  const { isRedirecting, startCheckout } = useCheckout();
   const { handle } = useParams();
   const [product, setProduct] = useState<StorefrontProductDetail | null>(null);
+  const [quantity, setQuantity] = useState(1);
   const [relatedProducts, setRelatedProducts] = useState<
     StorefrontProductSummary[]
   >([]);
@@ -109,6 +118,30 @@ export function ProductDetailsPage() {
       : `<p>${t('productDetails.descriptionSuffix')}</p>`,
   );
 
+  const addToCart = async () => {
+    if (primaryVariant == null) {
+      return;
+    }
+
+    await addVariant(primaryVariant.id, quantity);
+  };
+
+  const buyNow = async () => {
+    if (primaryVariant == null) {
+      return;
+    }
+
+    const nextCart = await addVariant(primaryVariant.id, quantity);
+    const nextCartId = nextCart?.id ?? summary.cartId;
+
+    if (nextCartId == null) {
+      return;
+    }
+
+    stageCartForCheckout();
+    await startCheckout(nextCartId);
+  };
+
   return (
     <div className="space-y-12 md:space-y-16">
       <section className="grid gap-8 md:grid-cols-2 md:gap-10">
@@ -116,7 +149,7 @@ export function ProductDetailsPage() {
 
         <div className="pt-2 md:px-3 md:pt-6">
           <span className="inline-block rounded-full border border-[#d4c4ac] bg-[#f1eee3] px-3 py-1 text-xs font-semibold tracking-[0.08em] text-[#504533] uppercase">
-            {t('productDetails.handcraftedCategory', {
+            {t('productDetails.category', {
               category: product.productType.length > 0 ? product.productType : product.title,
             })}
           </span>
@@ -147,35 +180,62 @@ export function ProductDetailsPage() {
 
           <div
             className="mt-6 border-l-2 border-[#d4c4ac] pl-4 text-sm leading-relaxed text-[#504533] md:text-base"
-            dangerouslySetInnerHTML={{
-              __html: descriptionHtml,
-            }}
-          />
+          >
+            {renderSanitizedHtml(descriptionHtml)}
+          </div>
 
           <div className="mt-8 space-y-3">
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-48 items-center justify-between rounded-md border border-[#d4c4ac] bg-[#f7f4e9] px-4 text-lg text-[#1c1c15]">
+                <button
+                  type="button"
+                  onClick={() => setQuantity((current) => Math.max(1, current - 1))}
+                  aria-label={t('productDetails.decreaseQuantity')}
+                >
+                  -
+                </button>
+                <span className="text-base">{quantity}</span>
+                <button
+                  type="button"
+                  onClick={() => setQuantity((current) => current + 1)}
+                  aria-label={t('productDetails.increaseQuantity')}
+                >
+                  +
+                </button>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  void addToCart();
+                }}
+                disabled={
+                  primaryVariant == null ||
+                  !isPrimaryVariantAvailable ||
+                  isMutating ||
+                  isRedirecting
+                }
+                className="flex h-12 flex-1 items-center justify-center gap-2 rounded-md bg-[#f4b400] px-5 text-sm font-semibold tracking-[0.08em] text-[#1c1c15] uppercase transition hover:brightness-95 disabled:opacity-60"
+              >
+                <ShoppingCart className="size-4" />
+                {t('common.actions.addToCart')}
+              </button>
+            </div>
+
             <button
               type="button"
               onClick={() => {
-                if (primaryVariant == null) {
-                  return;
-                }
-
-                void addVariant(primaryVariant.id, 1);
+                void buyNow();
               }}
               disabled={
                 primaryVariant == null ||
                 !isPrimaryVariantAvailable ||
-                isMutating
+                isMutating ||
+                isRedirecting
               }
-              className="w-full rounded bg-[#f4b400] px-5 py-3 text-sm font-semibold tracking-[0.08em] text-[#1c1c15] uppercase transition hover:brightness-95"
+              className="h-12 w-full rounded-md border border-[#1c1c15] px-5 text-sm font-semibold tracking-[0.08em] text-[#1c1c15] uppercase transition hover:bg-[#f7f4e9] disabled:opacity-60"
             >
-              {t('common.actions.addToBag')}
-            </button>
-            <button
-              type="button"
-              className="w-full rounded border border-[#1c1c15] px-5 py-3 text-sm font-semibold tracking-[0.08em] text-[#1c1c15] uppercase transition hover:bg-[#f7f4e9]"
-            >
-              {t('productDetails.inquireNow')}
+              {t('common.actions.buyNow')}
             </button>
           </div>
 
@@ -196,9 +256,9 @@ export function ProductDetailsPage() {
                 {isPrimaryVariantAvailable ? 'Available' : 'Sold out'}
               </span>
               <span className="font-semibold text-[#1c1c15]">
-                {t('productDetails.specs.rating')}
+                {t('productDetails.specs.variants')}
               </span>
-              <span>{product.variants.length} variants</span>
+              <span>{product.variants.length}</span>
             </div>
           </section>
         </div>
@@ -210,7 +270,11 @@ export function ProductDetailsPage() {
         </h2>
         <div className="grid gap-6 md:grid-cols-3">
           {relatedProducts.map((item) => (
-            <article key={item.id} className="group">
+            <Link
+              to={`/products/${item.handle}`}
+              key={item.id}
+              className="group block"
+            >
               <div className="relative mb-4 aspect-3/4 overflow-hidden rounded border border-[#d4c4ac] bg-[#f1eee3]">
                 <img
                   src={item.featuredImageUrl ?? '/branding/logo.png'}
@@ -224,7 +288,7 @@ export function ProductDetailsPage() {
               <p className="text-sm text-[#504533]">
                 {formatCurrency(Number.parseFloat(item.priceMin))}
               </p>
-            </article>
+            </Link>
           ))}
         </div>
       </section>

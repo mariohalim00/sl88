@@ -32,12 +32,14 @@ function buildCheckoutUrlWithReturnTargets(
   const url = new URL(checkoutUrl);
 
   if (options?.successUrl != null) {
-    // Support common Shopify redirect patterns after hosted checkout.
     url.searchParams.set('return_to', options.successUrl);
+    url.searchParams.set('return_url', options.successUrl);
+    url.searchParams.set('continue_shopping_url', options.successUrl);
     url.searchParams.set('checkout[return_url]', options.successUrl);
   }
 
   if (options?.cancelUrl != null) {
+    url.searchParams.set('cancel_url', options.cancelUrl);
     url.searchParams.set('checkout[cancel_url]', options.cancelUrl);
   }
 

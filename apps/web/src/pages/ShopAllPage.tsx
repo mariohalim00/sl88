@@ -1,32 +1,14 @@
 import { useTranslation } from 'react-i18next';
-import { ShopAllFilterBar } from '@/components/sections/shop-all/ShopAllFilterBar';
-import { CartSummary } from '@/features/catalog/components/CartSummary';
 import { ProductGrid } from '@/features/catalog/components/ProductGrid';
 import { useCart } from '@/features/catalog/hooks/useCart';
 import { useCatalog } from '@/features/catalog/hooks/useCatalog';
-import { useCheckout } from '@/features/catalog/hooks/useCheckout';
 import { formatCurrency } from '@/lib/currency';
-
-const categories = [
-  { key: 'shopAll.categories.kitchen', value: 'kitchen' },
-  { key: 'shopAll.categories.welcomeMats', value: 'welcomeMats' },
-  { key: 'shopAll.categories.car', value: 'car' },
-  { key: 'shopAll.categories.office', value: 'office' },
-  { key: 'shopAll.categories.outdoor', value: 'outdoor' },
-];
-
-const materials = [
-  { key: 'shopAll.materials.wool', value: 'wool' },
-  { key: 'shopAll.materials.silk', value: 'silk' },
-  { key: 'shopAll.materials.cotton', value: 'cotton' },
-  { key: 'shopAll.materials.jute', value: 'jute' },
-];
 
 export function ShopAllPage() {
   const { t } = useTranslation();
   const {
-    searchTerm,
-    setSearchTerm,
+    categoryOptions,
+    materialOptions,
     selectedCategories,
     selectedMaterials,
     maxPrice,
@@ -36,8 +18,7 @@ export function ShopAllPage() {
     setMaxPrice,
     filteredProducts,
   } = useCatalog();
-  const { summary, isMutating, addVariant, updateLine, removeLine } = useCart();
-  const { isRedirecting, startCheckout } = useCheckout();
+  const { addVariant } = useCart();
 
   return (
     <div className="space-y-6">
@@ -48,7 +29,7 @@ export function ShopAllPage() {
               {t('shopAll.categoriesTitle')}
             </h2>
             <div className="space-y-3">
-              {categories.map((category) => (
+              {categoryOptions.map((category) => (
                 <label
                   key={category.value}
                   className="flex items-center gap-3 text-sm text-[#504533]"
@@ -61,7 +42,7 @@ export function ShopAllPage() {
                     }}
                     className="h-4 w-4 rounded border-[#d4c4ac] accent-[#f4b400]"
                   />
-                  {t(category.key)}
+                  {category.label}
                 </label>
               ))}
             </div>
@@ -92,7 +73,7 @@ export function ShopAllPage() {
               {t('shopAll.materialTitle')}
             </h2>
             <div className="flex flex-wrap gap-2">
-              {materials.map((material) => (
+              {materialOptions.map((material) => (
                 <button
                   key={material.value}
                   type="button"
@@ -107,7 +88,7 @@ export function ShopAllPage() {
                       : 'border-[#d4c4ac] text-[#504533]',
                   ].join(' ')}
                 >
-                  {t(material.key)}
+                  {material.label}
                 </button>
               ))}
             </div>
@@ -119,11 +100,6 @@ export function ShopAllPage() {
             <h1 className="font-heading text-3xl font-semibold text-[#1c1c15] md:text-4xl">
               {t('shopAll.title')}
             </h1>
-            <ShopAllFilterBar
-              searchTerm={searchTerm}
-              totalItems={summary.totalItems}
-              onSearchChange={setSearchTerm}
-            />
           </header>
 
           <ProductGrid
@@ -143,23 +119,6 @@ export function ShopAllPage() {
           >
             {t('shopAll.loadMoreArtifacts')}
           </button>
-
-          <CartSummary
-            items={summary.lineItems}
-            subtotal={summary.subtotal}
-            isMutating={isMutating}
-            isCheckingOut={isRedirecting}
-            canCheckout={summary.cartId != null && summary.lineItems.length > 0}
-            onCheckout={async () => {
-              if (summary.cartId == null) {
-                return;
-              }
-
-              await startCheckout(summary.cartId);
-            }}
-            onUpdateQuantity={updateLine}
-            onRemoveItem={removeLine}
-          />
         </main>
       </div>
     </div>

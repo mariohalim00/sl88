@@ -14,7 +14,14 @@ export function StorefrontPage() {
   const { searchTerm, setSearchTerm, isLoading, isError, filteredProducts } =
     useCatalog();
 
-  const { summary, isMutating, addVariant, updateLine, removeLine } = useCart();
+  const {
+    summary,
+    isMutating,
+    addVariant,
+    updateLine,
+    removeLine,
+    stageCartForCheckout,
+  } = useCart();
   const { isRedirecting, startCheckout } = useCheckout();
 
   if (isLoading) {
@@ -67,6 +74,7 @@ export function StorefrontPage() {
                 return;
               }
 
+              stageCartForCheckout();
               await startCheckout(summary.cartId);
             }}
             onUpdateQuantity={updateLine}

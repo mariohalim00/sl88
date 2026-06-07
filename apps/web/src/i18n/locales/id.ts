@@ -10,6 +10,8 @@ export const id = {
       prev: 'Sebelumnya',
       next: 'Berikutnya',
       addToBag: 'Tambah ke Tas',
+      addToCart: 'Tambah ke keranjang',
+      buyNow: 'Beli sekarang',
     },
     labels: {
       cartItems: 'Item Keranjang',
@@ -26,6 +28,7 @@ export const id = {
       openMenu: 'Buka menu',
       closeMenu: 'Tutup menu',
       bag: 'Tas',
+      closeCart: 'Tutup keranjang',
       favorites: 'Favorit',
       account: 'Akun',
     },
@@ -45,6 +48,8 @@ export const id = {
       slideAlt1: 'Ruang tamu mewah dengan karpet buatan tangan',
       slideAlt2: 'Koleksi karpet bespoke di interior terkurasi',
       slideAlt3: 'Proses menenun artisan dengan teknik tradisional',
+      slideAlt4: 'Tampilan karpet premium di ruang keluarga modern',
+      slideAlt5: 'Karpet berlapis elegan di ruang kontemporer yang terang',
       goToSlide: 'Ke slide {{count}}',
     },
     collections: {
@@ -137,6 +142,13 @@ Sukses Lestari hadir bukan hanya untuk menyediakan kebutuhan rumah tangga dan ot
     loadingCatalog: 'Memuat katalog...',
     loadError: 'Data katalog gagal dimuat.',
   },
+  notFound: {
+    title: 'Halaman tidak ditemukan',
+    description:
+      'Halaman yang Anda buka tidak tersedia atau sudah dipindahkan. Kembali ke beranda atau lanjutkan melihat katalog.',
+    backHome: 'Kembali ke Beranda',
+    backCatalog: 'Lihat Katalog',
+  },
   storeHeader: {
     badge: 'Katalog MVP SL88',
     title: 'Temukan karpet yang cocok untuk ruang Anda',
@@ -167,11 +179,15 @@ Sukses Lestari hadir bukan hanya untuk menyediakan kebutuhan rumah tangga dan ot
     notFoundTitle: 'Produk tidak ditemukan',
     notFoundDescription: 'Produk yang dipilih tidak tersedia di koleksi ini.',
     returnToShopAll: 'Kembali ke Shop All',
-    handcraftedCategory: 'Buatan tangan {{category}}',
+    category: '{{category}}',
     inStockReadyToShip: 'Stok tersedia dan siap kirim',
     descriptionSuffix:
       'Dibuat untuk kenyamanan dan kejernihan visual, produk ini menambah kemewahan tenang pada ruang sehari-hari.',
     inquireNow: 'Konsultasi Sekarang',
+    decreaseQuantity: 'Kurangi jumlah',
+    increaseQuantity: 'Tambah jumlah',
+    openImageViewer: 'Buka penampil gambar',
+    closeImageViewer: 'Tutup penampil gambar',
     specs: {
       origin: 'Asal:',
       originValue: 'Indonesia',
@@ -180,6 +196,7 @@ Sukses Lestari hadir bukan hanya untuk menyediakan kebutuhan rumah tangga dan ot
       stock: 'Stok:',
       stockAvailable: '{{count}} tersedia',
       rating: 'Rating:',
+      variants: 'Varian:',
     },
     galleryView: '{{name}} tampilan {{index}}',
     relatedTitle: 'Anda Mungkin Juga Suka',

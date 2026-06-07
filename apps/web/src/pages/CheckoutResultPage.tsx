@@ -34,13 +34,18 @@ export function CheckoutResultPage() {
   const [searchParams] = useSearchParams();
   const result = resolveCheckoutResult(searchParams.get('status'));
   const content = resultContent[result];
-  const { clearCart } = useCart();
+  const { clearCart, restoreCheckoutCartBackup, clearCheckoutCartBackup } =
+    useCart();
 
   useEffect(() => {
     if (result === 'success') {
       clearCart();
+      clearCheckoutCartBackup();
+      return;
     }
-  }, [clearCart, result]);
+
+    restoreCheckoutCartBackup();
+  }, [clearCart, clearCheckoutCartBackup, restoreCheckoutCartBackup, result]);
 
   return (
     <section className="mx-auto max-w-2xl rounded border border-[#d4c4ac] bg-white p-8 text-center">

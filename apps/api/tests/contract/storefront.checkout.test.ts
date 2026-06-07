@@ -46,6 +46,47 @@ describe('Storefront checkout contract', () => {
     expect(res.status).toBe(200);
     const payload = (await res.json()) as { checkoutUrl: string; mode: string };
     expect(payload.checkoutUrl).toContain('checkouts');
+    expect(payload.checkoutUrl).toContain(
+      encodeURIComponent('https://storefront.example/checkout/result?status=success'),
+    );
+    expect(payload.checkoutUrl).toContain('continue_shopping_url=');
+    expect(payload.mode).toBe('hosted_redirect');
+  });
+
+  it('falls back to localhost app public URL when APP_PUBLIC_URL is unset', async () => {
+    delete process.env['APP_PUBLIC_URL'];
+
+    globalThis.fetch = (async () => {
+      return new Response(
+        JSON.stringify({
+          data: {
+            cart: {
+              checkoutUrl: 'https://shop.test/checkouts/cart-2',
+            },
+          },
+        }),
+        {
+          status: 200,
+          headers: { 'content-type': 'application/json' },
+        },
+      );
+    }) as unknown as typeof fetch;
+
+    const res = await app.handle(
+      new Request('http://localhost/api/storefront/cart/cart-2/checkout', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({}),
+      }),
+    );
+
+    expect(res.status).toBe(200);
+    const payload = (await res.json()) as { checkoutUrl: string; mode: string };
+    expect(payload.checkoutUrl).toContain(
+      encodeURIComponent('http://localhost:5173/checkout/result?status=success'),
+    );
     expect(payload.mode).toBe('hosted_redirect');
   });
 });
