@@ -48,6 +48,8 @@ export const id = {
       slideAlt1: 'Ruang tamu mewah dengan karpet buatan tangan',
       slideAlt2: 'Koleksi karpet bespoke di interior terkurasi',
       slideAlt3: 'Proses menenun artisan dengan teknik tradisional',
+      slideAlt4: 'Tampilan karpet premium di ruang keluarga modern',
+      slideAlt5: 'Karpet berlapis elegan di ruang kontemporer yang terang',
       goToSlide: 'Ke slide {{count}}',
     },
     collections: {

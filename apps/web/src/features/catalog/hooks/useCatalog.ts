@@ -149,11 +149,7 @@ export function useCatalog() {
       product.tags.forEach((tag) => {
         const normalizedTag = normalizeFacetValue(tag);
 
-        if (
-          normalizedTag.length > 0 &&
-          normalizedTag.length <= 30 
-          // && materialKeywordPattern.test(normalizedTag) // OPTIONAL
-        ) {
+        if (normalizedTag.length > 0 && normalizedTag.length <= 30) {
           uniqueMaterials.add(normalizedTag);
         }
       });

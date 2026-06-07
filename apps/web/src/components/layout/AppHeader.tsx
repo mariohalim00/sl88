@@ -14,19 +14,20 @@ import { cn } from '@/lib/utils';
 export function AppHeader() {
   const { t } = useTranslation();
   const location = useLocation();
+  const { pathname, hash } = location;
   const { summary } = useCart();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const isLandingRoute = location.pathname === '/';
+  const isLandingRoute = pathname === '/';
 
   const isScrollLinkActive = (id: string) => {
-    return isLandingRoute && location.hash === `#${id}`;
+    return isLandingRoute && hash === `#${id}`;
   };
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setIsCartOpen(false);
-  }, [location.pathname, location.hash]);
+  }, [pathname, hash]);
 
   const openMobileMenu = () => setIsMobileMenuOpen(true);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);

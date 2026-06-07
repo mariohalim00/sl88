@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import type { StorefrontProductDetail } from '@/features/catalog/types/storefront';
@@ -9,11 +9,19 @@ type ProductGalleryProps = {
 };
 
 export function ProductGallery({ product }: ProductGalleryProps) {
+  return <ProductGalleryContent key={product.id} product={product} />;
+}
+
+function ProductGalleryContent({ product }: ProductGalleryProps) {
   const { t } = useTranslation();
-  const fallbackImage = {
-    url: '/branding/logo.png',
-    altText: product.title,
-  };
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
+  const fallbackImage = useMemo(
+    () => ({
+      url: '/branding/logo.png',
+      altText: product.title,
+    }),
+    [product.title],
+  );
   const images = useMemo(() => {
     if (product.images.length === 0) {
       return [fallbackImage];
@@ -25,9 +33,24 @@ export function ProductGallery({ product }: ProductGalleryProps) {
   const [isViewerOpen, setIsViewerOpen] = useState(false);
 
   useEffect(() => {
-    setActiveImageIndex(0);
-    setIsViewerOpen(false);
-  }, [product.id]);
+    const dialog = dialogRef.current;
+
+    if (dialog == null) {
+      return;
+    }
+
+    if (isViewerOpen) {
+      if (!dialog.open) {
+        dialog.showModal();
+      }
+
+      return;
+    }
+
+    if (dialog.open) {
+      dialog.close();
+    }
+  }, [isViewerOpen]);
 
   useEffect(() => {
     if (!isViewerOpen) {
@@ -87,7 +110,7 @@ export function ProductGallery({ product }: ProductGalleryProps) {
         {images.map((image, index) => (
           <button
             type="button"
-            key={`${product.id}-${index}`}
+            key={`${product.id}-${image.url}`}
             onClick={() => setActiveImageIndex(index)}
             aria-label={t('productDetails.galleryView', {
               name: product.title,
@@ -113,10 +136,19 @@ export function ProductGallery({ product }: ProductGalleryProps) {
       </div>
 
       {isViewerOpen ? (
-        <div
-          className="fixed inset-0 z-70 bg-black/90 p-4 md:p-8"
-          role="dialog"
-          aria-modal="true"
+        <dialog
+          ref={dialogRef}
+          className="fixed inset-0 z-70 m-0 h-screen max-h-screen w-screen max-w-none border-0 bg-black/90 p-4 md:p-8"
+          onCancel={(event) => {
+            event.preventDefault();
+            setIsViewerOpen(false);
+          }}
+          onClose={() => setIsViewerOpen(false)}
+          onClick={(event) => {
+            if (event.target === event.currentTarget) {
+              setIsViewerOpen(false);
+            }
+          }}
           aria-label={t('productDetails.openImageViewer')}
         >
           <button
@@ -153,7 +185,7 @@ export function ProductGallery({ product }: ProductGalleryProps) {
               <ChevronRight className="size-6" />
             </button>
           </div>
-        </div>
+        </dialog>
       ) : null}
     </section>
   );

@@ -14,23 +14,23 @@ import { companyInfo } from '@/config/company';
 const heroSlides = [
   {
     src: '/branding/Carousel/SAMPLE%20WEBSITE%20BANNER%20-%206.jpg',
-    alt: `${companyInfo.name} banner 1`,
+    altKey: 'landing.hero.slideAlt1',
   },
   {
     src: '/branding/Carousel/SAMPLE%20WEBSITE%20BANNER%20-%207.jpg',
-    alt: `${companyInfo.name} banner 2`,
+    altKey: 'landing.hero.slideAlt2',
   },
   {
     src: '/branding/Carousel/SAMPLE%20WEBSITE%20BANNER%20-%208.jpg',
-    alt: `${companyInfo.name} banner 3`,
+    altKey: 'landing.hero.slideAlt3',
   },
   {
     src: '/branding/Carousel/SAMPLE%20WEBSITE%20BANNER%20-%209.jpg',
-    alt: `${companyInfo.name} banner 4`,
+    altKey: 'landing.hero.slideAlt4',
   },
   {
     src: '/branding/Carousel/SAMPLE%20WEBSITE%20BANNER%20-%2010.jpg',
-    alt: `${companyInfo.name} banner 5`,
+    altKey: 'landing.hero.slideAlt5',
   },
 ];
 
@@ -111,7 +111,7 @@ export function LandingHero() {
             <CarouselItem key={slide.src} className="pl-0">
               <img
                 src={slide.src}
-                alt={slide.alt}
+                alt={t(slide.altKey)}
                 className="h-85 w-full object-cover md:h-150"
               />
             </CarouselItem>

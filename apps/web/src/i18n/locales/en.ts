@@ -48,6 +48,8 @@ export const en = {
       slideAlt1: 'Luxury living room with handcrafted carpet',
       slideAlt2: 'Bespoke carpet collection in a curated interior',
       slideAlt3: 'Artisan weaving process with traditional techniques',
+      slideAlt4: 'Premium rug display in a modern family lounge',
+      slideAlt5: 'Elegant layered carpets in a bright contemporary space',
       goToSlide: 'Go to slide {{count}}',
     },
     collections: {
