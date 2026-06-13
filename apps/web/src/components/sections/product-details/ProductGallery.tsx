@@ -101,7 +101,7 @@ function ProductGalleryContent({ product }: ProductGalleryProps) {
         aria-label={t('productDetails.openImageViewer')}
       >
         <img
-          className="h-full w-full object-cover"
+          className="h-full w-full object-contain"
           src={activeImage.url}
           alt={activeImage.altText ?? product.title}
         />

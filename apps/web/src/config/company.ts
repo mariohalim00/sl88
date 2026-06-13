@@ -29,6 +29,6 @@ export const companyInfo = {
     tiktok: 'https://www.tiktok.com/@sukseslestari',
   },
   branding: {
-    logoSrc: '/branding/sl88-logo.png',
+    logoSrc: '/branding/sl88-logo-gold.png',
   },
 };

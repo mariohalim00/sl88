@@ -44,7 +44,6 @@ export const en = {
       description:
         'Experience handcrafted carpets that blend timeless tradition with contemporary calm. Each piece is designed to transform daily spaces into warm, tactile galleries.',
       exploreCollections: 'Explore Collections',
-      viewSignature: 'View Signature',
       slideAlt1: 'Luxury living room with handcrafted carpet',
       slideAlt2: 'Bespoke carpet collection in a curated interior',
       slideAlt3: 'Artisan weaving process with traditional techniques',
@@ -150,7 +149,7 @@ Sukses Lestari exists not only to provide household and automotive essentials, b
     backCatalog: 'Browse Catalog',
   },
   storeHeader: {
-    badge: 'SL88 MVP Catalog',
+    // badge: 'SL88 MVP Catalog',
     title: 'Find carpets that match your space',
     description:
       'Browse our starter collection with mock inventory, realistic pricing, and a testable cart workflow ready for future API integration.',
@@ -196,7 +195,7 @@ Sukses Lestari exists not only to provide household and automotive essentials, b
       stock: 'Stock:',
       stockAvailable: '{{count}} available',
       rating: 'Rating:',
-      variants: 'Variants:',
+      variants: 'Number of Variants:',
     },
     galleryView: '{{name}} view {{index}}',
     relatedTitle: 'You May Also Like',

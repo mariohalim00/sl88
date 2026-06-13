@@ -92,12 +92,6 @@ export function LandingHero() {
           >
             {t('landing.hero.exploreCollections')}
           </Link>
-          <Link
-            to="/products/c1"
-            className="rounded-md border border-[#1c1c15] px-8 py-3 text-sm font-semibold tracking-[0.08em] text-[#1c1c15] uppercase transition hover:bg-[#f7f4e9]"
-          >
-            {t('landing.hero.viewSignature')}
-          </Link>
         </div>
       </div>
 

@@ -1,5 +1,5 @@
 import { CheckCircle2, ShoppingCart } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { ProductGallery } from '@/components/sections/product-details/ProductGallery';
@@ -78,6 +78,98 @@ export function ProductDetailsPage() {
     };
   }, [handle]);
 
+  // --- Derived state (all hooks must live above early returns) ---
+
+  // Group variant options by name and collect unique values
+  const variantOptionGroups = useMemo(() => {
+    const optionMap = new Map<string, Set<string>>();
+    for (const variant of product?.variants ?? []) {
+      for (const opt of variant.selectedOptions) {
+        if (!optionMap.has(opt.name)) {
+          optionMap.set(opt.name, new Set());
+        }
+        optionMap.get(opt.name)!.add(opt.value);
+      }
+    }
+    return Array.from(optionMap.entries()).map(([name, values]) => ({
+      name,
+      values: Array.from(values),
+    }));
+  }, [product?.variants]);
+
+  // Initialize selected options from the default variant
+  const initialVariant = useMemo(() => {
+    if (product == null) return null;
+    const defaultVariant =
+      product.variants.find(
+        (v) => v.id === product.selectedOrFirstAvailableVariantId,
+      ) ?? product.variants[0];
+    if (defaultVariant == null) return null;
+    const opts: Record<string, string> = {};
+    for (const o of defaultVariant.selectedOptions) {
+      opts[o.name] = o.value;
+    }
+    return { id: defaultVariant.id, options: opts };
+  }, [product?.selectedOrFirstAvailableVariantId, product?.variants]);
+
+  const [selectedOptions, setSelectedOptions] = useState<
+    Record<string, string>
+  >(initialVariant?.options ?? {});
+
+  // Sync selectedOptions when product data arrives
+  useEffect(() => {
+    if (initialVariant) {
+      setSelectedOptions(initialVariant.options);
+    }
+  }, [initialVariant]);
+
+  // Find the variant matching the currently selected options
+  const selectedVariant = useMemo(() => {
+    if (product == null) return null;
+    const match = product.variants.find((v) =>
+      v.selectedOptions.every((opt) => selectedOptions[opt.name] === opt.value),
+    );
+    return match ?? product.variants[0] ?? null;
+  }, [product?.variants, selectedOptions]);
+
+  const handleOptionChange = (optionName: string, optionValue: string) => {
+    setSelectedOptions((prev) => ({ ...prev, [optionName]: optionValue }));
+  };
+
+  const isSelectedVariantAvailable = selectedVariant?.availableForSale ?? false;
+
+  const descriptionHtml = sanitizeHtml(
+    product != null && product.descriptionHtml.length > 0
+      ? product.descriptionHtml
+      : `<p>${t('productDetails.descriptionSuffix')}</p>`,
+  );
+
+  const addToCart = async () => {
+    if (selectedVariant == null) {
+      return;
+    }
+
+    await addVariant(selectedVariant.id, quantity);
+  };
+
+  const buyNow = async () => {
+    if (selectedVariant == null) {
+      return;
+    }
+
+    const nextCart = await addVariant(selectedVariant.id, quantity);
+    const nextCartId = nextCart?.id ?? summary.cartId;
+
+    if (nextCartId == null) {
+      return;
+    }
+
+    stageCartForCheckout();
+    await startCheckout(nextCartId);
+  };
+
+  // --- Early returns for loading / error states ---
+
   if (status === 'loading') {
     return (
       <section className="rounded border border-dashed border-[#d4c4ac] p-8 text-center">
@@ -105,43 +197,6 @@ export function ProductDetailsPage() {
     );
   }
 
-  const primaryVariant =
-    product.variants.find(
-      (item) => item.id === product.selectedOrFirstAvailableVariantId,
-    ) ??
-    product.variants[0] ??
-    null;
-  const isPrimaryVariantAvailable = primaryVariant?.availableForSale ?? false;
-  const descriptionHtml = sanitizeHtml(
-    product.descriptionHtml.length > 0
-      ? product.descriptionHtml
-      : `<p>${t('productDetails.descriptionSuffix')}</p>`,
-  );
-
-  const addToCart = async () => {
-    if (primaryVariant == null) {
-      return;
-    }
-
-    await addVariant(primaryVariant.id, quantity);
-  };
-
-  const buyNow = async () => {
-    if (primaryVariant == null) {
-      return;
-    }
-
-    const nextCart = await addVariant(primaryVariant.id, quantity);
-    const nextCartId = nextCart?.id ?? summary.cartId;
-
-    if (nextCartId == null) {
-      return;
-    }
-
-    stageCartForCheckout();
-    await startCheckout(nextCartId);
-  };
-
   return (
     <div className="space-y-12 md:space-y-16">
       <section className="grid gap-8 md:grid-cols-2 md:gap-10">
@@ -158,18 +213,18 @@ export function ProductDetailsPage() {
           </h1>
           <div className="mt-4 flex items-end gap-3">
             <p className="text-3xl font-semibold text-[#7a5900]">
-              {formatCurrency(Number.parseFloat(primaryVariant?.price ?? '0'))}
+              {formatCurrency(Number.parseFloat(selectedVariant?.price ?? '0'))}
             </p>
             <p className="pb-1 text-sm text-[#504533] line-through">
               {formatCurrency(
                 Math.round(
-                  Number.parseFloat(primaryVariant?.price ?? '0') * 1.2,
+                  Number.parseFloat(selectedVariant?.price ?? '0') * 1.2,
                 ),
               )}
             </p>
           </div>
 
-          {isPrimaryVariantAvailable ? (
+          {isSelectedVariantAvailable ? (
             <div className="mt-5 flex items-center gap-2 text-[#7a5900]">
               <CheckCircle2 className="size-4" />
               <span className="text-sm font-semibold">
@@ -183,6 +238,45 @@ export function ProductDetailsPage() {
           >
             {renderSanitizedHtml(descriptionHtml)}
           </div>
+
+          {/* Variant selector */}
+          {variantOptionGroups.length > 0 ? (
+            <div className="mt-6 space-y-4">
+              {variantOptionGroups.map((group) => (
+                <fieldset key={group.name}>
+                  <legend className="mb-2 text-sm font-semibold text-[#1c1c15]">
+                    {group.name}
+                  </legend>
+                  <div className="flex flex-wrap gap-2">
+                    {group.values.map((val) => {
+                      const isSelected = selectedOptions[group.name] === val;
+                      return (
+                        <button
+                          type="button"
+                          key={val}
+                          onClick={() => handleOptionChange(group.name, val)}
+                          className={[
+                            'rounded-full border px-4 py-1.5 text-sm font-medium transition',
+                            isSelected
+                              ? 'border-[#f4b400] bg-[#f4b400]/10 text-[#1c1c15]'
+                              : 'border-[#d4c4ac] text-[#504533] hover:border-[#c4b49a] hover:bg-[#f7f4e9]',
+                          ].join(' ')}
+                        >
+                          {val}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </fieldset>
+              ))}
+            </div>
+          ) : null}
+
+          {!isSelectedVariantAvailable ? (
+            <p className="mt-4 text-sm font-medium text-red-600">
+              {t('productDetails.outOfStock')}
+            </p>
+          ) : null}
 
           <div className="mt-8 space-y-3">
             <div className="flex items-center gap-3">
@@ -210,8 +304,8 @@ export function ProductDetailsPage() {
                   void addToCart();
                 }}
                 disabled={
-                  primaryVariant == null ||
-                  !isPrimaryVariantAvailable ||
+                  selectedVariant == null ||
+                  !isSelectedVariantAvailable ||
                   isMutating ||
                   isRedirecting
                 }
@@ -228,8 +322,8 @@ export function ProductDetailsPage() {
                 void buyNow();
               }}
               disabled={
-                primaryVariant == null ||
-                !isPrimaryVariantAvailable ||
+                selectedVariant == null ||
+                !isSelectedVariantAvailable ||
                 isMutating ||
                 isRedirecting
               }
@@ -248,12 +342,12 @@ export function ProductDetailsPage() {
               <span className="font-semibold text-[#1c1c15]">
                 {t('productDetails.specs.material')}
               </span>
-              <span>{primaryVariant?.title ?? 'Default'}</span>
+              <span>{product.productType.length > 0 ? product.productType : 'Default'}</span>
               <span className="font-semibold text-[#1c1c15]">
                 {t('productDetails.specs.stock')}
               </span>
               <span>
-                {isPrimaryVariantAvailable ? 'Available' : 'Sold out'}
+                {isSelectedVariantAvailable ? 'Available' : 'Sold out'}
               </span>
               <span className="font-semibold text-[#1c1c15]">
                 {t('productDetails.specs.variants')}

@@ -44,7 +44,6 @@ export const id = {
       description:
         'Rasakan karpet buatan tangan yang memadukan tradisi abadi dengan ketenangan kontemporer. Setiap karya dirancang untuk mengubah ruang harian menjadi galeri hangat yang bertekstur.',
       exploreCollections: 'Jelajahi Koleksi',
-      viewSignature: 'Lihat Signature',
       slideAlt1: 'Ruang tamu mewah dengan karpet buatan tangan',
       slideAlt2: 'Koleksi karpet bespoke di interior terkurasi',
       slideAlt3: 'Proses menenun artisan dengan teknik tradisional',
@@ -150,7 +149,7 @@ Sukses Lestari hadir bukan hanya untuk menyediakan kebutuhan rumah tangga dan ot
     backCatalog: 'Lihat Katalog',
   },
   storeHeader: {
-    badge: 'Katalog MVP SL88',
+    // badge: 'Katalog MVP SL88',
     title: 'Temukan karpet yang cocok untuk ruang Anda',
     description:
       'Jelajahi koleksi awal kami dengan inventaris mock, harga realistis, dan alur keranjang yang siap diuji untuk integrasi API mendatang.',
@@ -196,7 +195,7 @@ Sukses Lestari hadir bukan hanya untuk menyediakan kebutuhan rumah tangga dan ot
       stock: 'Stok:',
       stockAvailable: '{{count}} tersedia',
       rating: 'Rating:',
-      variants: 'Varian:',
+      variants: 'Jumlah Varian:',
     },
     galleryView: '{{name}} tampilan {{index}}',
     relatedTitle: 'Anda Mungkin Juga Suka',
