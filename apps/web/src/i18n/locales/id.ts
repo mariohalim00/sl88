@@ -40,9 +40,9 @@ export const id = {
   },
   landing: {
     hero: {
-      wovenForYou: 'Ditenun untuk Anda.',
+      title: 'Kualitas yang Melindungi, Kenyamanan yang Bertahan.',
       description:
-        'Rasakan karpet buatan tangan yang memadukan tradisi abadi dengan ketenangan kontemporer. Setiap karya dirancang untuk mengubah ruang harian menjadi galeri hangat yang bertekstur.',
+        'Temukan berbagai pilihan karpet dan alas lantai untuk rumah, bisnis, gudang, maupun kendaraan. Mengutamakan fungsi, ketahanan, dan kemudahan perawatan, setiap produk dipilih untuk memberikan nilai terbaik bagi pelanggan.',
       exploreCollections: 'Jelajahi Koleksi',
       slideAlt1: 'Ruang tamu mewah dengan karpet buatan tangan',
       slideAlt2: 'Koleksi karpet bespoke di interior terkurasi',

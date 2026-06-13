@@ -79,7 +79,7 @@ export function LandingHero() {
           {companyInfo.name},
           <br />
           <span className="text-[#f4b400]">
-            {t('landing.hero.wovenForYou')}
+            {t('landing.hero.title')}
           </span>
         </h1>
         <p className="mx-auto max-w-xl text-base leading-relaxed text-[#504533] md:mx-0 md:text-lg">

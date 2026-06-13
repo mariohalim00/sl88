@@ -40,9 +40,9 @@ export const en = {
   },
   landing: {
     hero: {
-      wovenForYou: 'Woven for You.',
+      title: 'Quality That Protects, Comfort That Lasts.',
       description:
-        'Experience handcrafted carpets that blend timeless tradition with contemporary calm. Each piece is designed to transform daily spaces into warm, tactile galleries.',
+        'Discover a wide selection of carpets and floor coverings for homes, businesses, warehouses, and vehicles. With a focus on functionality, durability, and ease of maintenance, each product is carefully selected to provide the best value for our customers.',
       exploreCollections: 'Explore Collections',
       slideAlt1: 'Luxury living room with handcrafted carpet',
       slideAlt2: 'Bespoke carpet collection in a curated interior',
