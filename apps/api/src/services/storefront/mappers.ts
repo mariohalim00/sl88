@@ -60,6 +60,7 @@ export function mapProductDetail(raw: {
         id: string;
         title: string;
         availableForSale: boolean;
+        image: { url: string; altText: string | null } | null;
         price: { amount: string; currencyCode: string };
         selectedOptions: Array<{ name: string; value: string }>;
       }>;
@@ -84,6 +85,7 @@ export function mapProductDetail(raw: {
         availableForSale: variant.availableForSale,
         price: variant.price.amount,
         currencyCode: variant.price.currencyCode,
+        imageUrl: variant.image?.url ?? null,
         selectedOptions: variant.selectedOptions,
       })),
       selectedOrFirstAvailableVariantId:

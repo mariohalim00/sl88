@@ -58,6 +58,7 @@ describe('Storefront schema and mapper coverage', () => {
               id: 'gid://shopify/ProductVariant/1',
               title: 'Default',
               availableForSale: true,
+              image: null,
               price: { amount: '10.00', currencyCode: 'USD' },
               selectedOptions: [],
             },

@@ -35,7 +35,7 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
 
       <div className="space-y-2 p-4 md:p-5">
         <p className="text-[10px] font-semibold tracking-[0.14em] text-[#504533] uppercase md:text-xs">
-          {product.handle}
+          {product.productType.length > 0 ? product.productType : product.title}
         </p>
         <Link to={`/products/${product.handle}`}>
           <h2 className="line-clamp-1 font-heading text-lg leading-tight text-[#1c1c15]">

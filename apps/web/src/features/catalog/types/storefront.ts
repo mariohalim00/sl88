@@ -25,6 +25,7 @@ export const storefrontProductVariantSchema = z.object({
   availableForSale: z.boolean(),
   price: z.string().min(1),
   currencyCode: z.string().min(1),
+  imageUrl: z.string().url().nullable(),
   selectedOptions: z.array(
     z.object({
       name: z.string().min(1),

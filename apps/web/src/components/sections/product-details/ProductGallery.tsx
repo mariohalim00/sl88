@@ -6,13 +6,20 @@ import type { StorefrontProductDetail } from '@/features/catalog/types/storefron
 
 type ProductGalleryProps = {
   product: StorefrontProductDetail;
+  selectedVariantImageUrl?: string | null;
 };
 
-export function ProductGallery({ product }: ProductGalleryProps) {
-  return <ProductGalleryContent key={product.id} product={product} />;
+export function ProductGallery({ product, selectedVariantImageUrl }: ProductGalleryProps) {
+  return (
+    <ProductGalleryContent
+      key={product.id}
+      product={product}
+      selectedVariantImageUrl={selectedVariantImageUrl ?? null}
+    />
+  );
 }
 
-function ProductGalleryContent({ product }: ProductGalleryProps) {
+function ProductGalleryContent({ product, selectedVariantImageUrl }: ProductGalleryProps) {
   const { t } = useTranslation();
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const fallbackImage = useMemo(
@@ -31,6 +38,17 @@ function ProductGalleryContent({ product }: ProductGalleryProps) {
   }, [fallbackImage, product.images]);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
+
+  // Switch main image when variant image changes
+  useEffect(() => {
+    if (selectedVariantImageUrl == null) return;
+    const variantIndex = images.findIndex(
+      (img) => img.url === selectedVariantImageUrl,
+    );
+    if (variantIndex !== -1) {
+      setActiveImageIndex(variantIndex);
+    }
+  }, [images, selectedVariantImageUrl]);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -106,7 +124,7 @@ function ProductGalleryContent({ product }: ProductGalleryProps) {
           alt={activeImage.altText ?? product.title}
         />
       </button>
-      <div className="grid grid-cols-4 gap-2">
+      <div className="flex gap-2 overflow-x-auto pb-1">
         {images.map((image, index) => (
           <button
             type="button"
@@ -117,7 +135,7 @@ function ProductGalleryContent({ product }: ProductGalleryProps) {
               index: index + 1,
             })}
             className={[
-              'aspect-square overflow-hidden rounded border bg-[#f1eee3]',
+              'aspect-square w-16 shrink-0 overflow-hidden rounded border bg-[#f1eee3]',
               activeImageIndex === index
                 ? 'border-[#f4b400]'
                 : 'border-[#d4c4ac] opacity-80',

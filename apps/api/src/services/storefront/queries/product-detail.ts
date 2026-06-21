@@ -22,6 +22,10 @@ const PRODUCT_DETAIL_QUERY = /* GraphQL */ `
           id
           title
           availableForSale
+          image {
+            url
+            altText
+          }
           price {
             amount
             currencyCode
@@ -61,6 +65,12 @@ const productDetailRawSchema = z.object({
             id: z.string().min(1),
             title: z.string().min(1),
             availableForSale: z.boolean(),
+            image: z
+              .object({
+                url: z.string().url(),
+                altText: z.string().nullable(),
+              })
+              .nullable(),
             price: z.object({
               amount: z.string().min(1),
               currencyCode: z.string().min(1),

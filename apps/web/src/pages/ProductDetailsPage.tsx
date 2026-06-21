@@ -200,7 +200,10 @@ export function ProductDetailsPage() {
   return (
     <div className="space-y-12 md:space-y-16">
       <section className="grid gap-8 md:grid-cols-2 md:gap-10">
-        <ProductGallery product={product} />
+        <ProductGallery
+          product={product}
+          selectedVariantImageUrl={selectedVariant?.imageUrl ?? null}
+        />
 
         <div className="pt-2 md:px-3 md:pt-6">
           <span className="inline-block rounded-full border border-[#d4c4ac] bg-[#f1eee3] px-3 py-1 text-xs font-semibold tracking-[0.08em] text-[#504533] uppercase">
@@ -280,7 +283,7 @@ export function ProductDetailsPage() {
 
           <div className="mt-8 space-y-3">
             <div className="flex items-center gap-3">
-              <div className="flex h-12 w-48 items-center justify-between rounded-md border border-[#d4c4ac] bg-[#f7f4e9] px-4 text-lg text-[#1c1c15]">
+              <div className="flex h-12 w-28 items-center justify-between rounded-md border border-[#d4c4ac] bg-[#f7f4e9] px-3 text-lg text-[#1c1c15] sm:w-48 sm:px-4">
                 <button
                   type="button"
                   onClick={() => setQuantity((current) => Math.max(1, current - 1))}
@@ -358,34 +361,36 @@ export function ProductDetailsPage() {
         </div>
       </section>
 
-      <section className="border-t border-[#d4c4ac] pt-10 md:pt-14">
-        <h2 className="mb-8 text-center font-heading text-3xl font-semibold text-[#1c1c15]">
-          {t('productDetails.relatedTitle')}
-        </h2>
-        <div className="grid gap-6 md:grid-cols-3">
-          {relatedProducts.map((item) => (
-            <Link
-              to={`/products/${item.handle}`}
-              key={item.id}
-              className="group block"
-            >
-              <div className="relative mb-4 aspect-3/4 overflow-hidden rounded border border-[#d4c4ac] bg-[#f1eee3]">
-                <img
-                  src={item.featuredImageUrl ?? '/branding/logo.png'}
-                  alt={item.title}
-                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                />
-              </div>
-              <h3 className="font-heading text-xl text-[#1c1c15]">
-                {item.title}
-              </h3>
-              <p className="text-sm text-[#504533]">
-                {formatCurrency(Number.parseFloat(item.priceMin))}
-              </p>
-            </Link>
-          ))}
-        </div>
-      </section>
+      {relatedProducts.length > 0 ? (
+        <section className="border-t border-[#d4c4ac] pt-10 md:pt-14">
+          <h2 className="mb-8 text-center font-heading text-3xl font-semibold text-[#1c1c15]">
+            {t('productDetails.relatedTitle')}
+          </h2>
+          <div className="grid gap-6 sm:grid-cols-3">
+            {relatedProducts.map((item) => (
+              <Link
+                to={`/products/${item.handle}`}
+                key={item.id}
+                className="group block"
+              >
+                <div className="relative mb-4 aspect-3/4 overflow-hidden rounded border border-[#d4c4ac] bg-[#f1eee3]">
+                  <img
+                    src={item.featuredImageUrl ?? '/branding/logo.png'}
+                    alt={item.title}
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="font-heading text-xl text-[#1c1c15]">
+                  {item.title}
+                </h3>
+                <p className="text-sm text-[#504533]">
+                  {formatCurrency(Number.parseFloat(item.priceMin))}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }
