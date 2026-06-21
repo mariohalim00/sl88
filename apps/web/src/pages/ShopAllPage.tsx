@@ -21,7 +21,7 @@ export function ShopAllPage() {
   const { addVariant } = useCart();
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-3 sm:px-0">
       <div className="flex gap-8">
         <aside className="sticky top-28 hidden h-fit w-64 shrink-0 flex-col gap-8 self-start border-r border-[#d4c4ac]/40 pr-6 lg:flex">
           <section className="space-y-4">

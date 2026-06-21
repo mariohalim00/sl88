@@ -106,7 +106,7 @@ export function LandingHero() {
               <img
                 src={slide.src}
                 alt={t(slide.altKey)}
-                className="h-85 w-full object-cover md:h-150"
+                className="aspect-3/2 w-full object-cover sm:aspect-21/9"
               />
             </CarouselItem>
           ))}

@@ -33,25 +33,23 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
         </button>
       </div>
 
-      <div className="space-y-2 p-4 md:p-5">
-        <p className="text-[10px] font-semibold tracking-[0.14em] text-[#504533] uppercase md:text-xs">
+      <div className="space-y-1.5 p-3 sm:p-4 md:p-5">
+        <p className="truncate text-[10px] font-semibold tracking-[0.14em] text-[#504533] uppercase md:text-xs">
           {product.productType.length > 0 ? product.productType : product.title}
         </p>
         <Link to={`/products/${product.handle}`}>
-          <h2 className="line-clamp-1 font-heading text-lg leading-tight text-[#1c1c15]">
+          <h2 className="line-clamp-2 font-heading text-sm leading-tight text-[#1c1c15] sm:text-lg">
             {product.title}
           </h2>
         </Link>
-        <div className="flex items-end justify-between gap-3 pt-1">
-          <div>
-            <p className="text-xs text-[#504533]">
-              {product.availableForSale
-                ? t('productDetails.inStockReadyToShip')
-                : 'Unavailable'}
-            </p>
-          </div>
-          <p className="text-lg font-semibold text-[#1c1c15]">
+        <div className="flex flex-col gap-0.5 pt-1">
+          <p className="text-sm font-semibold text-[#1c1c15] sm:text-lg">
             {formatCurrency(Number.parseFloat(product.priceMin))}
+          </p>
+          <p className="text-[11px] text-[#504533]">
+            {product.availableForSale
+              ? t('productDetails.inStockReadyToShip')
+              : 'Unavailable'}
           </p>
         </div>
         <button
@@ -61,7 +59,7 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
             !product.availableForSale ||
             product.selectedOrFirstAvailableVariantId == null
           }
-          className="mt-2 w-full rounded border border-[#1c1c15] px-4 py-2 text-xs font-semibold tracking-[0.08em] text-[#1c1c15] uppercase transition hover:bg-[#f7f4e9]"
+          className="mt-2 w-full rounded border border-[#1c1c15] px-3 py-2 text-[11px] font-semibold tracking-[0.08em] text-[#1c1c15] uppercase transition hover:bg-[#f7f4e9] sm:px-4 sm:text-xs"
         >
           {t('common.actions.addToBag')}
         </button>

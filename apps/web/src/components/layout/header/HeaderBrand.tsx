@@ -10,7 +10,7 @@ type HeaderBrandProps = {
 export function HeaderBrand({ shortName = false, onClick }: HeaderBrandProps) {
   return (
     <Link to="/" className="flex items-center gap-3" onClick={onClick}>
-      <span className="h-25 w-25 overflow-hidden rounded-md">
+      <span className="h-15 w-15 md:h-25 md:w-25 overflow-hidden rounded-md">
         <img
           src={companyInfo.branding.logoSrc}
           alt={`${companyInfo.name} logo`}

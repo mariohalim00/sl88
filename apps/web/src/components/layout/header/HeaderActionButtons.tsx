@@ -38,14 +38,14 @@ export function HeaderActionButtons({
       <button
         type="button"
         aria-label={t('header.aria.favorites')}
-        className={cn(iconButtonClass, 'hidden sm:block')}
+        className={cn(iconButtonClass, 'sm:block')}
       >
         <Heart className="size-5" />
       </button>
       <button
         type="button"
         aria-label={t('header.aria.account')}
-        className={cn(iconButtonClass, 'hidden sm:block')}
+        className={cn(iconButtonClass, 'sm:block')}
       >
         <User className="size-5" />
       </button>

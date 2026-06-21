@@ -115,7 +115,7 @@ function ProductGalleryContent({ product, selectedVariantImageUrl }: ProductGall
       <button
         type="button"
         onClick={() => setIsViewerOpen(true)}
-        className="block aspect-4/5 w-full overflow-hidden rounded border border-[#d4c4ac] bg-[#f1eee3]"
+        className="block aspect-3/4 w-full overflow-hidden rounded border border-[#d4c4ac] bg-[#f1eee3] sm:aspect-4/5"
         aria-label={t('productDetails.openImageViewer')}
       >
         <img

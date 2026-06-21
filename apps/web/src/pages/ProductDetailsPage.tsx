@@ -198,27 +198,27 @@ export function ProductDetailsPage() {
   }
 
   return (
-    <div className="space-y-12 md:space-y-16">
-      <section className="grid gap-8 md:grid-cols-2 md:gap-10">
+    <div className="space-y-8 md:space-y-16">
+      <section className="grid gap-6 md:grid-cols-2 md:gap-10">
         <ProductGallery
           product={product}
           selectedVariantImageUrl={selectedVariant?.imageUrl ?? null}
         />
 
         <div className="pt-2 md:px-3 md:pt-6">
-          <span className="inline-block rounded-full border border-[#d4c4ac] bg-[#f1eee3] px-3 py-1 text-xs font-semibold tracking-[0.08em] text-[#504533] uppercase">
+          <span className="inline-block max-w-full truncate rounded-full border border-[#d4c4ac] bg-[#f1eee3] px-3 py-1 text-xs font-semibold tracking-[0.08em] text-[#504533] uppercase">
             {t('productDetails.category', {
               category: product.productType.length > 0 ? product.productType : product.title,
             })}
           </span>
-          <h1 className="mt-4 font-heading text-3xl font-semibold text-[#1c1c15] md:text-4xl">
+          <h1 className="mt-4 font-heading text-2xl font-semibold text-[#1c1c15] md:text-4xl">
             {product.title}
           </h1>
           <div className="mt-4 flex items-end gap-3">
-            <p className="text-3xl font-semibold text-[#7a5900]">
+            <p className="text-2xl font-semibold text-[#7a5900] md:text-3xl">
               {formatCurrency(Number.parseFloat(selectedVariant?.price ?? '0'))}
             </p>
-            <p className="pb-1 text-sm text-[#504533] line-through">
+            <p className="pb-1 text-xs text-[#504533] line-through sm:text-sm">
               {formatCurrency(
                 Math.round(
                   Number.parseFloat(selectedVariant?.price ?? '0') * 1.2,
@@ -228,16 +228,16 @@ export function ProductDetailsPage() {
           </div>
 
           {isSelectedVariantAvailable ? (
-            <div className="mt-5 flex items-center gap-2 text-[#7a5900]">
-              <CheckCircle2 className="size-4" />
-              <span className="text-sm font-semibold">
+            <div className="mt-4 flex items-center gap-2 text-[#7a5900]">
+              <CheckCircle2 className="size-4 shrink-0" />
+              <span className="text-xs font-semibold sm:text-sm">
                 {t('productDetails.inStockReadyToShip')}
               </span>
             </div>
           ) : null}
 
           <div
-            className="mt-6 border-l-2 border-[#d4c4ac] pl-4 text-sm leading-relaxed text-[#504533] md:text-base"
+            className="mt-5 border-l-2 border-[#d4c4ac] pl-4 text-xs leading-relaxed text-[#504533] sm:text-sm md:text-base"
           >
             {renderSanitizedHtml(descriptionHtml)}
           </div>
@@ -336,8 +336,8 @@ export function ProductDetailsPage() {
             </button>
           </div>
 
-          <section className="mt-8 border-t border-[#d4c4ac] pt-6">
-            <div className="grid grid-cols-2 gap-y-3 text-sm text-[#504533]">
+          <section className="mt-6 border-t border-[#d4c4ac] pt-5 sm:mt-8 sm:pt-6">
+            <div className="grid grid-cols-2 gap-x-2 gap-y-3 text-xs text-[#504533] sm:text-sm">
               <span className="font-semibold text-[#1c1c15]">
                 {t('productDetails.specs.origin')}
               </span>
