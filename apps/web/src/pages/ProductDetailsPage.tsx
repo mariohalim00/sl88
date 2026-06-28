@@ -194,13 +194,15 @@ export function ProductDetailsPage() {
 
   return (
     <div className="space-y-8 md:space-y-16">
-      <section className="grid gap-6 md:grid-cols-2 md:gap-10">
-        <ProductGallery
-          product={product}
-          selectedVariantImageUrl={selectedVariant?.imageUrl ?? null}
-        />
+      <section className="min-w-0 grid gap-6 md:grid-cols-2 md:gap-10">
+        <div className="min-w-0">
+          <ProductGallery
+            product={product}
+            selectedVariantImageUrl={selectedVariant?.imageUrl ?? null}
+          />
+        </div>
 
-        <div className="pt-2 md:px-3 md:pt-6">
+        <div className="min-w-0 pt-2 md:px-3 md:pt-6">
           <span className="inline-block max-w-full truncate rounded-full border border-[#d4c4ac] bg-[#f1eee3] px-3 py-1 text-xs font-semibold tracking-[0.08em] text-[#504533] uppercase">
             {t('productDetails.category', {
               category:
@@ -209,7 +211,7 @@ export function ProductDetailsPage() {
                   : product.title,
             })}
           </span>
-          <h1 className="mt-4 font-heading text-2xl font-semibold text-[#1c1c15] md:text-4xl">
+          <h1 className="mt-4 break-words font-heading text-2xl font-semibold text-[#1c1c15] md:text-4xl">
             {product.title}
           </h1>
           <div className="mt-4 flex items-end gap-3">
@@ -234,7 +236,7 @@ export function ProductDetailsPage() {
             </div>
           ) : null}
 
-          <div className="mt-5 border-l-2 border-[#d4c4ac] pl-4 text-xs leading-relaxed text-[#504533] sm:text-sm md:text-base">
+          <div className="mt-5 border-l-2 border-[#d4c4ac] pl-4 break-words text-xs leading-relaxed text-[#504533] sm:text-sm md:text-base">
             {renderSanitizedHtml(descriptionHtml)}
           </div>
 
@@ -255,7 +257,7 @@ export function ProductDetailsPage() {
                           key={val}
                           onClick={() => handleOptionChange(group.name, val)}
                           className={[
-                            'rounded-full border px-4 py-1.5 text-sm font-medium transition',
+                            'rounded-full border px-2.5 py-1 text-xs font-medium transition sm:px-4 sm:py-1.5 sm:text-sm',
                             isSelected
                               ? 'border-[#f4b400] bg-[#f4b400]/10 text-[#1c1c15]'
                               : 'border-[#d4c4ac] text-[#504533] hover:border-[#c4b49a] hover:bg-[#f7f4e9]',

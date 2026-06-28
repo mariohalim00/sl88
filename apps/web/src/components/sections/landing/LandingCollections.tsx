@@ -4,8 +4,7 @@ const categoryHighlights = [
   {
     titleKey: 'landing.collections.antiSlipCarpetsTitle',
     descriptionKey: 'landing.collections.antiSlipCarpetsDescription',
-    imageUrl:
-      '/branding/Collections/1920 X 1080 - KARET RUMAH TANGGA 02.png',
+    imageUrl: '/branding/Collections/1920 X 1080 - KARET RUMAH TANGGA 02.png',
   },
   {
     titleKey: 'landing.collections.noodleCarpetsTitle',
