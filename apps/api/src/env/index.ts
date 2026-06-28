@@ -67,7 +67,10 @@ export const getAppPublicUrl = (): string => {
   const result = appPublicUrlSchema.safeParse(candidate);
 
   if (result.success) {
-    if (process.env['APP_PUBLIC_URL'] == null && !hasWarnedAppPublicUrlFallback) {
+    if (
+      process.env['APP_PUBLIC_URL'] == null &&
+      !hasWarnedAppPublicUrlFallback
+    ) {
       hasWarnedAppPublicUrlFallback = true;
       logger.warn(
         `[env] APP_PUBLIC_URL is not set. Falling back to ${DEFAULT_APP_PUBLIC_URL} for hosted checkout returns.`,
@@ -116,8 +119,7 @@ export const getStorefrontConfig = (): StorefrontConfig => {
     storefrontEnv.SHOPIFY_STOREFRONT_PUBLIC_ACCESS_TOKEN = publicAccessToken;
   }
   if (privateAccessToken != null) {
-    storefrontEnv.SHOPIFY_STOREFRONT_PRIVATE_ACCESS_TOKEN =
-      privateAccessToken;
+    storefrontEnv.SHOPIFY_STOREFRONT_PRIVATE_ACCESS_TOKEN = privateAccessToken;
   }
 
   cachedStorefrontConfig = parseStorefrontConfig(storefrontEnv);

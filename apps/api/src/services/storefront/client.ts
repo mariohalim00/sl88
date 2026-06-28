@@ -61,19 +61,15 @@ export async function runStorefrontOperation<
       const networkStatusCode = payload.data.errors.networkStatusCode;
       const graphQLErrors = payload.data.errors.graphQLErrors;
       const joinedGraphQLErrors =
-        graphQLErrors?.map((error) => error.message).join('; ') ??
-        undefined;
+        graphQLErrors?.map((error) => error.message).join('; ') ?? undefined;
 
-      throw new StorefrontUpstreamError(
-        'Storefront request returned errors',
-        {
-          status: networkStatusCode ?? 502,
-          detail:
-            joinedGraphQLErrors ??
-            payload.data.errors.message ??
-            'Unknown Storefront API error',
-        },
-      );
+      throw new StorefrontUpstreamError('Storefront request returned errors', {
+        status: networkStatusCode ?? 502,
+        detail:
+          joinedGraphQLErrors ??
+          payload.data.errors.message ??
+          'Unknown Storefront API error',
+      });
     }
 
     const parsed = args.schema.safeParse(payload.data.data);

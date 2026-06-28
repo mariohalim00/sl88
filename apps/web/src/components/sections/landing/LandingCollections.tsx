@@ -2,28 +2,25 @@ import { useTranslation } from 'react-i18next';
 
 const categoryHighlights = [
   {
-    titleKey: 'landing.collections.kitchenCarpetsTitle',
-    descriptionKey: 'landing.collections.kitchenCarpetsDescription',
+    titleKey: 'landing.collections.antiSlipCarpetsTitle',
+    descriptionKey: 'landing.collections.antiSlipCarpetsDescription',
     imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuA2yCQFSVkJrujFwwzmkO9diuP0QodGZXJ2_-5NDnRtDxTnY5YHmwh5aQqPPYLeJ0fItj618nbj0r0oqDHAa_nrtTahQI2BsPrwWw3UQ10NUzwsMROMo_Mr-z00sGeFidlhIAV8atK9tGOoLmliVAEVQY8GByW4wnLOxaSwxKbWVmQSaJl2YM2IBWyujmsFcEwXnVAYByzzCwwXGqRhoWqL0drmcmXYjoYKvhgTfogU24ObuHI4HiW1qCZLV9Q1cyQ9hq1pD-3kgQA',
+      '/public/branding/Collections/1920 X 1080 - KARET RUMAH TANGGA 02.png',
   },
   {
-    titleKey: 'landing.collections.welcomeMatsTitle',
-    descriptionKey: 'landing.collections.welcomeMatsDescription',
-    imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuDhRkrxOYKq3bup1QF0fnR8crOQ4utEmJlkGin-byrbn4imyBTv7r2ri3tgA2J_9PxJmH3N9XzjIkHqfCEqHfHH_zocw64M9pJ9aY7uDcqgOXCFMlZXp59OTZZ4k9hG2bGjQZflnF0pzpjl-trbEMMgd_zwzPMc0MUiVUGpVHBV42G7EOGm3SbkmU2KGPSInlRslaUULgrLSZVvzijExUQElXSQaUYRmzWPjLAJ4y-7qgp7-YhFDXnqBVMXazP7DgMxTPFTnGQSbzc',
+    titleKey: 'landing.collections.noodleCarpetsTitle',
+    descriptionKey: 'landing.collections.noodleCarpetsDescription',
+    imageUrl: '/public/branding/Collections/1920 X 1080 - KARPET BIHUN.png',
   },
   {
     titleKey: 'landing.collections.carCarpetsTitle',
     descriptionKey: 'landing.collections.carCarpetsDescription',
-    imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuA24MSxRx5eE-JPbt_ur5puVCu4IaQb-SJl-8pJobxafPvfkUQPO_LSwWwJLyBlLDJVfE7wedrq5g_zi_T9875vk56uCXDfR5hvKx-5i8iDqK1VArO5UQ9rwZXgt-bYzYD-usqqKzK16VbtyXHw0abpqbvsEC-nnXGaxPEEmGxz6FjLW4JdpXMvcn--4FJOp4yLxe5XD3conScZs0kI8iJuq7LOaIOq9wpGpsSO-1zexJsE9-lH1WG2QuqsKGPBkhO2kOdgewid3Xc',
+    imageUrl: '/public/branding/Collections/1920 X 1080 - KARPET MOBIL.png',
   },
   {
-    titleKey: 'landing.collections.bespokeCollectionTitle',
-    descriptionKey: 'landing.collections.bespokeCollectionDescription',
-    imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuBt5c2NFj1J8sZIt3l0sv7r9YAVgsCbYyodiZWT0MZnweWBZDosBUmaoLOWefJ44iWPEfg5tDRjYr5dDy1vIIZcBd1fnPMuh_70Mc9Y5LfCDDguq-2BP8kBK_HmyiLcY0KaPUBeDW46kxaprpYvii-0UwMzbSPAXR4GagM4c5-mgrEbEfG5yXBGMCT62O7OORLgem6vMscBZi4Qb5hjCgTsgwYDy1-W-5ERsWItYNU_w-EJqEjvuqsaEiho7QbHTMHTIM6uWpuJ5MI',
+    titleKey: 'landing.collections.sTypeCarpetsTitle',
+    descriptionKey: 'landing.collections.sTypeCarpetsDescription',
+    imageUrl: '/public/branding/Collections/1920 x 1080 - S TYPE.png',
   },
 ];
 

@@ -2,7 +2,7 @@ import {
   storefrontCartResponseSchema,
   storefrontProductDetailResponseSchema,
   storefrontProductsResponseSchema,
-} from "./schemas";
+} from './schemas';
 
 export function mapProductsList(raw: {
   products: {

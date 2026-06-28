@@ -7,7 +7,16 @@ const BLOCKED_TAGS = new Set([
   'template',
 ]);
 
-const ALLOWED_TAGS = new Set(['p', 'br', 'strong', 'em', 'ul', 'ol', 'li', 'a']);
+const ALLOWED_TAGS = new Set([
+  'p',
+  'br',
+  'strong',
+  'em',
+  'ul',
+  'ol',
+  'li',
+  'a',
+]);
 const ALLOWED_PROTOCOLS = new Set(['http:', 'https:', 'mailto:', 'tel:']);
 
 function escapeHtml(value: string) {
@@ -20,7 +29,10 @@ function escapeHtml(value: string) {
 }
 
 function stripHtml(value: string) {
-  return value.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  return value
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function sanitizeHref(href: string | null) {

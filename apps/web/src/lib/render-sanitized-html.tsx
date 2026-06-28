@@ -1,7 +1,10 @@
 import { Fragment, type ReactNode } from 'react';
 
 function toPlainText(html: string): string {
-  return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  return html
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function renderNode(node: Node, keyPrefix: string): ReactNode {

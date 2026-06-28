@@ -66,7 +66,10 @@ export async function getStorefrontCheckoutUrl(
   }
 
   const parsed = storefrontCheckoutResponseSchema.safeParse({
-    checkoutUrl: buildCheckoutUrlWithReturnTargets(raw.cart.checkoutUrl, options),
+    checkoutUrl: buildCheckoutUrlWithReturnTargets(
+      raw.cart.checkoutUrl,
+      options,
+    ),
     mode: 'hosted_redirect',
   });
 

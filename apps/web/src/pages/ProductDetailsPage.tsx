@@ -17,12 +17,7 @@ import type {
 
 export function ProductDetailsPage() {
   const { t } = useTranslation();
-  const {
-    addVariant,
-    summary,
-    isMutating,
-    stageCartForCheckout,
-  } = useCart();
+  const { addVariant, summary, isMutating, stageCartForCheckout } = useCart();
   const { isRedirecting, startCheckout } = useCheckout();
   const { handle } = useParams();
   const [product, setProduct] = useState<StorefrontProductDetail | null>(null);
@@ -208,7 +203,10 @@ export function ProductDetailsPage() {
         <div className="pt-2 md:px-3 md:pt-6">
           <span className="inline-block max-w-full truncate rounded-full border border-[#d4c4ac] bg-[#f1eee3] px-3 py-1 text-xs font-semibold tracking-[0.08em] text-[#504533] uppercase">
             {t('productDetails.category', {
-              category: product.productType.length > 0 ? product.productType : product.title,
+              category:
+                product.productType.length > 0
+                  ? product.productType
+                  : product.title,
             })}
           </span>
           <h1 className="mt-4 font-heading text-2xl font-semibold text-[#1c1c15] md:text-4xl">
@@ -236,9 +234,7 @@ export function ProductDetailsPage() {
             </div>
           ) : null}
 
-          <div
-            className="mt-5 border-l-2 border-[#d4c4ac] pl-4 text-xs leading-relaxed text-[#504533] sm:text-sm md:text-base"
-          >
+          <div className="mt-5 border-l-2 border-[#d4c4ac] pl-4 text-xs leading-relaxed text-[#504533] sm:text-sm md:text-base">
             {renderSanitizedHtml(descriptionHtml)}
           </div>
 
@@ -286,7 +282,9 @@ export function ProductDetailsPage() {
               <div className="flex h-12 w-28 items-center justify-between rounded-md border border-[#d4c4ac] bg-[#f7f4e9] px-3 text-lg text-[#1c1c15] sm:w-48 sm:px-4">
                 <button
                   type="button"
-                  onClick={() => setQuantity((current) => Math.max(1, current - 1))}
+                  onClick={() =>
+                    setQuantity((current) => Math.max(1, current - 1))
+                  }
                   aria-label={t('productDetails.decreaseQuantity')}
                 >
                   -
@@ -345,7 +343,11 @@ export function ProductDetailsPage() {
               <span className="font-semibold text-[#1c1c15]">
                 {t('productDetails.specs.material')}
               </span>
-              <span>{product.productType.length > 0 ? product.productType : 'Default'}</span>
+              <span>
+                {product.productType.length > 0
+                  ? product.productType
+                  : 'Default'}
+              </span>
               <span className="font-semibold text-[#1c1c15]">
                 {t('productDetails.specs.stock')}
               </span>

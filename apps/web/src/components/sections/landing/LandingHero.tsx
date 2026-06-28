@@ -78,9 +78,7 @@ export function LandingHero() {
         <h1 className="font-heading text-4xl leading-tight font-bold tracking-tight text-[#1c1c15] md:text-6xl">
           {companyInfo.name},
           <br />
-          <span className="text-[#f4b400]">
-            {t('landing.hero.title')}
-          </span>
+          <span className="text-[#f4b400]">{t('landing.hero.title')}</span>
         </h1>
         <p className="mx-auto max-w-xl text-base leading-relaxed text-[#504533] md:mx-0 md:text-lg">
           {t('landing.hero.description')}

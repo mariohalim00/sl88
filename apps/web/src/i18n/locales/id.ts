@@ -60,10 +60,17 @@ export const id = {
       welcomeMatsTitle: 'Keset Selamat Datang',
       welcomeMatsDescription: 'Kesan pertama yang berkelas.',
       carCarpetsTitle: 'Karpet Mobil',
-      carCarpetsDescription: 'Kemewahan dalam perjalanan.',
+      carCarpetsDescription: 'Kenyamanan dalam setiap perjalanan',
       bespokeCollectionTitle: 'Koleksi Bespoke',
       bespokeCollectionDescription:
         'Pesan karya khusus yang disesuaikan dengan visi dan ruang Anda.',
+      antiSlipCarpetsTitle: 'Karpet Anti-Slip',
+      antiSlipCarpetsDescription: 'Kemanan untuk setiap langka',
+      noodleCarpetsTitle: 'Keset Mi Bihun',
+      noodleCarpetsDescription:
+        'Menyambut setiap langkah dengan lebih bersih dan baik',
+      sTypeCarpetsTitle: 'Karpet S-Type',
+      sTypeCarpetsDescription: 'Kebersihan untuk setiap area.',
     },
     about: {
       imageAlt: 'Proses tenun artisan',

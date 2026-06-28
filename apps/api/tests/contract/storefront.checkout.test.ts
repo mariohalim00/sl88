@@ -47,7 +47,9 @@ describe('Storefront checkout contract', () => {
     const payload = (await res.json()) as { checkoutUrl: string; mode: string };
     expect(payload.checkoutUrl).toContain('checkouts');
     expect(payload.checkoutUrl).toContain(
-      encodeURIComponent('https://storefront.example/checkout/result?status=success'),
+      encodeURIComponent(
+        'https://storefront.example/checkout/result?status=success',
+      ),
     );
     expect(payload.checkoutUrl).toContain('continue_shopping_url=');
     expect(payload.mode).toBe('hosted_redirect');
@@ -85,7 +87,9 @@ describe('Storefront checkout contract', () => {
     expect(res.status).toBe(200);
     const payload = (await res.json()) as { checkoutUrl: string; mode: string };
     expect(payload.checkoutUrl).toContain(
-      encodeURIComponent('http://localhost:5173/checkout/result?status=success'),
+      encodeURIComponent(
+        'http://localhost:5173/checkout/result?status=success',
+      ),
     );
     expect(payload.mode).toBe('hosted_redirect');
   });

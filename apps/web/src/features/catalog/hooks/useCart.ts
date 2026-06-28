@@ -5,11 +5,7 @@ import {
   removeCartLines,
   updateCartLines,
 } from '../api/cart';
-
-import {
-  storefrontCartSchema,
-  type StorefrontCart,
-} from '../types/storefront';
+import { storefrontCartSchema, type StorefrontCart } from '../types/storefront';
 
 const CART_STORAGE_KEY = 'sl88.storefront.cart';
 const CHECKOUT_BACKUP_STORAGE_KEY = 'sl88.storefront.checkout.backup';

@@ -59,7 +59,10 @@ export function CartSummary({
               >
                 <div className="flex min-w-0 items-start gap-3">
                   <img
-                    src={item.product.thumbnailUrl ?? '/branding/sl88-logo-gold.png'}
+                    src={
+                      item.product.thumbnailUrl ??
+                      '/branding/sl88-logo-gold.png'
+                    }
                     alt={item.product.title}
                     className="h-12 w-12 shrink-0 rounded border border-[#d4c4ac] object-cover"
                   />

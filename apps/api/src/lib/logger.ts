@@ -13,15 +13,16 @@ const loggerOptions: pino.LoggerOptions = {
   timestamp: pino.stdTimeFunctions.isoTime,
 };
 
-const prettyStream =
-  isProduction
-    ? undefined
-    : pinoPretty({
-        colorize: true,
-        translateTime: 'SYS:standard',
-        ignore: 'pid,hostname',
-        singleLine: true,
-      });
+const prettyStream = isProduction
+  ? undefined
+  : pinoPretty({
+      colorize: true,
+      translateTime: 'SYS:standard',
+      ignore: 'pid,hostname',
+      singleLine: true,
+    });
 
 export const logger =
-  prettyStream == null ? pino(loggerOptions) : pino(loggerOptions, prettyStream);
+  prettyStream == null
+    ? pino(loggerOptions)
+    : pino(loggerOptions, prettyStream);

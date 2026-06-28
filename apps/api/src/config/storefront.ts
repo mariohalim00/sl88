@@ -17,12 +17,13 @@ const storefrontConfigValidatedSchema = storefrontConfigSchema.refine(
   },
 );
 
-const normalizedStorefrontConfigSchema = storefrontConfigValidatedSchema.transform((value) => ({
-  storeDomain: value.storeDomain,
-  apiVersion: value.apiVersion,
-  publicAccessToken: value.publicAccessToken,
-  privateAccessToken: value.privateAccessToken,
-}));
+const normalizedStorefrontConfigSchema =
+  storefrontConfigValidatedSchema.transform((value) => ({
+    storeDomain: value.storeDomain,
+    apiVersion: value.apiVersion,
+    publicAccessToken: value.publicAccessToken,
+    privateAccessToken: value.privateAccessToken,
+  }));
 
 export type StorefrontConfig = z.infer<typeof normalizedStorefrontConfigSchema>;
 

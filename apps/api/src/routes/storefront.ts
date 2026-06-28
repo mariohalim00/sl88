@@ -194,7 +194,10 @@ export const storefrontRoute = new Elysia({ prefix: '/api/storefront' })
       try {
         const appBaseUrl = getAppPublicUrl();
 
-        const successUrl = new URL('/checkout/result?status=success', appBaseUrl);
+        const successUrl = new URL(
+          '/checkout/result?status=success',
+          appBaseUrl,
+        );
         const cancelUrl = new URL('/checkout/result?status=cancel', appBaseUrl);
 
         return await getStorefrontCheckoutUrl(normalizeCartId(params.cartId), {

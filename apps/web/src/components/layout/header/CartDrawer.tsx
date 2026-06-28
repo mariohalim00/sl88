@@ -12,13 +12,8 @@ type CartDrawerProps = {
 
 export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const { t } = useTranslation();
-  const {
-    summary,
-    isMutating,
-    updateLine,
-    removeLine,
-    stageCartForCheckout,
-  } = useCart();
+  const { summary, isMutating, updateLine, removeLine, stageCartForCheckout } =
+    useCart();
   const { isRedirecting, startCheckout } = useCheckout();
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const handleCloseRequest = () => {

@@ -11,7 +11,7 @@ export function LandingAbout() {
     >
       <div className="h-80 overflow-hidden rounded-xl md:h-120">
         <img
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCldSvOeUbOhfYmk3NN4oRhUYagbhpKIvjxcwFcT6kBqedI3u2C5CTXBHSEdVxsvmV7i25CPfpWoNXL3crB7zWC3zfo8gV1QyqiXmFrK8y00vaAH0Obs_epPTbmDxAg4w4PuekJ3WlYJaY-yBPGh1TW2AO8XRStDz1fh6LBD9mgkLP3ZEtykwlk195jSkBTP3stwcXNzjmIjuzjeQ5ApF0Dx0KVOu0tJGLuEbGkN2DAk4OVGlF4S431rx3SePNIpuASFdkCw3DtuAI"
+          src="/public/branding/About/about-us.png"
           alt={t('landing.about.imageAlt')}
           className="h-full w-full object-cover grayscale transition duration-700 hover:grayscale-0"
         />

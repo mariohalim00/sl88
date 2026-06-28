@@ -36,12 +36,7 @@ function buildFacetOptions(values: string[]) {
 }
 
 function getSearchableText(product: StorefrontProductSummary) {
-  return [
-    product.title,
-    product.handle,
-    product.productType,
-    ...product.tags,
-  ]
+  return [product.title, product.handle, product.productType, ...product.tags]
     .join(' ')
     .toLowerCase();
 }
@@ -159,7 +154,9 @@ export function useCatalog() {
   }, [products]);
 
   useEffect(() => {
-    const categoryValues = new Set(categoryOptions.map((option) => option.value));
+    const categoryValues = new Set(
+      categoryOptions.map((option) => option.value),
+    );
 
     setSelectedCategories((current) =>
       current.filter((value) => categoryValues.has(value)),
@@ -167,7 +164,9 @@ export function useCatalog() {
   }, [categoryOptions]);
 
   useEffect(() => {
-    const materialValues = new Set(materialOptions.map((option) => option.value));
+    const materialValues = new Set(
+      materialOptions.map((option) => option.value),
+    );
 
     setSelectedMaterials((current) =>
       current.filter((value) => materialValues.has(value)),
@@ -190,18 +189,19 @@ export function useCatalog() {
 
     return products.filter((product) => {
       const matchesSearch =
-        normalized.length === 0 || getSearchableText(product).includes(normalized);
-      const matchesCategory = matchesCategoryFilter(product, selectedCategories);
+        normalized.length === 0 ||
+        getSearchableText(product).includes(normalized);
+      const matchesCategory = matchesCategoryFilter(
+        product,
+        selectedCategories,
+      );
       const matchesMaterial = matchesMaterialFilter(product, selectedMaterials);
       const productPrice = Number.parseFloat(product.priceMin);
       const matchesPrice =
         !Number.isFinite(productPrice) || productPrice <= maxPrice;
 
       return (
-        matchesSearch &&
-        matchesCategory &&
-        matchesMaterial &&
-        matchesPrice
+        matchesSearch && matchesCategory && matchesMaterial && matchesPrice
       );
     });
   }, [maxPrice, products, searchTerm, selectedCategories, selectedMaterials]);

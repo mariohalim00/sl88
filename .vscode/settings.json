@@ -10,6 +10,7 @@
         ".specify/scripts/bash/": true,
         ".specify/scripts/powershell/": true
     },
-    "bun.runtime": "/home/mariolin/.local/share/mise/shims/bun"
+    "bun.runtime": "${env:HOME}/.local/share/mise/shims/bun",
+    "oxc.path.node": "${env:HOME}/mariolin/.local/share/mise/shims/node"
 }
 

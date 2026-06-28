@@ -60,10 +60,16 @@ export const en = {
       welcomeMatsTitle: 'Welcome Mats',
       welcomeMatsDescription: 'The first impression.',
       carCarpetsTitle: 'Car Carpets',
-      carCarpetsDescription: 'Luxury in motion.',
+      carCarpetsDescription: 'Comfort in motion.',
       bespokeCollectionTitle: 'Bespoke Collection',
       bespokeCollectionDescription:
         'Commission a masterpiece tailored to your vision and space.',
+      antiSlipCarpetsTitle: 'Anti-Slip Carpets',
+      antiSlipCarpetsDescription: 'Comfort in every step',
+      noodleCarpetsTitle: 'Noodle Mats',
+      noodleCarpetsDescription: 'Welcoming every step cleaner and better',
+      sTypeCarpetsTitle: 'S-Type Carpets',
+      sTypeCarpetsDescription: 'Cleanliness in every area',
     },
     about: {
       imageAlt: 'Artisan weaving process',

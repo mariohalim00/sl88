@@ -9,7 +9,10 @@ type ProductGalleryProps = {
   selectedVariantImageUrl?: string | null;
 };
 
-export function ProductGallery({ product, selectedVariantImageUrl }: ProductGalleryProps) {
+export function ProductGallery({
+  product,
+  selectedVariantImageUrl,
+}: ProductGalleryProps) {
   return (
     <ProductGalleryContent
       key={product.id}
@@ -19,7 +22,10 @@ export function ProductGallery({ product, selectedVariantImageUrl }: ProductGall
   );
 }
 
-function ProductGalleryContent({ product, selectedVariantImageUrl }: ProductGalleryProps) {
+function ProductGalleryContent({
+  product,
+  selectedVariantImageUrl,
+}: ProductGalleryProps) {
   const { t } = useTranslation();
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const fallbackImage = useMemo(
