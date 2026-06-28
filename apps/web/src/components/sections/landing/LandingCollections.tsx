@@ -5,22 +5,22 @@ const categoryHighlights = [
     titleKey: 'landing.collections.antiSlipCarpetsTitle',
     descriptionKey: 'landing.collections.antiSlipCarpetsDescription',
     imageUrl:
-      '/public/branding/Collections/1920 X 1080 - KARET RUMAH TANGGA 02.png',
+      '/branding/Collections/1920 X 1080 - KARET RUMAH TANGGA 02.png',
   },
   {
     titleKey: 'landing.collections.noodleCarpetsTitle',
     descriptionKey: 'landing.collections.noodleCarpetsDescription',
-    imageUrl: '/public/branding/Collections/1920 X 1080 - KARPET BIHUN.png',
+    imageUrl: '/branding/Collections/1920 X 1080 - KARPET BIHUN.png',
   },
   {
     titleKey: 'landing.collections.carCarpetsTitle',
     descriptionKey: 'landing.collections.carCarpetsDescription',
-    imageUrl: '/public/branding/Collections/1920 X 1080 - KARPET MOBIL.png',
+    imageUrl: '/branding/Collections/1920 X 1080 - KARPET MOBIL.png',
   },
   {
     titleKey: 'landing.collections.sTypeCarpetsTitle',
     descriptionKey: 'landing.collections.sTypeCarpetsDescription',
-    imageUrl: '/public/branding/Collections/1920 x 1080 - S TYPE.png',
+    imageUrl: '/branding/Collections/1920 x 1080 - S TYPE.png',
   },
 ];
 

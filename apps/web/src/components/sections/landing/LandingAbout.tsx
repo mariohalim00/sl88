@@ -11,7 +11,7 @@ export function LandingAbout() {
     >
       <div className="h-80 overflow-hidden rounded-xl md:h-120">
         <img
-          src="/public/branding/About/about-us.png"
+          src="/branding/About/about-us.png"
           alt={t('landing.about.imageAlt')}
           className="h-full w-full object-cover grayscale transition duration-700 hover:grayscale-0"
         />
