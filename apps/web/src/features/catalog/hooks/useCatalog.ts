@@ -16,23 +16,15 @@ function normalizeFacetValue(value: string) {
   return value.trim().toLowerCase().replace(/[_-]+/g, ' ');
 }
 
-function toFacetLabel(value: string) {
-  return value
-    .split(' ')
-    .filter(Boolean)
-    .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
-    .join(' ');
-}
-
 function sortFacetValues(values: string[]) {
   return [...values].sort((left, right) => left.localeCompare(right));
 }
 
-function buildFacetOptions(values: string[]) {
-  return values.map((value) => ({
-    value,
-    label: toFacetLabel(value),
-  }));
+function buildFacetOptionsWithLabels(entries: Array<{ value: string; label: string }>) {
+  return sortFacetValues(entries.map((e) => e.value)).map((value) => {
+    const match = entries.find((e) => e.value === value);
+    return { value, label: match?.label ?? value };
+  });
 }
 
 function getSearchableText(product: StorefrontProductSummary) {
@@ -124,33 +116,37 @@ export function useCatalog() {
   }, [priceUpperBound]);
 
   const categoryOptions = useMemo<CatalogFilterOption[]>(() => {
-    const uniqueCategories = new Set<string>();
+    const seen = new Set<string>();
+    const entries: Array<{ value: string; label: string }> = [];
 
     products.forEach((product) => {
-      const normalizedProductType = normalizeFacetValue(product.productType);
+      const normalized = normalizeFacetValue(product.productType);
 
-      if (normalizedProductType.length > 0) {
-        uniqueCategories.add(normalizedProductType);
+      if (normalized.length > 0 && !seen.has(normalized)) {
+        seen.add(normalized);
+        entries.push({ value: normalized, label: product.productType });
       }
     });
 
-    return buildFacetOptions(sortFacetValues(Array.from(uniqueCategories)));
+    return buildFacetOptionsWithLabels(entries);
   }, [products]);
 
   const materialOptions = useMemo<CatalogFilterOption[]>(() => {
-    const uniqueMaterials = new Set<string>();
+    const seen = new Set<string>();
+    const entries: Array<{ value: string; label: string }> = [];
 
     products.forEach((product) => {
       product.tags.forEach((tag) => {
-        const normalizedTag = normalizeFacetValue(tag);
+        const normalized = normalizeFacetValue(tag);
 
-        if (normalizedTag.length > 0 && normalizedTag.length <= 30) {
-          uniqueMaterials.add(normalizedTag);
+        if (normalized.length > 0 && normalized.length <= 30 && !seen.has(normalized)) {
+          seen.add(normalized);
+          entries.push({ value: normalized, label: tag });
         }
       });
     });
 
-    return buildFacetOptions(sortFacetValues(Array.from(uniqueMaterials)));
+    return buildFacetOptionsWithLabels(entries);
   }, [products]);
 
   useEffect(() => {
