@@ -8,6 +8,8 @@ import {
   createStorefrontCustomerAccessToken,
   createStorefrontCustomer,
   deleteStorefrontCustomerAccessToken,
+  recoverStorefrontCustomerPassword,
+  resetStorefrontCustomerPasswordByUrl,
 } from '../services/storefront/mutations/customer-auth.js';
 import {
   updateStorefrontCustomer,
@@ -91,6 +93,15 @@ const addressBodySchema = t.Object({
 
 const addressParamsSchema = t.Object({
   id: t.String({ minLength: 1 }),
+});
+
+const recoverBodySchema = t.Object({
+  email: t.String({ format: 'email', minLength: 1 }),
+});
+
+const resetPasswordBodySchema = t.Object({
+  resetUrl: t.String({ minLength: 1 }),
+  password: t.String({ minLength: 5 }),
 });
 
 function problemUnauthorized(detail?: string) {
@@ -205,6 +216,61 @@ export const customerRoute = new Elysia({ prefix: '/api/customer' })
       }
     },
     { body: registerBodySchema },
+  )
+  .post(
+    '/recover',
+    async ({ body }) => {
+      // Fire-and-forget: always 200, even if Shopify hiccups, so the
+      // response never leaks whether the email has an account.
+      await recoverStorefrontCustomerPassword(body.email).catch(() => {});
+      return {
+        success: true,
+        message:
+          'If an account matches that email, instructions have been sent.',
+      };
+    },
+    { body: recoverBodySchema },
+  )
+  .post(
+    '/reset-password',
+    async ({ body, request, set }) => {
+      try {
+        const accessToken = await resetStorefrontCustomerPasswordByUrl(
+          body.resetUrl,
+          body.password,
+        );
+
+        if (accessToken == null) {
+          set.status = 400;
+          set.headers['content-type'] = 'application/problem+json';
+          return problemBadRequest('Password reset link is invalid.');
+        }
+
+        setAuthCookie(
+          set.headers as Record<string, unknown>,
+          accessToken.accessToken,
+        );
+
+        const customer = await getStorefrontCustomer(accessToken.accessToken);
+        return customer;
+      } catch (error: unknown) {
+        if (error instanceof StorefrontValidationError) {
+          set.status = 400;
+          set.headers['content-type'] = 'application/problem+json';
+          return problemBadRequest(
+            error.detail ?? 'Password reset link is invalid or has expired.',
+          );
+        }
+        const problem = toStorefrontProblem(
+          error,
+          new URL(request.url).pathname,
+        );
+        set.status = problem.status;
+        set.headers['content-type'] = 'application/problem+json';
+        return problem.body;
+      }
+    },
+    { body: resetPasswordBodySchema },
   )
   .post('/logout', async ({ request, set }) => {
     const token = parseCustomerToken(request);

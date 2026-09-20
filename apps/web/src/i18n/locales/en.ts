@@ -54,6 +54,22 @@ export const en = {
     registerLink: 'Register here',
     loginLink: 'Sign in here',
     logout: 'Sign Out',
+    forgotPasswordLink: 'Forgot password?',
+    forgotPasswordTitle: 'Forgot Password',
+    forgotPasswordHint:
+      "Enter your account email and we'll send you a link to reset your password.",
+    forgotPasswordButton: 'Send Reset Link',
+    forgotPasswordSent:
+      "Check your email — we've sent a link to reset your password.",
+    resetPasswordTitle: 'Set a New Password',
+    resetPasswordInvalidLink:
+      'This password reset link is missing or malformed. Please request a new one.',
+    resetPasswordRequestNew: 'Request a new link',
+    resetPasswordNewPassword: 'New Password',
+    resetPasswordConfirmPassword: 'Confirm Password',
+    resetPasswordConfirmPlaceholder: 'Re-enter your new password',
+    resetPasswordMismatch: 'Passwords do not match.',
+    resetPasswordButton: 'Reset Password',
   },
   customer: {
     account: 'My Account',

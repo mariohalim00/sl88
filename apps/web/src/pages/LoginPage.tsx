@@ -14,7 +14,7 @@ export function LoginPage() {
 
   // Already logged in — redirect to account
   if (customer != null) {
-    return <Navigate to={'/account'} replace/>
+    return <Navigate to={'/account'} replace />;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -62,12 +62,20 @@ export function LoginPage() {
           </div>
 
           <div>
-            <label
-              htmlFor="login-password"
-              className="mb-1.5 block text-sm font-medium text-[#504533]"
-            >
-              {t('auth.password')}
-            </label>
+            <div className="flex items-baseline justify-between">
+              <label
+                htmlFor="login-password"
+                className="mb-1.5 block text-sm font-medium text-[#504533]"
+              >
+                {t('auth.password')}
+              </label>
+              <Link
+                to="/forgot-password"
+                className="mb-1.5 text-sm text-[#7a5900] underline underline-offset-2 hover:text-[#1c1c15]"
+              >
+                {t('auth.forgotPasswordLink')}
+              </Link>
+            </div>
             <input
               id="login-password"
               type="password"

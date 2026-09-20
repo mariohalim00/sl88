@@ -243,6 +243,36 @@ export const customerCreateRawSchema = z.object({
   }),
 });
 
+export const customerRecoverRawSchema = z.object({
+  customerRecover: z.object({
+    customerUserErrors: z.array(
+      z.object({
+        code: z.string().optional(),
+        field: z.array(z.string()).nullable().optional(),
+        message: z.string(),
+      }),
+    ),
+  }),
+});
+
+export const customerResetByUrlRawSchema = z.object({
+  customerResetByUrl: z.object({
+    customerAccessToken: z
+      .object({
+        accessToken: z.string().min(1),
+        expiresAt: z.string(),
+      })
+      .nullable(),
+    customerUserErrors: z.array(
+      z.object({
+        code: z.string().optional(),
+        field: z.array(z.string()).nullable().optional(),
+        message: z.string(),
+      }),
+    ),
+  }),
+});
+
 export const customerAccessTokenDeleteRawSchema = z.object({
   customerAccessTokenDelete: z.object({
     deletedAccessToken: z.string().nullable(),

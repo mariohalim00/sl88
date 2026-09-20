@@ -54,6 +54,22 @@ export const id = {
     registerLink: 'Daftar di sini',
     loginLink: 'Masuk di sini',
     logout: 'Keluar',
+    forgotPasswordLink: 'Lupa kata sandi?',
+    forgotPasswordTitle: 'Lupa Kata Sandi',
+    forgotPasswordHint:
+      'Masukkan email akun Anda dan kami akan mengirimkan tautan untuk mengatur ulang kata sandi.',
+    forgotPasswordButton: 'Kirim Tautan Reset',
+    forgotPasswordSent:
+      'Cek email Anda — kami telah mengirim tautan untuk mengatur ulang kata sandi.',
+    resetPasswordTitle: 'Atur Kata Sandi Baru',
+    resetPasswordInvalidLink:
+      'Tautan reset kata sandi ini tidak ada atau tidak valid. Silakan minta tautan baru.',
+    resetPasswordRequestNew: 'Minta tautan baru',
+    resetPasswordNewPassword: 'Kata Sandi Baru',
+    resetPasswordConfirmPassword: 'Konfirmasi Kata Sandi',
+    resetPasswordConfirmPlaceholder: 'Masukkan ulang kata sandi baru',
+    resetPasswordMismatch: 'Kata sandi tidak cocok.',
+    resetPasswordButton: 'Atur Ulang Kata Sandi',
   },
   customer: {
     account: 'Akun Saya',

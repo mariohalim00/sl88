@@ -3,7 +3,9 @@ import {
   fetchCustomerMe,
   loginCustomer,
   logoutCustomer,
+  recoverCustomerPassword,
   registerCustomer,
+  resetCustomerPassword,
 } from '../api/customer';
 
 import type { Customer } from '../types/customer';
@@ -119,6 +121,20 @@ export function useCustomer() {
     }
   };
 
+  const resetPassword = async (resetUrl: string, password: string) => {
+    update({ isLoading: true, error: null });
+    try {
+      const customer = await resetCustomerPassword({ resetUrl, password });
+      update({ customer, isLoading: false });
+      return customer;
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : 'Password reset failed';
+      update({ isLoading: false, error: message });
+      throw err;
+    }
+  };
+
   const refreshCustomer = async () => {
     try {
       const customer = await fetchCustomerMe();
@@ -138,6 +154,7 @@ export function useCustomer() {
     login,
     register,
     logout,
+    resetPassword,
     refreshCustomer,
   };
 }

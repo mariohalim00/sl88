@@ -53,6 +53,19 @@ export async function logoutCustomer(): Promise<void> {
   await customerApi.logout.post();
 }
 
+export async function recoverCustomerPassword(email: string): Promise<void> {
+  await customerApi.recover.post({ email });
+}
+
+export async function resetCustomerPassword(input: {
+  resetUrl: string;
+  password: string;
+}): Promise<Customer> {
+  const response = await customerApi['reset-password'].post(input);
+  const raw = unwrapTreatyData(response);
+  return customerSchema.parse(raw);
+}
+
 export async function fetchCustomerMe(): Promise<Customer | null> {
   const response = await customerApi.me.get();
 

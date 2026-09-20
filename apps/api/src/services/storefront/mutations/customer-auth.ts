@@ -5,6 +5,8 @@ import {
   customerAccessTokenCreateRawSchema,
   customerAccessTokenDeleteRawSchema,
   customerCreateRawSchema,
+  customerRecoverRawSchema,
+  customerResetByUrlRawSchema,
 } from '../schemas/customer.js';
 
 const CUSTOMER_ACCESS_TOKEN_CREATE_MUTATION = /* GraphQL */ `
@@ -103,6 +105,64 @@ export async function createStorefrontCustomer(input: {
   }
 
   return mapRegisterResponse(raw);
+}
+
+const CUSTOMER_RECOVER_MUTATION = /* GraphQL */ `
+  mutation CustomerRecover($email: String!) {
+    customerRecover(email: $email) {
+      customerUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+`;
+
+const CUSTOMER_RESET_BY_URL_MUTATION = /* GraphQL */ `
+  mutation CustomerResetByUrl($resetUrl: URL!, $password: String!) {
+    customerResetByUrl(resetUrl: $resetUrl, password: $password) {
+      customerAccessToken {
+        accessToken
+        expiresAt
+      }
+      customerUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+`;
+
+export async function recoverStorefrontCustomerPassword(email: string) {
+  // Swallow user errors — a generic response prevents email enumeration.
+  // Email-not-found and upstream hiccups all look like success to the caller.
+  await runStorefrontOperation({
+    query: CUSTOMER_RECOVER_MUTATION,
+    variables: { email },
+    schema: customerRecoverRawSchema,
+  });
+}
+
+export async function resetStorefrontCustomerPasswordByUrl(
+  resetUrl: string,
+  password: string,
+) {
+  const raw = await runStorefrontOperation({
+    query: CUSTOMER_RESET_BY_URL_MUTATION,
+    variables: { resetUrl, password },
+    schema: customerResetByUrlRawSchema,
+  });
+
+  const errors = raw.customerResetByUrl.customerUserErrors;
+  if (errors.length > 0) {
+    throw new StorefrontValidationError('Password reset failed', {
+      detail: errors.map((e) => e.message).join('; '),
+    });
+  }
+
+  return raw.customerResetByUrl.customerAccessToken;
 }
 
 export async function deleteStorefrontCustomerAccessToken(accessToken: string) {
