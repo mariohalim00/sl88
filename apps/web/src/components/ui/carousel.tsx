@@ -15,7 +15,8 @@ type CarouselProps = {
   opts?: CarouselOptions;
   plugins?: CarouselPlugin;
   orientation?: 'horizontal' | 'vertical';
-  setApi?: (api: CarouselApi) => void;
+  autoPlayInterval?: number;
+  onSlideChange?: (index: number) => void;
 };
 
 type CarouselContextProps = {
@@ -23,10 +24,12 @@ type CarouselContextProps = {
   api: CarouselApi;
   scrollPrev: () => void;
   scrollNext: () => void;
+  scrollTo: (index: number) => void;
   canScrollPrev: boolean;
   canScrollNext: boolean;
+  selectedIndex: number;
   orientation: 'horizontal' | 'vertical';
-} & CarouselProps;
+};
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null);
 
@@ -43,7 +46,8 @@ function useCarousel() {
 function Carousel({
   orientation = 'horizontal',
   opts,
-  setApi,
+  autoPlayInterval,
+  onSlideChange,
   plugins,
   className,
   children,
@@ -59,6 +63,8 @@ function Carousel({
   const [canScrollPrev, setCanScrollPrev] = React.useState(false);
   const [canScrollNext, setCanScrollNext] = React.useState(false);
 
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+
   const onSelect = React.useCallback((api: CarouselApi) => {
     if (!api) {
       return;
@@ -66,17 +72,16 @@ function Carousel({
 
     setCanScrollPrev(api.canScrollPrev());
     setCanScrollNext(api.canScrollNext());
+    setSelectedIndex(api.selectedScrollSnap());
   }, []);
 
-  // Report API to parent synchronously after render (useLayoutEffect)
-  // instead of in useEffect, to avoid the extra render cycle.
-  React.useLayoutEffect(() => {
-    if (!api || !setApi) {
+  // Notify parent when the selected slide changes
+  React.useEffect(() => {
+    if (!onSlideChange) {
       return;
     }
-
-    setApi(api);
-  }, [api, setApi]);
+    onSlideChange(selectedIndex);
+  }, [selectedIndex, onSlideChange]);
 
   const scrollPrev = React.useCallback(() => {
     api?.scrollPrev();
@@ -85,6 +90,23 @@ function Carousel({
   const scrollNext = React.useCallback(() => {
     api?.scrollNext();
   }, [api]);
+
+  const scrollTo = React.useCallback((index: number) => {
+    api?.scrollTo(index);
+  }, [api]);
+
+  // Auto-play
+  React.useEffect(() => {
+    if (!api || !autoPlayInterval || autoPlayInterval <= 0) {
+      return;
+    }
+
+    const intervalId = window.setInterval(() => {
+      api.scrollNext();
+    }, autoPlayInterval);
+
+    return () => window.clearInterval(intervalId);
+  }, [api, autoPlayInterval]);
 
   const handleKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -114,19 +136,33 @@ function Carousel({
     };
   }, [api, onSelect]);
 
+  const contextValue = React.useMemo(
+    () => ({
+      carouselRef,
+      api,
+      scrollPrev,
+      scrollNext,
+      scrollTo,
+      canScrollPrev,
+      canScrollNext,
+      selectedIndex,
+      orientation,
+    }),
+    [
+      carouselRef,
+      api,
+      scrollPrev,
+      scrollNext,
+      scrollTo,
+      canScrollPrev,
+      canScrollNext,
+      selectedIndex,
+      orientation,
+    ],
+  );
+
   return (
-    <CarouselContext.Provider
-      value={{
-        carouselRef,
-        api,
-        opts,
-        orientation,
-        scrollPrev,
-        scrollNext,
-        canScrollPrev,
-        canScrollNext,
-      }}
-    >
+    <CarouselContext.Provider value={contextValue}>
       <div
         onKeyDownCapture={handleKeyDown}
         className={cn('relative', className)}
@@ -264,5 +300,6 @@ export {
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
+  useCarousel,
   type CarouselApi,
 };

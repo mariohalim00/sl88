@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import {
@@ -7,7 +7,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-  type CarouselApi,
+  useCarousel,
 } from '@/components/ui/carousel';
 import { companyInfo } from '@/config/company';
 
@@ -34,43 +34,33 @@ const heroSlides = [
   },
 ];
 
+function HeroCarouselDots({ slides }: { slides: typeof heroSlides }) {
+  const { t } = useTranslation();
+  const { scrollTo, selectedIndex } = useCarousel();
+
+  return (
+    <div className="flex items-center gap-2">
+      {slides.map((slide, index) => (
+        <button
+          key={slide.src}
+          type="button"
+          aria-label={t('landing.hero.goToSlide', { count: index + 1 })}
+          onClick={() => scrollTo(index)}
+          className={[
+            'h-2.5 w-2.5 rounded-full transition',
+            selectedIndex === index
+              ? 'bg-[#f4b400]'
+              : 'bg-white/80 hover:bg-white',
+          ].join(' ')}
+        />
+      ))}
+    </div>
+  );
+}
+
 export function LandingHero() {
   const { t } = useTranslation();
-  const [api, setApi] = useState<CarouselApi>();
   const [activeSlide, setActiveSlide] = useState(0);
-
-  useEffect(() => {
-    if (!api) {
-      return;
-    }
-
-    const onSelect = () => setActiveSlide(api.selectedScrollSnap());
-
-    onSelect();
-    api.on('select', onSelect);
-    api.on('reInit', onSelect);
-
-    return () => {
-      api.off('select', onSelect);
-      api.off('reInit', onSelect);
-    };
-  }, [api]);
-
-  useEffect(() => {
-    if (!api) {
-      return;
-    }
-
-    const intervalId = window.setInterval(() => {
-      api.scrollNext();
-    }, 4500);
-
-    return () => window.clearInterval(intervalId);
-  }, [api]);
-
-  const goToSlide = (index: number) => {
-    api?.scrollTo(index);
-  };
 
   return (
     <section className="space-y-8 md:space-y-10">
@@ -94,7 +84,8 @@ export function LandingHero() {
       </div>
 
       <Carousel
-        setApi={setApi}
+        onSlideChange={setActiveSlide}
+        autoPlayInterval={4500}
         opts={{ loop: true }}
         className="relative overflow-hidden rounded-xl border border-[#e5e2d8] shadow-lg"
       >
@@ -113,22 +104,7 @@ export function LandingHero() {
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-linear-to-t from-[#fcf9ee] to-transparent" />
 
         <div className="absolute right-4 bottom-4 left-4 flex items-center justify-between md:right-6 md:left-6">
-          <div className="flex items-center gap-2">
-            {heroSlides.map((slide, index) => (
-              <button
-                key={slide.src}
-                type="button"
-                aria-label={t('landing.hero.goToSlide', { count: index + 1 })}
-                onClick={() => goToSlide(index)}
-                className={[
-                  'h-2.5 w-2.5 rounded-full transition',
-                  activeSlide === index
-                    ? 'bg-[#f4b400]'
-                    : 'bg-white/80 hover:bg-white',
-                ].join(' ')}
-              />
-            ))}
-          </div>
+          <HeroCarouselDots slides={heroSlides} />
 
           <div className="flex items-center gap-2">
             <CarouselPrevious className="static h-auto w-auto rounded-full bg-white/85 px-3 py-1 text-sm font-semibold text-[#1c1c15] backdrop-blur transition hover:bg-white">

@@ -14,7 +14,7 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
   const { t } = useTranslation();
 
   return (
-    <article className="group overflow-hidden rounded border border-[#e5e2d8] bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-stone-200/50">
+    <article className="group overflow-hidden rounded border border-[#e5e2d8] bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-stone-200/50">
       <div className="relative aspect-4/5 overflow-hidden bg-[#f1eee3]">
         <Link to={`/products/${product.handle}`}>
           <img
