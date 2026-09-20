@@ -1,6 +1,8 @@
-import { Heart, ShoppingBag, User } from 'lucide-react';
+import { Heart, ShoppingBag, User, UserCheck } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { LanguageSwitcher } from '../LanguageSwitcher';
+import { useCustomer } from '@/features/customer/hooks/useCustomer';
 import { iconButtonClass } from './constants';
 import { cn } from '@/lib/utils';
 
@@ -16,6 +18,17 @@ export function HeaderActionButtons({
   onToggleCart,
 }: HeaderActionButtonsProps) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { customer } = useCustomer();
+  const isLoggedIn = customer != null;
+
+  const handleAccountClick = () => {
+    if (isLoggedIn) {
+      navigate('/account');
+    } else {
+      navigate('/login');
+    }
+  };
 
   return (
     <div className="flex items-center gap-4 text-[#1c1c15] md:gap-6">
@@ -44,10 +57,22 @@ export function HeaderActionButtons({
       </button>
       <button
         type="button"
-        aria-label={t('header.aria.account')}
-        className={cn(iconButtonClass, 'sm:block')}
+        aria-label={
+          isLoggedIn ? t('header.aria.account') : t('header.aria.login')
+        }
+        onClick={handleAccountClick}
+        className={cn(iconButtonClass, 'sm:flex sm:items-center sm:gap-1.5')}
       >
-        <User className="size-5" />
+        {isLoggedIn ? (
+          <UserCheck className="size-5 text-[#7a5900]" />
+        ) : (
+          <User className="size-5" />
+        )}
+        {isLoggedIn && customer.firstName != null ? (
+          <span className="hidden text-sm font-medium md:inline">
+            {customer.firstName}
+          </span>
+        ) : null}
       </button>
     </div>
   );
