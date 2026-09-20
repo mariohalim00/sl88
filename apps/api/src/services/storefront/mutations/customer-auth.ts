@@ -1,11 +1,11 @@
 import { runStorefrontOperation } from '../client.js';
 import { StorefrontValidationError } from '../errors.js';
+import { mapLoginResponse, mapRegisterResponse } from '../mappers/customer.js';
 import {
   customerAccessTokenCreateRawSchema,
   customerAccessTokenDeleteRawSchema,
   customerCreateRawSchema,
 } from '../schemas/customer.js';
-import { mapLoginResponse, mapRegisterResponse } from '../mappers/customer.js';
 
 const CUSTOMER_ACCESS_TOKEN_CREATE_MUTATION = /* GraphQL */ `
   mutation CustomerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {

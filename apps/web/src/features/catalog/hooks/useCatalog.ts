@@ -20,7 +20,9 @@ function sortFacetValues(values: string[]) {
   return [...values].sort((left, right) => left.localeCompare(right));
 }
 
-function buildFacetOptionsWithLabels(entries: Array<{ value: string; label: string }>) {
+function buildFacetOptionsWithLabels(
+  entries: Array<{ value: string; label: string }>,
+) {
   return sortFacetValues(entries.map((e) => e.value)).map((value) => {
     const match = entries.find((e) => e.value === value);
     return { value, label: match?.label ?? value };
@@ -139,7 +141,11 @@ export function useCatalog() {
       product.tags.forEach((tag) => {
         const normalized = normalizeFacetValue(tag);
 
-        if (normalized.length > 0 && normalized.length <= 30 && !seen.has(normalized)) {
+        if (
+          normalized.length > 0 &&
+          normalized.length <= 30 &&
+          !seen.has(normalized)
+        ) {
           seen.add(normalized);
           entries.push({ value: normalized, label: tag });
         }

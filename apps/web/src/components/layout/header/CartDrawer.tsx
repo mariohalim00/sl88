@@ -16,9 +16,6 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     useCart();
   const { isRedirecting, startCheckout } = useCheckout();
   const dialogRef = useRef<HTMLDialogElement | null>(null);
-  const handleCloseRequest = () => {
-    onClose();
-  };
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -27,32 +24,41 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
       return;
     }
 
+    const handleClose = () => onClose();
+    const handleCancel = (event: Event) => {
+      event.preventDefault();
+      handleClose();
+    };
+    const handleBackdropClick = (event: MouseEvent) => {
+      if (event.target === event.currentTarget) {
+        handleClose();
+      }
+    };
+
+    dialog.addEventListener('cancel', handleCancel);
+    dialog.addEventListener('close', handleClose);
+    dialog.addEventListener('click', handleBackdropClick);
+
     if (isOpen) {
       if (!dialog.open) {
         dialog.showModal();
       }
-
-      return;
+    } else {
+      if (dialog.open) {
+        dialog.close();
+      }
     }
 
-    if (dialog.open) {
-      dialog.close();
-    }
-  }, [isOpen]);
+    return () => {
+      dialog.removeEventListener('cancel', handleCancel);
+      dialog.removeEventListener('close', handleClose);
+      dialog.removeEventListener('click', handleBackdropClick);
+    };
+  }, [isOpen, onClose]);
 
   return (
     <dialog
       ref={dialogRef}
-      onCancel={(event) => {
-        event.preventDefault();
-        handleCloseRequest();
-      }}
-      onClose={handleCloseRequest}
-      onClick={(event) => {
-        if (event.target === event.currentTarget) {
-          handleCloseRequest();
-        }
-      }}
       className="fixed top-0 right-0 z-60 m-0 h-full max-h-screen w-full max-w-md border-0 bg-transparent p-0 backdrop:bg-black/35"
       aria-label={t('header.aria.bag')}
     >
@@ -66,7 +72,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           </h2>
           <button
             type="button"
-            onClick={handleCloseRequest}
+            onClick={onClose}
             aria-label={t('header.aria.closeCart')}
             className="text-[#1c1c15] transition-opacity hover:opacity-80"
           >

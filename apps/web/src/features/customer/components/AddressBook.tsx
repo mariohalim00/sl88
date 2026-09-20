@@ -6,6 +6,7 @@ import {
   updateCustomerAddress,
   deleteCustomerAddress,
 } from '../api/customer';
+
 import type { CustomerAddress } from '../types/customer';
 
 type AddressFormData = {
@@ -35,8 +36,9 @@ const emptyForm: AddressFormData = {
 export function AddressBook() {
   const { t } = useTranslation();
   const [addresses, setAddresses] = useState<CustomerAddress[]>([]);
-  const [defaultAddress, setDefaultAddress] =
-    useState<CustomerAddress | null>(null);
+  const [defaultAddress, setDefaultAddress] = useState<CustomerAddress | null>(
+    null,
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -50,16 +52,14 @@ export function AddressBook() {
       setAddresses(result.addresses);
       setDefaultAddress(result.defaultAddress);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : 'Failed to load addresses',
-      );
+      setError(err instanceof Error ? err.message : 'Failed to load addresses');
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    load();
+    void load();
   }, []);
 
   const resetForm = () => {
@@ -106,9 +106,7 @@ export function AddressBook() {
       resetForm();
       await load();
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : 'Failed to save address',
-      );
+      setError(err instanceof Error ? err.message : 'Failed to save address');
     } finally {
       setSaving(false);
     }
@@ -119,9 +117,7 @@ export function AddressBook() {
       await deleteCustomerAddress(id);
       await load();
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : 'Failed to delete address',
-      );
+      setError(err instanceof Error ? err.message : 'Failed to delete address');
     }
   };
 
@@ -151,9 +147,7 @@ export function AddressBook() {
       {/* Address list */}
       {addresses.length === 0 && !isEditing ? (
         <div className="rounded border border-dashed border-[#d4c4ac] bg-white px-6 py-12 text-center">
-          <p className="text-[#504533]">
-            {t('customer.noAddresses')}
-          </p>
+          <p className="text-[#504533]">{t('customer.noAddresses')}</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -264,9 +258,7 @@ export function AddressBook() {
             <input
               placeholder={t('customer.city')}
               value={form.city}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, city: e.target.value }))
-              }
+              onChange={(e) => setForm((f) => ({ ...f, city: e.target.value }))}
               className="h-10 rounded-lg border border-[#d4c4ac] bg-white px-3 text-sm text-[#1c1c15] outline-none focus:border-[#f4b400] focus:ring-1 focus:ring-[#f4b400]"
             />
             <input
@@ -280,9 +272,7 @@ export function AddressBook() {
             <input
               placeholder={t('customer.zip')}
               value={form.zip}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, zip: e.target.value }))
-              }
+              onChange={(e) => setForm((f) => ({ ...f, zip: e.target.value }))}
               className="h-10 rounded-lg border border-[#d4c4ac] bg-white px-3 text-sm text-[#1c1c15] outline-none focus:border-[#f4b400] focus:ring-1 focus:ring-[#f4b400]"
             />
             <input

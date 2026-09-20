@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useCustomer } from '../hooks/useCustomer';
 import { updateCustomerMe } from '../api/customer';
+import { useCustomer } from '../hooks/useCustomer';
 
 export function CustomerProfile() {
   const { t } = useTranslation();
@@ -61,9 +61,7 @@ export function CustomerProfile() {
                 className="mt-1 h-10 w-full rounded-lg border border-[#d4c4ac] bg-white px-3 text-sm text-[#1c1c15] outline-none focus:border-[#f4b400] focus:ring-1 focus:ring-[#f4b400]"
               />
             ) : (
-              <p className="mt-1 text-[#1c1c15]">
-                {customer.firstName || '-'}
-              </p>
+              <p className="mt-1 text-[#1c1c15]">{customer.firstName || '-'}</p>
             )}
           </div>
           <div>
@@ -77,9 +75,7 @@ export function CustomerProfile() {
                 className="mt-1 h-10 w-full rounded-lg border border-[#d4c4ac] bg-white px-3 text-sm text-[#1c1c15] outline-none focus:border-[#f4b400] focus:ring-1 focus:ring-[#f4b400]"
               />
             ) : (
-              <p className="mt-1 text-[#1c1c15]">
-                {customer.lastName || '-'}
-              </p>
+              <p className="mt-1 text-[#1c1c15]">{customer.lastName || '-'}</p>
             )}
           </div>
         </div>
@@ -112,9 +108,7 @@ export function CustomerProfile() {
               className="mt-1 h-10 w-full rounded-lg border border-[#d4c4ac] bg-white px-3 text-sm text-[#1c1c15] outline-none focus:border-[#f4b400] focus:ring-1 focus:ring-[#f4b400]"
             />
           ) : (
-            <p className="mt-1 text-[#1c1c15]">
-              {customer.phone || '-'}
-            </p>
+            <p className="mt-1 text-[#1c1c15]">{customer.phone || '-'}</p>
           )}
         </div>
 

@@ -1,16 +1,22 @@
 import { runStorefrontOperation } from '../client.js';
 import { StorefrontValidationError } from '../errors.js';
+import { mapAddress, mapCustomerUpdateResponse } from '../mappers/customer.js';
 import {
   customerAddressCreateRawSchema,
   customerAddressDeleteRawSchema,
   customerAddressUpdateRawSchema,
   customerUpdateRawSchema,
 } from '../schemas/customer.js';
-import { mapAddress, mapCustomerUpdateResponse } from '../mappers/customer.js';
 
 const CUSTOMER_UPDATE_MUTATION = /* GraphQL */ `
-  mutation CustomerUpdate($customerAccessToken: String!, $customer: CustomerUpdateInput!) {
-    customerUpdate(customerAccessToken: $customerAccessToken, customer: $customer) {
+  mutation CustomerUpdate(
+    $customerAccessToken: String!
+    $customer: CustomerUpdateInput!
+  ) {
+    customerUpdate(
+      customerAccessToken: $customerAccessToken
+      customer: $customer
+    ) {
       customer {
         id
         firstName
@@ -30,10 +36,13 @@ const CUSTOMER_UPDATE_MUTATION = /* GraphQL */ `
 
 const CUSTOMER_ADDRESS_CREATE_MUTATION = /* GraphQL */ `
   mutation CustomerAddressCreate(
-    $customerAccessToken: String!,
-    $address: MailingAddressInput!,
+    $customerAccessToken: String!
+    $address: MailingAddressInput!
   ) {
-    customerAddressCreate(customerAccessToken: $customerAccessToken, address: $address) {
+    customerAddressCreate(
+      customerAccessToken: $customerAccessToken
+      address: $address
+    ) {
       customerAddress {
         id
         address1
@@ -58,11 +67,15 @@ const CUSTOMER_ADDRESS_CREATE_MUTATION = /* GraphQL */ `
 
 const CUSTOMER_ADDRESS_UPDATE_MUTATION = /* GraphQL */ `
   mutation CustomerAddressUpdate(
-    $customerAccessToken: String!,
-    $id: ID!,
-    $address: MailingAddressInput!,
+    $customerAccessToken: String!
+    $id: ID!
+    $address: MailingAddressInput!
   ) {
-    customerAddressUpdate(customerAccessToken: $customerAccessToken, id: $id, address: $address) {
+    customerAddressUpdate(
+      customerAccessToken: $customerAccessToken
+      id: $id
+      address: $address
+    ) {
       customerAddress {
         id
         address1

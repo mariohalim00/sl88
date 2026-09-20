@@ -80,7 +80,8 @@ function mapOrder(raw: {
       variantTitle: item.variant?.title ?? null,
       imageUrl: item.variant?.image?.url ?? null,
       unitPrice: item.variant?.price.amount ?? '0',
-      currencyCode: item.variant?.price.currencyCode ?? raw.totalPrice.currencyCode,
+      currencyCode:
+        item.variant?.price.currencyCode ?? raw.totalPrice.currencyCode,
     })),
   });
 }
@@ -171,8 +172,10 @@ export function mapLoginResponse(raw: {
   return storefrontCustomerLoginResponseSchema.parse({
     customerAccessToken: raw.customerAccessTokenCreate.customerAccessToken
       ? {
-          accessToken: raw.customerAccessTokenCreate.customerAccessToken.accessToken,
-          expiresAt: raw.customerAccessTokenCreate.customerAccessToken.expiresAt,
+          accessToken:
+            raw.customerAccessTokenCreate.customerAccessToken.accessToken,
+          expiresAt:
+            raw.customerAccessTokenCreate.customerAccessToken.expiresAt,
         }
       : null,
   });

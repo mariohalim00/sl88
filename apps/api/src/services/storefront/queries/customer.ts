@@ -1,6 +1,6 @@
 import { runStorefrontOperation } from '../client.js';
-import { customerQueryRawSchema } from '../schemas/customer.js';
 import { mapCustomer } from '../mappers/customer.js';
+import { customerQueryRawSchema } from '../schemas/customer.js';
 
 const CUSTOMER_QUERY = /* GraphQL */ `
   query Customer($customerAccessToken: String!) {

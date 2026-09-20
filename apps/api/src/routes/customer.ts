@@ -1,6 +1,9 @@
-import { Elysia, t } from 'elysia';
 import { createProblemDetail } from '@sl88/shared/schemas';
-import { toStorefrontProblem, StorefrontValidationError } from '../services/storefront/errors.js';
+import { Elysia, t } from 'elysia';
+import {
+  toStorefrontProblem,
+  StorefrontValidationError,
+} from '../services/storefront/errors.js';
 import {
   createStorefrontCustomerAccessToken,
   createStorefrontCustomer,
@@ -35,17 +38,21 @@ function parseCustomerToken(request: Request): string | null {
 function requireCustomerToken(request: Request): string {
   const token = parseCustomerToken(request);
   if (token == null) {
-    throw Object.assign(new Error('Customer not authenticated'), { statusCode: 401 });
+    throw Object.assign(new Error('Customer not authenticated'), {
+      statusCode: 401,
+    });
   }
   return token;
 }
 
 function setAuthCookie(headers: Record<string, unknown>, token: string) {
-  headers['Set-Cookie'] = `${COOKIE_NAME}=${encodeURIComponent(token)}; HttpOnly; Secure; SameSite=Lax; Path=${COOKIE_PATH}; Max-Age=${COOKIE_MAX_AGE}`;
+  headers['Set-Cookie'] =
+    `${COOKIE_NAME}=${encodeURIComponent(token)}; HttpOnly; Secure; SameSite=Lax; Path=${COOKIE_PATH}; Max-Age=${COOKIE_MAX_AGE}`;
 }
 
 function clearAuthCookie(headers: Record<string, unknown>) {
-  headers['Set-Cookie'] = `${COOKIE_NAME}=; HttpOnly; Secure; SameSite=Lax; Path=${COOKIE_PATH}; Max-Age=0`;
+  headers['Set-Cookie'] =
+    `${COOKIE_NAME}=; HttpOnly; Secure; SameSite=Lax; Path=${COOKIE_PATH}; Max-Age=0`;
 }
 
 // --- Schemas ---
@@ -87,13 +94,21 @@ const addressParamsSchema = t.Object({
 });
 
 function problemUnauthorized(detail?: string) {
-  return createProblemDetail('https://example.dev/problems/unauthorized', 'Unauthorized', 401, {
-    detail: detail ?? 'Customer not authenticated.',
-  });
+  return createProblemDetail(
+    'https://example.dev/problems/unauthorized',
+    'Unauthorized',
+    401,
+    {
+      detail: detail ?? 'Customer not authenticated.',
+    },
+  );
 }
 
 function problemBadRequest(detail?: string) {
-  return createProblemDetail('https://example.dev/problems/validation-error', 'Validation Error', 400, 
+  return createProblemDetail(
+    'https://example.dev/problems/validation-error',
+    'Validation Error',
+    400,
     detail != null ? { detail } : undefined,
   );
 }
@@ -105,16 +120,24 @@ export const customerRoute = new Elysia({ prefix: '/api/customer' })
     '/login',
     async ({ body, request, set }) => {
       try {
-        const result = await createStorefrontCustomerAccessToken(body.email, body.password);
+        const result = await createStorefrontCustomerAccessToken(
+          body.email,
+          body.password,
+        );
         if (result.customerAccessToken == null) {
           set.status = 401;
           set.headers['content-type'] = 'application/problem+json';
           return problemUnauthorized('Invalid email or password.');
         }
 
-        setAuthCookie(set.headers as Record<string, unknown>, result.customerAccessToken.accessToken);
+        setAuthCookie(
+          set.headers as Record<string, unknown>,
+          result.customerAccessToken.accessToken,
+        );
 
-        const customer = await getStorefrontCustomer(result.customerAccessToken.accessToken);
+        const customer = await getStorefrontCustomer(
+          result.customerAccessToken.accessToken,
+        );
         return customer;
       } catch (error: unknown) {
         const err = error as { statusCode?: number };
@@ -126,9 +149,14 @@ export const customerRoute = new Elysia({ prefix: '/api/customer' })
         if (error instanceof StorefrontValidationError) {
           set.status = 401;
           set.headers['content-type'] = 'application/problem+json';
-          return problemUnauthorized(error.detail ?? 'Invalid email or password.');
+          return problemUnauthorized(
+            error.detail ?? 'Invalid email or password.',
+          );
         }
-        const problem = toStorefrontProblem(error, new URL(request.url).pathname);
+        const problem = toStorefrontProblem(
+          error,
+          new URL(request.url).pathname,
+        );
         set.status = problem.status;
         set.headers['content-type'] = 'application/problem+json';
         return problem.body;
@@ -141,16 +169,24 @@ export const customerRoute = new Elysia({ prefix: '/api/customer' })
     async ({ body, request, set }) => {
       try {
         const registerResult = await createStorefrontCustomer(body);
-        const loginResult = await createStorefrontCustomerAccessToken(body.email, body.password);
+        const loginResult = await createStorefrontCustomerAccessToken(
+          body.email,
+          body.password,
+        );
 
         if (loginResult.customerAccessToken == null) {
           set.status = 201;
           return { customer: registerResult.customer };
         }
 
-        setAuthCookie(set.headers as Record<string, unknown>, loginResult.customerAccessToken.accessToken);
+        setAuthCookie(
+          set.headers as Record<string, unknown>,
+          loginResult.customerAccessToken.accessToken,
+        );
 
-        const customer = await getStorefrontCustomer(loginResult.customerAccessToken.accessToken);
+        const customer = await getStorefrontCustomer(
+          loginResult.customerAccessToken.accessToken,
+        );
         set.status = 201;
         return customer;
       } catch (error: unknown) {
@@ -159,7 +195,10 @@ export const customerRoute = new Elysia({ prefix: '/api/customer' })
           set.headers['content-type'] = 'application/problem+json';
           return problemBadRequest(error.detail ?? 'Registration failed.');
         }
-        const problem = toStorefrontProblem(error, new URL(request.url).pathname);
+        const problem = toStorefrontProblem(
+          error,
+          new URL(request.url).pathname,
+        );
         set.status = problem.status;
         set.headers['content-type'] = 'application/problem+json';
         return problem.body;
@@ -228,7 +267,10 @@ export const customerRoute = new Elysia({ prefix: '/api/customer' })
           set.headers['content-type'] = 'application/problem+json';
           return problemBadRequest(error.detail ?? 'Profile update failed.');
         }
-        const problem = toStorefrontProblem(error, new URL(request.url).pathname);
+        const problem = toStorefrontProblem(
+          error,
+          new URL(request.url).pathname,
+        );
         set.status = problem.status;
         set.headers['content-type'] = 'application/problem+json';
         return problem.body;
@@ -247,7 +289,10 @@ export const customerRoute = new Elysia({ prefix: '/api/customer' })
         return problemUnauthorized();
       }
 
-      return { addresses: customer.addresses, defaultAddress: customer.defaultAddress };
+      return {
+        addresses: customer.addresses,
+        defaultAddress: customer.defaultAddress,
+      };
     } catch (error: unknown) {
       const err = error as { statusCode?: number };
       if (err?.statusCode === 401) {
@@ -281,7 +326,10 @@ export const customerRoute = new Elysia({ prefix: '/api/customer' })
           set.headers['content-type'] = 'application/problem+json';
           return problemBadRequest(error.detail ?? 'Failed to create address.');
         }
-        const problem = toStorefrontProblem(error, new URL(request.url).pathname);
+        const problem = toStorefrontProblem(
+          error,
+          new URL(request.url).pathname,
+        );
         set.status = problem.status;
         set.headers['content-type'] = 'application/problem+json';
         return problem.body;
@@ -294,7 +342,11 @@ export const customerRoute = new Elysia({ prefix: '/api/customer' })
     async ({ body, params, request, set }) => {
       try {
         const token = requireCustomerToken(request);
-        const address = await updateStorefrontCustomerAddress(token, params.id, body);
+        const address = await updateStorefrontCustomerAddress(
+          token,
+          params.id,
+          body,
+        );
         return address;
       } catch (error: unknown) {
         const err = error as { statusCode?: number };
@@ -308,7 +360,10 @@ export const customerRoute = new Elysia({ prefix: '/api/customer' })
           set.headers['content-type'] = 'application/problem+json';
           return problemBadRequest(error.detail ?? 'Failed to update address.');
         }
-        const problem = toStorefrontProblem(error, new URL(request.url).pathname);
+        const problem = toStorefrontProblem(
+          error,
+          new URL(request.url).pathname,
+        );
         set.status = problem.status;
         set.headers['content-type'] = 'application/problem+json';
         return problem.body;
@@ -336,7 +391,10 @@ export const customerRoute = new Elysia({ prefix: '/api/customer' })
           set.headers['content-type'] = 'application/problem+json';
           return problemBadRequest(error.detail ?? 'Failed to delete address.');
         }
-        const problem = toStorefrontProblem(error, new URL(request.url).pathname);
+        const problem = toStorefrontProblem(
+          error,
+          new URL(request.url).pathname,
+        );
         set.status = problem.status;
         set.headers['content-type'] = 'application/problem+json';
         return problem.body;

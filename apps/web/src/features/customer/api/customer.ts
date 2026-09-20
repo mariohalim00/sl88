@@ -1,4 +1,3 @@
-import { api } from '@/treaty/client';
 import {
   customerAddressSchema,
   customerSchema,
@@ -6,6 +5,7 @@ import {
   type CustomerAddress,
   type CustomerOrder,
 } from '../types/customer';
+import { api } from '@/treaty/client';
 
 const customerApi = api.api.customer;
 
@@ -100,7 +100,8 @@ export async function fetchCustomerAddresses(): Promise<{
     addresses: (raw as { addresses: CustomerAddress[] }).addresses.map((a) =>
       customerAddressSchema.parse(a),
     ),
-    defaultAddress: (raw as { defaultAddress: CustomerAddress | null }).defaultAddress,
+    defaultAddress: (raw as { defaultAddress: CustomerAddress | null })
+      .defaultAddress,
   };
 }
 
@@ -116,15 +117,11 @@ export async function updateCustomerAddress(
   addressId: string,
   input: Record<string, string | undefined>,
 ): Promise<CustomerAddress> {
-  const response = await customerApi
-    .addresses({ id: addressId })
-    .put(input);
+  const response = await customerApi.addresses({ id: addressId }).put(input);
   const raw = unwrapTreatyData(response);
   return customerAddressSchema.parse(raw);
 }
 
-export async function deleteCustomerAddress(
-  addressId: string,
-): Promise<void> {
+export async function deleteCustomerAddress(addressId: string): Promise<void> {
   await customerApi.addresses({ id: addressId }).delete();
 }

@@ -2,8 +2,8 @@ import { Heart, ShoppingBag, User, UserCheck } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { LanguageSwitcher } from '../LanguageSwitcher';
-import { useCustomer } from '@/features/customer/hooks/useCustomer';
 import { iconButtonClass } from './constants';
+import { useCustomer } from '@/features/customer/hooks/useCustomer';
 import { cn } from '@/lib/utils';
 
 type HeaderActionButtonsProps = {
@@ -22,11 +22,11 @@ export function HeaderActionButtons({
   const { customer } = useCustomer();
   const isLoggedIn = customer != null;
 
-  const handleAccountClick = () => {
+  const handleAccountClick = async (): Promise<void> => {
     if (isLoggedIn) {
-      navigate('/account');
+      await navigate('/account');
     } else {
-      navigate('/login');
+      await navigate('/login');
     }
   };
 

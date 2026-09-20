@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useCustomer } from '@/features/customer/hooks/useCustomer';
+import { useNavigate } from 'react-router-dom';
+import { AddressBook } from '@/features/customer/components/AddressBook';
 import { CustomerProfile } from '@/features/customer/components/CustomerProfile';
 import { OrderHistory } from '@/features/customer/components/OrderHistory';
-import { AddressBook } from '@/features/customer/components/AddressBook';
+import { useCustomer } from '@/features/customer/hooks/useCustomer';
 
 type AccountTab = 'profile' | 'orders' | 'addresses';
 
@@ -20,7 +20,7 @@ export function AccountPage() {
   }
 
   if (customer == null) {
-    navigate('/login', { replace: true });
+    void navigate('/login', { replace: true });
     return null;
   }
 
@@ -32,7 +32,7 @@ export function AccountPage() {
 
   const handleLogout = async () => {
     await logout();
-    navigate('/');
+    void navigate('/');
   };
 
   return (
@@ -43,7 +43,9 @@ export function AccountPage() {
             {t('customer.account')}
           </p>
           <h1 className="mt-2 font-heading text-2xl font-semibold text-[#1c1c15] sm:text-3xl">
-            {t('customer.greeting', { name: customer.firstName ?? customer.displayName })}
+            {t('customer.greeting', {
+              name: customer.firstName ?? customer.displayName,
+            })}
           </h1>
         </div>
         <button

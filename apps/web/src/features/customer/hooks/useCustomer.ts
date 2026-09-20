@@ -5,6 +5,7 @@ import {
   logoutCustomer,
   registerCustomer,
 } from '../api/customer';
+
 import type { Customer } from '../types/customer';
 
 type CustomerStoreSnapshot = {
@@ -55,7 +56,8 @@ async function init() {
     update({
       customer: null,
       isLoading: false,
-      error: err instanceof Error ? err.message : 'Failed to check authentication',
+      error:
+        err instanceof Error ? err.message : 'Failed to check authentication',
     });
   }
 }
@@ -80,8 +82,7 @@ export function useCustomer() {
       update({ customer, isLoading: false });
       return customer;
     } catch (err) {
-      const message =
-        err instanceof Error ? err.message : 'Login failed';
+      const message = err instanceof Error ? err.message : 'Login failed';
       update({ isLoading: false, error: message });
       throw err;
     }
@@ -113,8 +114,7 @@ export function useCustomer() {
       hasInitialized = false;
       update({ customer: null, isLoading: false });
     } catch (err) {
-      const message =
-        err instanceof Error ? err.message : 'Logout failed';
+      const message = err instanceof Error ? err.message : 'Logout failed';
       update({ isLoading: false, error: message });
     }
   };

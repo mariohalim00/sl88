@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCustomer } from '@/features/customer/hooks/useCustomer';
 
 export function LoginPage() {
@@ -8,15 +8,15 @@ export function LoginPage() {
   const navigate = useNavigate();
   const { customer, login, isLoading } = useCustomer();
 
-  // Already logged in — redirect to account
-  if (customer != null) {
-    navigate('/account', { replace: true });
-    return null;
-  }
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+
+  // Already logged in — redirect to account
+  if (customer != null) {
+    void navigate('/account', { replace: true });
+    return null;
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,7 +24,7 @@ export function LoginPage() {
 
     try {
       await login(email, password);
-      navigate('/account');
+      void navigate('/account');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed');
     }
