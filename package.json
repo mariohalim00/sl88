@@ -21,7 +21,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "test:contract": "bun test apps/api/tests/contract",
-    "doctor": "npx react-doctor@latest"
+    "doctor": "bunx react-doctor@latest --verbose"
   },
   "devDependencies": {
     "concurrently": "latest",

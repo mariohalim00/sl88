@@ -3,7 +3,6 @@ import {
   customerSchema,
   type Customer,
   type CustomerAddress,
-  type CustomerOrder,
 } from '../types/customer';
 import { api } from '@/treaty/client';
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useCustomer } from '@/features/customer/hooks/useCustomer';
 
 export function RegisterPage() {
@@ -16,7 +16,7 @@ export function RegisterPage() {
 
   // Already logged in — redirect to account
   if (customer != null) {
-    void navigate('/account', { replace: true });
+    return <Navigate to={'/account'} replace/>
     return null;
   }
 
