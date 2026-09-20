@@ -68,6 +68,16 @@ function Carousel({
     setCanScrollNext(api.canScrollNext());
   }, []);
 
+  // Report API to parent synchronously after render (useLayoutEffect)
+  // instead of in useEffect, to avoid the extra render cycle.
+  React.useLayoutEffect(() => {
+    if (!api || !setApi) {
+      return;
+    }
+
+    setApi(api);
+  }, [api, setApi]);
+
   const scrollPrev = React.useCallback(() => {
     api?.scrollPrev();
   }, [api]);
@@ -88,14 +98,6 @@ function Carousel({
     },
     [scrollPrev, scrollNext],
   );
-
-  React.useEffect(() => {
-    if (!api || !setApi) {
-      return;
-    }
-
-    setApi(api);
-  }, [api, setApi]);
 
   React.useEffect(() => {
     if (!api) {

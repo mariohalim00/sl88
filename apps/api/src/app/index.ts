@@ -6,6 +6,7 @@ import { env } from '../env/index.js';
 import { logger } from '../lib/logger.js';
 import { errorHandler } from '../middleware/error.js';
 import { requestLogger } from '../middleware/request-logger.js';
+import { customerRoute } from '../routes/customer.js';
 import { healthRoute } from '../routes/health.js';
 import { scaffoldRoute } from '../routes/scaffold.js';
 import { storefrontRoute } from '../routes/storefront.js';
@@ -23,7 +24,8 @@ const app = new Elysia()
   .use(errorHandler)
   .use(healthRoute)
   .use(scaffoldRoute)
-  .use(storefrontRoute);
+  .use(storefrontRoute)
+  .use(customerRoute);
 
 if (import.meta.main) {
   const { staticPlugin } = await import('@elysia/static');

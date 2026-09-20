@@ -80,6 +80,7 @@ export function LandingContact() {
               width="100%"
               height="100%"
               loading="lazy"
+              sandbox="allow-scripts allow-popups"
               allowFullScreen
               referrerPolicy="no-referrer-when-downgrade"
             />

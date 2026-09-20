@@ -63,17 +63,36 @@ function ProductGalleryContent({
       return;
     }
 
+    const handleClose = () => setIsViewerOpen(false);
+    const handleCancel = (event: Event) => {
+      event.preventDefault();
+      handleClose();
+    };
+    const handleBackdropClick = (event: MouseEvent) => {
+      if (event.target === event.currentTarget) {
+        handleClose();
+      }
+    };
+
+    dialog.addEventListener('cancel', handleCancel);
+    dialog.addEventListener('close', handleClose);
+    dialog.addEventListener('click', handleBackdropClick);
+
     if (isViewerOpen) {
       if (!dialog.open) {
         dialog.showModal();
       }
-
-      return;
+    } else {
+      if (dialog.open) {
+        dialog.close();
+      }
     }
 
-    if (dialog.open) {
-      dialog.close();
-    }
+    return () => {
+      dialog.removeEventListener('cancel', handleCancel);
+      dialog.removeEventListener('close', handleClose);
+      dialog.removeEventListener('click', handleBackdropClick);
+    };
   }, [isViewerOpen]);
 
   useEffect(() => {
@@ -163,16 +182,6 @@ function ProductGalleryContent({
         <dialog
           ref={dialogRef}
           className="fixed inset-0 z-70 m-0 h-screen max-h-screen w-screen max-w-none border-0 bg-black/90 p-4 md:p-8"
-          onCancel={(event) => {
-            event.preventDefault();
-            setIsViewerOpen(false);
-          }}
-          onClose={() => setIsViewerOpen(false)}
-          onClick={(event) => {
-            if (event.target === event.currentTarget) {
-              setIsViewerOpen(false);
-            }
-          }}
           aria-label={t('productDetails.openImageViewer')}
         >
           <button
