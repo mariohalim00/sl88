@@ -1,0 +1,8 @@
+
+https://www-local.sukseslestari88.com {
+    reverse_proxy localhost:5173
+    reverse_proxy localhost:3000
+    reverse_proxy [::1]:5173
+    reverse_proxy [::1]:3000
+    tls internal
+}

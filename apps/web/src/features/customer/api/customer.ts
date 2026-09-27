@@ -3,7 +3,6 @@ import {
   customerSchema,
   type Customer,
   type CustomerAddress,
-  type CustomerOrder,
 } from '../types/customer';
 import { api } from '@/treaty/client';
 
@@ -22,7 +21,7 @@ function unwrapTreatyData<TData>(response: {
       errorValue?.detail ??
       errorValue?.title ??
       errorValue?.message ??
-      'Storefront request failed';
+      'Customer request failed';
 
     throw new Error(message);
   }
@@ -30,24 +29,17 @@ function unwrapTreatyData<TData>(response: {
   return response.data;
 }
 
-export async function loginCustomer(
-  email: string,
-  password: string,
-): Promise<Customer> {
-  const response = await customerApi.login.post({ email, password });
-  const raw = unwrapTreatyData(response);
-  return customerSchema.parse(raw);
-}
-
-export async function registerCustomer(input: {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-}): Promise<Customer> {
-  const response = await customerApi.register.post(input);
-  const raw = unwrapTreatyData(response);
-  return customerSchema.parse(raw);
+/**
+ * Passwordless sign-in: navigate the browser to the API's OAuth start route.
+ * Shopify's hosted login sends a one-time code to the customer's email, then
+ * redirects back to /api/customer/auth/callback and on to /account.
+ */
+export function startCustomerSignIn(email?: string): void {
+  const url = new URL('/api/customer/auth/login', window.location.origin);
+  if (email != null && email !== '') {
+    url.searchParams.set('email', email);
+  }
+  window.location.assign(url.toString());
 }
 
 export async function logoutCustomer(): Promise<void> {
@@ -124,4 +116,19 @@ export async function updateCustomerAddress(
 
 export async function deleteCustomerAddress(addressId: string): Promise<void> {
   await customerApi.addresses({ id: addressId }).delete();
+}
+
+// --- Cross-device cart pointer ---
+
+export async function fetchCustomerCartId(): Promise<string | null> {
+  const response = await customerApi.cart.get();
+  if (response.error != null || response.data == null) {
+    return null;
+  }
+  const raw = response.data as { cartId: string | null };
+  return raw.cartId;
+}
+
+export async function saveCustomerCartId(cartId: string): Promise<void> {
+  await customerApi.cart.put({ cartId });
 }

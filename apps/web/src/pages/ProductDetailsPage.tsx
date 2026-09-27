@@ -105,7 +105,7 @@ export function ProductDetailsPage() {
       opts[o.name] = o.value;
     }
     return { id: defaultVariant.id, options: opts };
-  }, [product?.selectedOrFirstAvailableVariantId, product?.variants]);
+  }, [product]);
 
   const [selectedOptions, setSelectedOptions] = useState<
     Record<string, string>
@@ -125,7 +125,7 @@ export function ProductDetailsPage() {
       v.selectedOptions.every((opt) => selectedOptions[opt.name] === opt.value),
     );
     return match ?? product.variants[0] ?? null;
-  }, [product?.variants, selectedOptions]);
+  }, [product, selectedOptions]);
 
   const handleOptionChange = (optionName: string, optionValue: string) => {
     setSelectedOptions((prev) => ({ ...prev, [optionName]: optionValue }));

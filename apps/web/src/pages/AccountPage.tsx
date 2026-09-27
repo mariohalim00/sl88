@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { AddressBook } from '@/features/customer/components/AddressBook';
 import { CustomerProfile } from '@/features/customer/components/CustomerProfile';
 import { OrderHistory } from '@/features/customer/components/OrderHistory';
@@ -20,7 +20,7 @@ export function AccountPage() {
   }
 
   if (customer == null) {
-    void navigate('/login', { replace: true });
+    return <Navigate to={'/login'} replace />;
     return null;
   }
 

@@ -41,19 +41,19 @@ export const id = {
   auth: {
     loginTitle: 'Selamat Datang Kembali',
     registerTitle: 'Buat Akun',
-    email: 'Email',
-    emailPlaceholder: 'anda@contoh.com',
-    password: 'Kata Sandi',
-    passwordPlaceholder: 'Masukkan kata sandi',
-    firstName: 'Nama Depan',
-    lastName: 'Nama Belakang',
-    loginButton: 'Masuk',
-    registerButton: 'Buat Akun',
+    passwordlessHint:
+      'Kami akan mengirimkan kode sekali pakai ke email Anda — tanpa kata sandi.',
+    registerHint:
+      'Masukkan email Anda dan kami akan mengirim kode sekali pakai. Akun Anda dibuat otomatis.',
+    signInWithCode: 'Lanjut dengan Email',
     noAccount: 'Belum punya akun?',
     hasAccount: 'Sudah punya akun?',
     registerLink: 'Daftar di sini',
     loginLink: 'Masuk di sini',
     logout: 'Keluar',
+    firstName: 'Nama Depan',
+    lastName: 'Nama Belakang',
+    email: 'Email',
   },
   customer: {
     account: 'Akun Saya',

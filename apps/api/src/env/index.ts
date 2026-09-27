@@ -58,7 +58,7 @@ export const getDatabaseUrl = (): string => {
   }
 
   const messages =
-    result.error.flatten().formErrors.join(', ') || 'Invalid DATABASE_URL';
+    z.treeifyError(result.error).errors.join(', ') || 'Invalid DATABASE_URL';
   throw new Error(`[env] ${messages}`);
 };
 

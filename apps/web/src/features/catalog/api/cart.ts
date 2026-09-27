@@ -26,6 +26,13 @@ export async function createCart(
   return storefrontCartResponseSchema.parse(unwrapTreatyData(response)).cart;
 }
 
+export async function fetchCart(cartId: string): Promise<StorefrontCart> {
+  const response = await storefrontApi
+    .cart({ cartId: encodeCartId(cartId) })
+    .get();
+  return storefrontCartResponseSchema.parse(unwrapTreatyData(response)).cart;
+}
+
 export async function addCartLines(
   cartId: string,
   lines: Array<{ merchandiseId: string; quantity: number }>,

@@ -1,10 +1,6 @@
 import { useSyncExternalStore } from 'react';
-import {
-  fetchCustomerMe,
-  loginCustomer,
-  logoutCustomer,
-  registerCustomer,
-} from '../api/customer';
+import { fetchCustomerMe, logoutCustomer } from '../api/customer';
+import { startCustomerSignIn } from '../api/customer';
 
 import type { Customer } from '../types/customer';
 
@@ -75,36 +71,9 @@ if (typeof window !== 'undefined') {
 export function useCustomer() {
   const state = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
 
-  const login = async (email: string, password: string) => {
-    update({ isLoading: true, error: null });
-    try {
-      const customer = await loginCustomer(email, password);
-      update({ customer, isLoading: false });
-      return customer;
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Login failed';
-      update({ isLoading: false, error: message });
-      throw err;
-    }
-  };
-
-  const register = async (input: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-  }) => {
-    update({ isLoading: true, error: null });
-    try {
-      const customer = await registerCustomer(input);
-      update({ customer, isLoading: false });
-      return customer;
-    } catch (err) {
-      const message =
-        err instanceof Error ? err.message : 'Registration failed';
-      update({ isLoading: false, error: message });
-      throw err;
-    }
+  // Passwordless: hand off to Shopify's hosted email-code login.
+  const signIn = (email?: string) => {
+    startCustomerSignIn(email);
   };
 
   const logout = async () => {
@@ -135,8 +104,7 @@ export function useCustomer() {
     customer: state.customer,
     isLoading: state.isLoading,
     error: state.error,
-    login,
-    register,
+    signIn,
     logout,
     refreshCustomer,
   };

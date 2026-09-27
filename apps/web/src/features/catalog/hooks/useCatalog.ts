@@ -74,11 +74,11 @@ export function useCatalog() {
 
     async function loadProducts() {
       setStatus('loading');
+      if (!isSubscribed) {
+        return;
+      }
       try {
         const payload = await listProducts();
-        if (!isSubscribed) {
-          return;
-        }
 
         setProducts(payload);
         setStatus('ready');

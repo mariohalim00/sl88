@@ -41,19 +41,19 @@ export const en = {
   auth: {
     loginTitle: 'Welcome Back',
     registerTitle: 'Create Account',
-    email: 'Email',
-    emailPlaceholder: 'you@example.com',
-    password: 'Password',
-    passwordPlaceholder: 'Enter your password',
-    firstName: 'First Name',
-    lastName: 'Last Name',
-    loginButton: 'Sign In',
-    registerButton: 'Create Account',
+    passwordlessHint:
+      'We’ll email you a one-time code to sign in — no password needed.',
+    registerHint:
+      'Enter your email and we’ll send a one-time code. Your account is created automatically.',
+    signInWithCode: 'Continue with Email',
     noAccount: "Don't have an account?",
     hasAccount: 'Already have an account?',
     registerLink: 'Register here',
     loginLink: 'Sign in here',
     logout: 'Sign Out',
+    firstName: 'First Name',
+    lastName: 'Last Name',
+    email: 'Email',
   },
   customer: {
     account: 'My Account',

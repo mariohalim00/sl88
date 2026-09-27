@@ -5,10 +5,18 @@ const databaseUrl =
   'postgresql://postgres:postgres@localhost:5432/sl88_dev';
 
 export default defineConfig({
-  schema: './drizzle/schema/index.ts',
+  schema: './apps/api/src/db/schema/*.ts',
   out: './drizzle/migrations',
   dialect: 'postgresql',
   dbCredentials: {
     url: databaseUrl,
   },
+  strict: true,
+  verbose: true,
+  casing: 'snake_case',
+  migrations: {
+    schema: 'public',
+    table: 'drizzle_migrations',
+  },
+  tablesFilter: [],
 });

@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { runStorefrontOperation } from '../client.js';
 import { StorefrontValidationError } from '../errors.js';
+import { StorefrontNotFoundError } from '../errors.js';
 import { mapCart } from '../mappers.js';
 
 const CART_SELECTION = /* GraphQL */ `
@@ -170,6 +171,32 @@ const cartMutationRawSchema = z.object({
   cartLinesUpdate: cartResponseRawSchema.optional(),
   cartLinesRemove: cartResponseRawSchema.optional(),
 });
+
+const CART_QUERY = /* GraphQL */ `
+  query Cart($cartId: ID!) {
+    cart(id: $cartId) {
+      ${CART_SELECTION}
+    }
+  }
+`;
+
+const cartQueryRawSchema = z.object({
+  cart: cartResponseRawSchema.shape.cart,
+});
+
+export async function getStorefrontCart(cartId: string) {
+  const raw = await runStorefrontOperation({
+    query: CART_QUERY,
+    variables: { cartId },
+    schema: cartQueryRawSchema,
+  });
+
+  if (raw.cart == null) {
+    throw new StorefrontNotFoundError(`Cart not found: ${cartId}`);
+  }
+
+  return mapCart(raw.cart);
+}
 
 function mapCartResponse(raw: z.infer<typeof cartResponseRawSchema>) {
   if (raw.userErrors.length > 0) {
