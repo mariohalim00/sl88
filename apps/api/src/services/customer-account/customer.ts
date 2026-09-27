@@ -358,13 +358,6 @@ export function parseCustomer(data: Record<string, unknown>): CustomerDto {
   return mapCustomer(parsed.customer);
 }
 
-export function parseNullableCustomer(
-  data: Record<string, unknown>,
-): CustomerDto | null {
-  const parsed = customerResponseSchema.parse(data);
-  return parsed.customer == null ? null : mapCustomer(parsed.customer);
-}
-
 function assertNoUserErrors(
   errors: Array<{ message: string }>,
   message: string,

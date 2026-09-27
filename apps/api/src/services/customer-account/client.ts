@@ -167,14 +167,12 @@ export interface TokenResponse {
   accessToken: string;
   expiresAt: Date;
   refreshToken: string | null;
-  idToken: string | null;
 }
 
 const tokenResponseSchema = z.object({
   access_token: z.string().min(1),
   expires_in: z.number(),
   refresh_token: z.string().optional(),
-  id_token: z.string().optional(),
 });
 
 async function tokenRequest(
@@ -205,7 +203,6 @@ async function tokenRequest(
     accessToken: parsed.access_token,
     expiresAt: new Date(Date.now() + parsed.expires_in * 1000),
     refreshToken: parsed.refresh_token ?? null,
-    idToken: parsed.id_token ?? null,
   };
 }
 
@@ -259,16 +256,4 @@ export async function buildAuthorizationUrl(args: {
     url.searchParams.set('login_hint', args.loginHint);
   }
   return url.toString();
-}
-
-/**
- * Best-effort logout on the Customer Accounts domain.
- * ponytail: browser redirect flow; if Shopify's session outlives ours the
- * next sign-in is one click via prompt=none. Add end_session redirect if
- * shared-device logout matters.
- */
-export async function logout(_args: { sessionId: string }): Promise<void> {
-  await db
-    .delete(customerSessions)
-    .where(eq(customerSessions.id, _args.sessionId));
 }

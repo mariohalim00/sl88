@@ -12,7 +12,7 @@ import {
 import { getStorefrontCheckoutUrl } from '../services/storefront/mutations/checkout.js';
 import { getStorefrontProductDetail } from '../services/storefront/queries/product-detail.js';
 import { listStorefrontProducts } from '../services/storefront/queries/products.js';
-import { hasCustomerSession } from './customer-session.js';
+import { parseSessionId } from './customer-session.js';
 
 const listProductsQuerySchema = t.Object({
   cursor: t.Optional(t.String()),
@@ -231,7 +231,7 @@ export const storefrontRoute = new Elysia({ prefix: '/api/storefront' })
 
         // Signed-in buyers authenticate checkout via the Customer Accounts
         // browser session (OIDC). Guests keep the plain checkout URL.
-        if (hasCustomerSession(request)) {
+        if (parseSessionId(request) != null) {
           const url = new URL(checkout.checkoutUrl);
           url.searchParams.set('sso', 'silent');
           return { ...checkout, checkoutUrl: url.toString() };

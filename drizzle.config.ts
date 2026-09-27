@@ -18,5 +18,5 @@ export default defineConfig({
     schema: 'public',
     table: 'drizzle_migrations',
   },
-  tablesFilter: []
+  tablesFilter: [],
 });
