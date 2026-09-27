@@ -23,6 +23,9 @@
     "test:contract": "bun test apps/api/tests/contract",
     "doctor": "bunx react-doctor@latest --verbose"
   },
+  "dependencies": {
+    "drizzle-orm": "^0.45.2"
+  },
   "devDependencies": {
     "concurrently": "latest",
     "drizzle-kit": "latest",
