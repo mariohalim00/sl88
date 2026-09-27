@@ -1,29 +1,43 @@
 import { createProblemDetail } from '@sl88/shared/schemas';
+import { eq } from 'drizzle-orm';
 import { Elysia, t } from 'elysia';
+import { db } from '../db/index.js';
+import { customerCarts } from '../db/schema/carts.js';
+import { customerOAuthStates } from '../db/schema/oauth-states.js';
+import { customerSessions } from '../db/schema/sessions.js';
+import { getAppPublicUrl } from '../env/index.js';
 import {
-  toStorefrontProblem,
-  StorefrontValidationError,
-} from '../services/storefront/errors.js';
+  buildAuthorizationUrl,
+  exchangeAuthorizationCode,
+  logout as deleteCustomerSession,
+  runCustomerOperation,
+} from '../services/customer-account/client.js';
 import {
-  createStorefrontCustomerAccessToken,
-  createStorefrontCustomer,
-  deleteStorefrontCustomerAccessToken,
-  recoverStorefrontCustomerPassword,
-  resetStorefrontCustomerPasswordByUrl,
-} from '../services/storefront/mutations/customer-auth.js';
-import {
-  updateStorefrontCustomer,
-  createStorefrontCustomerAddress,
-  updateStorefrontCustomerAddress,
-  deleteStorefrontCustomerAddress,
-} from '../services/storefront/mutations/customer.js';
-import { getStorefrontCustomer } from '../services/storefront/queries/customer.js';
+  createCustomerAddress,
+  deleteCustomerAddress,
+  getCustomer,
+  updateCustomer,
+  updateCustomerAddress,
+} from '../services/customer-account/customer.js';
+import { toStorefrontProblem } from '../services/storefront/errors.js';
+import { CUSTOMER_SESSION_COOKIE } from './customer-session.js';
 
-const COOKIE_NAME = 'sl88_customer_token';
-const COOKIE_PATH = '/api/customer';
+const COOKIE_NAME = CUSTOMER_SESSION_COOKIE;
+// Covers both /api/customer (account) and /api/storefront (signed-in checkout).
+const COOKIE_PATH = '/api';
 const COOKIE_MAX_AGE = 30 * 24 * 60 * 60;
 
-function parseCustomerToken(request: Request): string | null {
+const CUSTOMER_ID_QUERY = /* GraphQL */ `
+  query CustomerId {
+    customer {
+      id
+    }
+  }
+`;
+
+// --- Session cookie helpers ---
+
+function parseSessionId(request: Request): string | null {
   const cookieHeader = request.headers.get('cookie');
   if (cookieHeader == null) return null;
 
@@ -37,39 +51,58 @@ function parseCustomerToken(request: Request): string | null {
   return null;
 }
 
-function requireCustomerToken(request: Request): string {
-  const token = parseCustomerToken(request);
-  if (token == null) {
+function requireSessionId(request: Request): string {
+  const sessionId = parseSessionId(request);
+  if (sessionId == null) {
     throw Object.assign(new Error('Customer not authenticated'), {
       statusCode: 401,
     });
   }
-  return token;
+  return sessionId;
 }
 
-function setAuthCookie(headers: Record<string, unknown>, token: string) {
+function setSessionCookie(headers: Record<string, unknown>, id: string) {
   headers['Set-Cookie'] =
-    `${COOKIE_NAME}=${encodeURIComponent(token)}; HttpOnly; Secure; SameSite=Lax; Path=${COOKIE_PATH}; Max-Age=${COOKIE_MAX_AGE}`;
+    `${COOKIE_NAME}=${encodeURIComponent(id)}; HttpOnly; Secure; SameSite=Lax; Path=${COOKIE_PATH}; Max-Age=${COOKIE_MAX_AGE}`;
 }
 
-function clearAuthCookie(headers: Record<string, unknown>) {
+function clearSessionCookie(headers: Record<string, unknown>) {
   headers['Set-Cookie'] =
     `${COOKIE_NAME}=; HttpOnly; Secure; SameSite=Lax; Path=${COOKIE_PATH}; Max-Age=0`;
 }
 
+// --- PKCE helpers ---
+
+function generateCodeVerifier(): string {
+  const bytes = new Uint8Array(32);
+  crypto.getRandomValues(bytes);
+  return btoa(String.fromCharCode(...bytes))
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=/g, '');
+}
+
+async function generateCodeChallenge(verifier: string): Promise<string> {
+  const digest = await crypto.subtle.digest(
+    { name: 'SHA-256' },
+    new TextEncoder().encode(verifier),
+  );
+  return btoa(String.fromCharCode(...new Uint8Array(digest)))
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=/g, '');
+}
+
+function generateState(): string {
+  const bytes = new Uint8Array(16);
+  crypto.getRandomValues(bytes);
+  return btoa(String.fromCharCode(...bytes))
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=/g, '');
+}
+
 // --- Schemas ---
-
-const loginBodySchema = t.Object({
-  email: t.String({ format: 'email', minLength: 1 }),
-  password: t.String({ minLength: 1 }),
-});
-
-const registerBodySchema = t.Object({
-  firstName: t.String({ minLength: 1 }),
-  lastName: t.String({ minLength: 1 }),
-  email: t.String({ format: 'email', minLength: 1 }),
-  password: t.String({ minLength: 5 }),
-});
 
 const customerUpdateBodySchema = t.Object({
   firstName: t.Optional(t.String({ minLength: 1 })),
@@ -95,13 +128,8 @@ const addressParamsSchema = t.Object({
   id: t.String({ minLength: 1 }),
 });
 
-const recoverBodySchema = t.Object({
-  email: t.String({ format: 'email', minLength: 1 }),
-});
-
-const resetPasswordBodySchema = t.Object({
-  resetUrl: t.String({ minLength: 1 }),
-  password: t.String({ minLength: 5 }),
+const saveCartBodySchema = t.Object({
+  cartId: t.String({ minLength: 1 }),
 });
 
 function problemUnauthorized(detail?: string) {
@@ -124,281 +152,184 @@ function problemBadRequest(detail?: string) {
   );
 }
 
+function problemFromError(error: unknown, request: Request, set: unknown) {
+  const s = set as { status: number; headers: Record<string, unknown> };
+  const err = error as { statusCode?: number };
+  if (err?.statusCode === 401) {
+    s.status = 401;
+    s.headers['content-type'] = 'application/problem+json';
+    return problemUnauthorized();
+  }
+  const problem = toStorefrontProblem(error, new URL(request.url).pathname);
+  s.status = problem.status;
+  s.headers['content-type'] = 'application/problem+json';
+  return problem.body;
+}
+
 // --- Route ---
 
 export const customerRoute = new Elysia({ prefix: '/api/customer' })
-  .post(
-    '/login',
-    async ({ body, request, set }) => {
-      try {
-        const result = await createStorefrontCustomerAccessToken(
-          body.email,
-          body.password,
-        );
-        if (result.customerAccessToken == null) {
-          set.status = 401;
-          set.headers['content-type'] = 'application/problem+json';
-          return problemUnauthorized('Invalid email or password.');
-        }
+  .get('/auth/login', async ({ request, set }) => {
+    try {
+      const callbackUrl = new URL(
+        '/api/customer/auth/callback',
+        getAppPublicUrl(),
+      ).toString();
 
-        setAuthCookie(
-          set.headers as Record<string, unknown>,
-          result.customerAccessToken.accessToken,
-        );
+      const state = generateState();
+      const codeVerifier = generateCodeVerifier();
+      const codeChallenge = await generateCodeChallenge(codeVerifier);
 
-        const customer = await getStorefrontCustomer(
-          result.customerAccessToken.accessToken,
-        );
-        return customer;
-      } catch (error: unknown) {
-        const err = error as { statusCode?: number };
-        if (err?.statusCode === 401) {
-          set.status = 401;
-          set.headers['content-type'] = 'application/problem+json';
-          return problemUnauthorized('Invalid email or password.');
-        }
-        if (error instanceof StorefrontValidationError) {
-          set.status = 401;
-          set.headers['content-type'] = 'application/problem+json';
-          return problemUnauthorized(
-            error.detail ?? 'Invalid email or password.',
-          );
-        }
-        const problem = toStorefrontProblem(
-          error,
-          new URL(request.url).pathname,
-        );
-        set.status = problem.status;
-        set.headers['content-type'] = 'application/problem+json';
-        return problem.body;
-      }
-    },
-    { body: loginBodySchema },
-  )
-  .post(
-    '/register',
-    async ({ body, request, set }) => {
-      try {
-        const registerResult = await createStorefrontCustomer(body);
-        const loginResult = await createStorefrontCustomerAccessToken(
-          body.email,
-          body.password,
-        );
+      await db.insert(customerOAuthStates).values({ state, codeVerifier });
 
-        if (loginResult.customerAccessToken == null) {
-          set.status = 201;
-          return { customer: registerResult.customer };
-        }
+      const loginHint = new URL(request.url).searchParams.get('email');
 
-        setAuthCookie(
-          set.headers as Record<string, unknown>,
-          loginResult.customerAccessToken.accessToken,
-        );
+      const authorizationUrl = await buildAuthorizationUrl({
+        redirectUri: callbackUrl,
+        state,
+        codeChallenge,
+        ...(loginHint != null ? { loginHint } : {}),
+      });
 
-        const customer = await getStorefrontCustomer(
-          loginResult.customerAccessToken.accessToken,
-        );
-        set.status = 201;
-        return customer;
-      } catch (error: unknown) {
-        if (error instanceof StorefrontValidationError) {
-          set.status = 400;
-          set.headers['content-type'] = 'application/problem+json';
-          return problemBadRequest(error.detail ?? 'Registration failed.');
-        }
-        const problem = toStorefrontProblem(
-          error,
-          new URL(request.url).pathname,
-        );
-        set.status = problem.status;
-        set.headers['content-type'] = 'application/problem+json';
-        return problem.body;
-      }
-    },
-    { body: registerBodySchema },
-  )
-  .post(
-    '/recover',
-    async ({ body }) => {
-      // Fire-and-forget: always 200, even if Shopify hiccups, so the
-      // response never leaks whether the email has an account.
-      await recoverStorefrontCustomerPassword(body.email).catch(() => {});
-      return {
-        success: true,
-        message:
-          'If an account matches that email, instructions have been sent.',
-      };
-    },
-    { body: recoverBodySchema },
-  )
-  .post(
-    '/reset-password',
-    async ({ body, request, set }) => {
-      try {
-        const accessToken = await resetStorefrontCustomerPasswordByUrl(
-          body.resetUrl,
-          body.password,
-        );
-
-        if (accessToken == null) {
-          set.status = 400;
-          set.headers['content-type'] = 'application/problem+json';
-          return problemBadRequest('Password reset link is invalid.');
-        }
-
-        setAuthCookie(
-          set.headers as Record<string, unknown>,
-          accessToken.accessToken,
-        );
-
-        const customer = await getStorefrontCustomer(accessToken.accessToken);
-        return customer;
-      } catch (error: unknown) {
-        if (error instanceof StorefrontValidationError) {
-          set.status = 400;
-          set.headers['content-type'] = 'application/problem+json';
-          return problemBadRequest(
-            error.detail ?? 'Password reset link is invalid or has expired.',
-          );
-        }
-        const problem = toStorefrontProblem(
-          error,
-          new URL(request.url).pathname,
-        );
-        set.status = problem.status;
-        set.headers['content-type'] = 'application/problem+json';
-        return problem.body;
-      }
-    },
-    { body: resetPasswordBodySchema },
-  )
-  .post('/logout', async ({ request, set }) => {
-    const token = parseCustomerToken(request);
-    if (token != null) {
-      await deleteStorefrontCustomerAccessToken(token).catch(() => {});
+      set.status = 302;
+      set.headers['location'] = authorizationUrl;
+      return undefined;
+    } catch (error) {
+      return problemFromError(error, request, set);
     }
-    clearAuthCookie(set.headers as Record<string, unknown>);
+  })
+  .get('/auth/callback', async ({ request, set }) => {
+    try {
+      const url = new URL(request.url);
+      const code = url.searchParams.get('code');
+      const state = url.searchParams.get('state');
+
+      if (code == null || state == null) {
+        set.status = 400;
+        set.headers['content-type'] = 'application/problem+json';
+        return problemBadRequest('Missing code or state parameter.');
+      }
+
+      const [stored] = await db
+        .select()
+        .from(customerOAuthStates)
+        .where(eq(customerOAuthStates.state, state));
+
+      if (stored == null) {
+        set.status = 400;
+        set.headers['content-type'] = 'application/problem+json';
+        return problemBadRequest('Invalid or expired login state.');
+      }
+
+      const callbackUrl = new URL(
+        '/api/customer/auth/callback',
+        getAppPublicUrl(),
+      ).toString();
+
+      const token = await exchangeAuthorizationCode({
+        code,
+        redirectUri: callbackUrl,
+        codeVerifier: stored.codeVerifier,
+      });
+
+      await db
+        .delete(customerOAuthStates)
+        .where(eq(customerOAuthStates.state, state));
+
+      const inserted = await db
+        .insert(customerSessions)
+        .values({
+          shopifyCustomerId: '',
+          accessToken: token.accessToken,
+          accessTokenExpiresAt: token.expiresAt,
+          refreshToken: token.refreshToken,
+        })
+        .returning();
+      const session = inserted[0];
+      if (session == null) {
+        throw new Error('Failed to create customer session');
+      }
+
+      // Resolve the Shopify customer id for cart association.
+      const customerData = await runCustomerOperation({
+        sessionId: session.id,
+        query: CUSTOMER_ID_QUERY,
+        parse: (data) => {
+          const customer = data['customer'] as { id: string } | null;
+          return customer?.id ?? null;
+        },
+      });
+
+      if (customerData != null) {
+        await db
+          .update(customerSessions)
+          .set({ shopifyCustomerId: customerData })
+          .where(eq(customerSessions.id, session.id));
+      }
+
+      setSessionCookie(set.headers as Record<string, unknown>, session.id);
+
+      set.status = 302;
+      set.headers['location'] = new URL(
+        '/account',
+        getAppPublicUrl(),
+      ).toString();
+      return undefined;
+    } catch (error) {
+      return problemFromError(error, request, set);
+    }
+  })
+  .post('/logout', async ({ request, set }) => {
+    const sessionId = parseSessionId(request);
+    if (sessionId != null) {
+      await deleteCustomerSession({ sessionId }).catch(() => {});
+    }
+    clearSessionCookie(set.headers as Record<string, unknown>);
     return { success: true };
   })
   .get('/me', async ({ request, set }) => {
     try {
-      const token = requireCustomerToken(request);
-      const customer = await getStorefrontCustomer(token);
-
-      if (customer == null) {
-        clearAuthCookie(set.headers as Record<string, unknown>);
-        set.status = 401;
-        set.headers['content-type'] = 'application/problem+json';
-        return problemUnauthorized('Session expired. Please log in again.');
-      }
-
-      return customer;
-    } catch (error: unknown) {
-      const err = error as { statusCode?: number };
-      if (err?.statusCode === 401) {
-        set.status = 401;
-        set.headers['content-type'] = 'application/problem+json';
-        return problemUnauthorized();
-      }
-      const problem = toStorefrontProblem(error, new URL(request.url).pathname);
-      set.status = problem.status;
-      set.headers['content-type'] = 'application/problem+json';
-      return problem.body;
+      const sessionId = requireSessionId(request);
+      return await getCustomer(sessionId);
+    } catch (error) {
+      return problemFromError(error, request, set);
     }
   })
   .put(
     '/me',
     async ({ body, request, set }) => {
       try {
-        const token = requireCustomerToken(request);
-        const updateResult = await updateStorefrontCustomer(token, body);
-
-        if (updateResult.customer == null) {
-          set.status = 400;
-          set.headers['content-type'] = 'application/problem+json';
-          return problemBadRequest('Failed to update customer profile.');
-        }
-
-        const customer = await getStorefrontCustomer(token);
-        return customer;
-      } catch (error: unknown) {
-        const err = error as { statusCode?: number };
-        if (err?.statusCode === 401) {
-          set.status = 401;
-          set.headers['content-type'] = 'application/problem+json';
-          return problemUnauthorized();
-        }
-        if (error instanceof StorefrontValidationError) {
-          set.status = 400;
-          set.headers['content-type'] = 'application/problem+json';
-          return problemBadRequest(error.detail ?? 'Profile update failed.');
-        }
-        const problem = toStorefrontProblem(
-          error,
-          new URL(request.url).pathname,
-        );
-        set.status = problem.status;
-        set.headers['content-type'] = 'application/problem+json';
-        return problem.body;
+        const sessionId = requireSessionId(request);
+        await updateCustomer(sessionId, body);
+        return await getCustomer(sessionId);
+      } catch (error) {
+        return problemFromError(error, request, set);
       }
     },
     { body: customerUpdateBodySchema },
   )
   .get('/addresses', async ({ request, set }) => {
     try {
-      const token = requireCustomerToken(request);
-      const customer = await getStorefrontCustomer(token);
-
-      if (customer == null) {
-        set.status = 401;
-        set.headers['content-type'] = 'application/problem+json';
-        return problemUnauthorized();
-      }
-
+      const sessionId = requireSessionId(request);
+      const customer = await getCustomer(sessionId);
       return {
         addresses: customer.addresses,
         defaultAddress: customer.defaultAddress,
       };
-    } catch (error: unknown) {
-      const err = error as { statusCode?: number };
-      if (err?.statusCode === 401) {
-        set.status = 401;
-        set.headers['content-type'] = 'application/problem+json';
-        return problemUnauthorized();
-      }
-      const problem = toStorefrontProblem(error, new URL(request.url).pathname);
-      set.status = problem.status;
-      set.headers['content-type'] = 'application/problem+json';
-      return problem.body;
+    } catch (error) {
+      return problemFromError(error, request, set);
     }
   })
   .post(
     '/addresses',
     async ({ body, request, set }) => {
       try {
-        const token = requireCustomerToken(request);
-        const address = await createStorefrontCustomerAddress(token, body);
+        const sessionId = requireSessionId(request);
+        const address = await createCustomerAddress(sessionId, body);
         set.status = 201;
         return address;
-      } catch (error: unknown) {
-        const err = error as { statusCode?: number };
-        if (err?.statusCode === 401) {
-          set.status = 401;
-          set.headers['content-type'] = 'application/problem+json';
-          return problemUnauthorized();
-        }
-        if (error instanceof StorefrontValidationError) {
-          set.status = 400;
-          set.headers['content-type'] = 'application/problem+json';
-          return problemBadRequest(error.detail ?? 'Failed to create address.');
-        }
-        const problem = toStorefrontProblem(
-          error,
-          new URL(request.url).pathname,
-        );
-        set.status = problem.status;
-        set.headers['content-type'] = 'application/problem+json';
-        return problem.body;
+      } catch (error) {
+        return problemFromError(error, request, set);
       }
     },
     { body: addressBodySchema },
@@ -407,32 +338,10 @@ export const customerRoute = new Elysia({ prefix: '/api/customer' })
     '/addresses/:id',
     async ({ body, params, request, set }) => {
       try {
-        const token = requireCustomerToken(request);
-        const address = await updateStorefrontCustomerAddress(
-          token,
-          params.id,
-          body,
-        );
-        return address;
-      } catch (error: unknown) {
-        const err = error as { statusCode?: number };
-        if (err?.statusCode === 401) {
-          set.status = 401;
-          set.headers['content-type'] = 'application/problem+json';
-          return problemUnauthorized();
-        }
-        if (error instanceof StorefrontValidationError) {
-          set.status = 400;
-          set.headers['content-type'] = 'application/problem+json';
-          return problemBadRequest(error.detail ?? 'Failed to update address.');
-        }
-        const problem = toStorefrontProblem(
-          error,
-          new URL(request.url).pathname,
-        );
-        set.status = problem.status;
-        set.headers['content-type'] = 'application/problem+json';
-        return problem.body;
+        const sessionId = requireSessionId(request);
+        return await updateCustomerAddress(sessionId, params.id, body);
+      } catch (error) {
+        return problemFromError(error, request, set);
       }
     },
     { params: addressParamsSchema, body: addressBodySchema },
@@ -441,30 +350,70 @@ export const customerRoute = new Elysia({ prefix: '/api/customer' })
     '/addresses/:id',
     async ({ params, request, set }) => {
       try {
-        const token = requireCustomerToken(request);
-        await deleteStorefrontCustomerAddress(token, params.id);
+        const sessionId = requireSessionId(request);
+        await deleteCustomerAddress(sessionId, params.id);
         set.status = 204;
         return undefined;
-      } catch (error: unknown) {
-        const err = error as { statusCode?: number };
-        if (err?.statusCode === 401) {
+      } catch (error) {
+        return problemFromError(error, request, set);
+      }
+    },
+    { params: addressParamsSchema },
+  )
+  // --- Cross-device cart pointer ---
+  .get('/cart', async ({ request, set }) => {
+    try {
+      const sessionId = requireSessionId(request);
+      const [session] = await db
+        .select()
+        .from(customerSessions)
+        .where(eq(customerSessions.id, sessionId));
+
+      if (session == null || session.shopifyCustomerId === '') {
+        return { cartId: null };
+      }
+
+      const [cart] = await db
+        .select()
+        .from(customerCarts)
+        .where(eq(customerCarts.shopifyCustomerId, session.shopifyCustomerId));
+
+      return { cartId: cart?.cartId ?? null };
+    } catch (error) {
+      return problemFromError(error, request, set);
+    }
+  })
+  .put(
+    '/cart',
+    async ({ body, request, set }) => {
+      try {
+        const sessionId = requireSessionId(request);
+        const [session] = await db
+          .select()
+          .from(customerSessions)
+          .where(eq(customerSessions.id, sessionId));
+
+        if (session == null || session.shopifyCustomerId === '') {
           set.status = 401;
           set.headers['content-type'] = 'application/problem+json';
           return problemUnauthorized();
         }
-        if (error instanceof StorefrontValidationError) {
-          set.status = 400;
-          set.headers['content-type'] = 'application/problem+json';
-          return problemBadRequest(error.detail ?? 'Failed to delete address.');
-        }
-        const problem = toStorefrontProblem(
-          error,
-          new URL(request.url).pathname,
-        );
-        set.status = problem.status;
-        set.headers['content-type'] = 'application/problem+json';
-        return problem.body;
+
+        await db
+          .insert(customerCarts)
+          .values({
+            shopifyCustomerId: session.shopifyCustomerId,
+            cartId: body.cartId,
+          })
+          .onConflictDoUpdate({
+            target: customerCarts.shopifyCustomerId,
+            set: { cartId: body.cartId, updatedAt: new Date() },
+          });
+
+        return { success: true };
+      } catch (error) {
+        return problemFromError(error, request, set);
       }
     },
-    { params: addressParamsSchema },
+    { body: saveCartBodySchema },
   );

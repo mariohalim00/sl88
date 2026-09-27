@@ -4,6 +4,7 @@ import { logger } from '../lib/logger.js';
 import { toStorefrontProblem } from '../services/storefront/errors.js';
 import {
   addStorefrontCartLines,
+  getStorefrontCart,
   createStorefrontCart,
   removeStorefrontCartLines,
   updateStorefrontCartLines,
@@ -11,6 +12,7 @@ import {
 import { getStorefrontCheckoutUrl } from '../services/storefront/mutations/checkout.js';
 import { getStorefrontProductDetail } from '../services/storefront/queries/product-detail.js';
 import { listStorefrontProducts } from '../services/storefront/queries/products.js';
+import { hasCustomerSession } from './customer-session.js';
 
 const listProductsQuerySchema = t.Object({
   cursor: t.Optional(t.String()),
@@ -113,6 +115,25 @@ export const storefrontRoute = new Elysia({ prefix: '/api/storefront' })
       }),
     },
   )
+  .get(
+    '/cart/:cartId',
+    async ({ params, request, set }) => {
+      try {
+        return {
+          cart: await getStorefrontCart(normalizeCartId(params.cartId)),
+        };
+      } catch (error) {
+        const problem = toStorefrontProblem(
+          error,
+          new URL(request.url).pathname,
+        );
+        set.status = problem.status;
+        set.headers['content-type'] = 'application/problem+json';
+        return problem.body;
+      }
+    },
+    { params: cartParamsSchema },
+  )
   .post(
     '/cart/:cartId/lines',
     async ({ body, params, request, set }) => {
@@ -200,10 +221,23 @@ export const storefrontRoute = new Elysia({ prefix: '/api/storefront' })
         );
         const cancelUrl = new URL('/checkout/result?status=cancel', appBaseUrl);
 
-        return await getStorefrontCheckoutUrl(normalizeCartId(params.cartId), {
-          successUrl: successUrl.toString(),
-          cancelUrl: cancelUrl.toString(),
-        });
+        const checkout = await getStorefrontCheckoutUrl(
+          normalizeCartId(params.cartId),
+          {
+            successUrl: successUrl.toString(),
+            cancelUrl: cancelUrl.toString(),
+          },
+        );
+
+        // Signed-in buyers authenticate checkout via the Customer Accounts
+        // browser session (OIDC). Guests keep the plain checkout URL.
+        if (hasCustomerSession(request)) {
+          const url = new URL(checkout.checkoutUrl);
+          url.searchParams.set('sso', 'silent');
+          return { ...checkout, checkoutUrl: url.toString() };
+        }
+
+        return checkout;
       } catch (error) {
         logger.error(
           {
