@@ -2,10 +2,15 @@ import { useMemo, useSyncExternalStore } from 'react';
 import {
   addCartLines,
   createCart,
+  fetchCart,
   removeCartLines,
   updateCartLines,
 } from '../api/cart';
 import { storefrontCartSchema, type StorefrontCart } from '../types/storefront';
+import {
+  fetchCustomerCartId,
+  saveCustomerCartId,
+} from '@/features/customer/api/customer';
 
 const CART_STORAGE_KEY = 'sl88.storefront.cart';
 const CHECKOUT_BACKUP_STORAGE_KEY = 'sl88.storefront.checkout.backup';
@@ -171,6 +176,36 @@ function initializeCartStore() {
 
   if (typeof window !== 'undefined') {
     window.addEventListener('storage', handleStorageChange);
+    void syncCustomerCart();
+  }
+}
+
+/**
+ * Cross-device cart policy (agreed): the saved customer cart wins.
+ * - Signed in with a saved cart → restore it, discard the local guest cart.
+ * - Signed in without a saved cart → save the current local cart as the
+ *   customer's cross-device cart.
+ * - Guest or any failure → keep the local cart untouched.
+ */
+async function syncCustomerCart() {
+  try {
+    const savedCartId = await fetchCustomerCartId();
+
+    if (savedCartId != null) {
+      const remoteCart = await fetchCart(savedCartId);
+      const normalized = normalizeCart(remoteCart);
+      if (normalized != null) {
+        commitCart(normalized);
+      }
+      return;
+    }
+
+    const localCart = cartStoreSnapshot.cart;
+    if (localCart != null) {
+      await saveCustomerCartId(localCart.id);
+    }
+  } catch {
+    // Not signed in or sync failed — local cart remains the source.
   }
 }
 

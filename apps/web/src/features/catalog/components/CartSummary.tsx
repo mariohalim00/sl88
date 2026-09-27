@@ -78,7 +78,7 @@ export function CartSummary({
                     </p>
                     <div className="mt-2 flex items-center gap-2">
                       <button
-                        aria-label='decrease'
+                        aria-label="decrease"
                         type="button"
                         className="rounded border border-[#d4c4ac] px-2 py-0.5 text-xs text-[#1c1c15] disabled:opacity-60"
                         onClick={() =>
@@ -92,7 +92,7 @@ export function CartSummary({
                         {item.quantity}
                       </span>
                       <button
-                        aria-label='increase'
+                        aria-label="increase"
                         type="button"
                         className="rounded border border-[#d4c4ac] px-2 py-0.5 text-xs text-[#1c1c15] disabled:opacity-60"
                         onClick={() =>

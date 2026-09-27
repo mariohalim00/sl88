@@ -41,35 +41,19 @@ export const en = {
   auth: {
     loginTitle: 'Welcome Back',
     registerTitle: 'Create Account',
-    email: 'Email',
-    emailPlaceholder: 'you@example.com',
-    password: 'Password',
-    passwordPlaceholder: 'Enter your password',
-    firstName: 'First Name',
-    lastName: 'Last Name',
-    loginButton: 'Sign In',
-    registerButton: 'Create Account',
+    passwordlessHint:
+      'We’ll email you a one-time code to sign in — no password needed.',
+    registerHint:
+      'Enter your email and we’ll send a one-time code. Your account is created automatically.',
+    signInWithCode: 'Continue with Email',
     noAccount: "Don't have an account?",
     hasAccount: 'Already have an account?',
     registerLink: 'Register here',
     loginLink: 'Sign in here',
     logout: 'Sign Out',
-    forgotPasswordLink: 'Forgot password?',
-    forgotPasswordTitle: 'Forgot Password',
-    forgotPasswordHint:
-      "Enter your account email and we'll send you a link to reset your password.",
-    forgotPasswordButton: 'Send Reset Link',
-    forgotPasswordSent:
-      "Check your email — we've sent a link to reset your password.",
-    resetPasswordTitle: 'Set a New Password',
-    resetPasswordInvalidLink:
-      'This password reset link is missing or malformed. Please request a new one.',
-    resetPasswordRequestNew: 'Request a new link',
-    resetPasswordNewPassword: 'New Password',
-    resetPasswordConfirmPassword: 'Confirm Password',
-    resetPasswordConfirmPlaceholder: 'Re-enter your new password',
-    resetPasswordMismatch: 'Passwords do not match.',
-    resetPasswordButton: 'Reset Password',
+    firstName: 'First Name',
+    lastName: 'Last Name',
+    email: 'Email',
   },
   customer: {
     account: 'My Account',

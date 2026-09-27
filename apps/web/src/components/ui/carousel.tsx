@@ -91,9 +91,12 @@ function Carousel({
     api?.scrollNext();
   }, [api]);
 
-  const scrollTo = React.useCallback((index: number) => {
-    api?.scrollTo(index);
-  }, [api]);
+  const scrollTo = React.useCallback(
+    (index: number) => {
+      api?.scrollTo(index);
+    },
+    [api],
+  );
 
   // Auto-play
   React.useEffect(() => {

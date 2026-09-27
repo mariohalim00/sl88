@@ -56,7 +56,7 @@ export function CustomerProfile() {
             </span>
             {isEditing ? (
               <input
-                aria-label='first name field'
+                aria-label="first name field"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 className="mt-1 h-10 w-full rounded-lg border border-[#d4c4ac] bg-white px-3 text-sm text-[#1c1c15] outline-none focus:border-[#f4b400] focus:ring-1 focus:ring-[#f4b400]"
@@ -71,7 +71,7 @@ export function CustomerProfile() {
             </span>
             {isEditing ? (
               <input
-                aria-label='last name field'
+                aria-label="last name field"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 className="mt-1 h-10 w-full rounded-lg border border-[#d4c4ac] bg-white px-3 text-sm text-[#1c1c15] outline-none focus:border-[#f4b400] focus:ring-1 focus:ring-[#f4b400]"
@@ -88,7 +88,7 @@ export function CustomerProfile() {
           </span>
           {isEditing ? (
             <input
-              aria-label='email field'
+              aria-label="email field"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -105,7 +105,7 @@ export function CustomerProfile() {
           </span>
           {isEditing ? (
             <input
-              aria-label='phone field'
+              aria-label="phone field"
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}

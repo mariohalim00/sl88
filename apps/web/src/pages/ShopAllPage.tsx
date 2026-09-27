@@ -53,7 +53,7 @@ export function ShopAllPage() {
               {t('shopAll.priceRangeTitle')}
             </h2>
             <input
-              aria-label='range field'
+              aria-label="range field"
               type="range"
               min={0}
               max={priceUpperBound}

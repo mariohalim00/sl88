@@ -60,7 +60,7 @@ function HeroCarouselDots({ slides }: { slides: typeof heroSlides }) {
 
 export function LandingHero() {
   const { t } = useTranslation();
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [_, setActiveSlide] = useState(0);
 
   return (
     <section className="space-y-8 md:space-y-10">
