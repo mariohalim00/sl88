@@ -19,6 +19,7 @@ run = ["bun run db:migrate"]
 
 [tasks.dev]
 description = "Run both backend and frontend in dev mode with HMR"
+
 run = ["bun run dev"]
 
 [tasks.dev-api]

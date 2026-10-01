@@ -31,7 +31,7 @@ RUN bun build \
     --outfile server \
     apps/api/src/app/index.ts
 
-# ─── runner: production runtime (no migration step at startup) ─────────────
+# ─── runner: production runtime ──────────────────────────────────────────
 FROM base AS runner
 RUN addgroup -g 1001 -S appgroup && \
     adduser -S appuser -u 1001 -G appgroup
