@@ -4,7 +4,7 @@ const databaseUrl =
   process.env['DATABASE_URL'] ??
   'postgresql://postgres:postgres@localhost:5432/sl88_dev';
 
-export default defineConfig({
+const dbConfig = defineConfig({
   schema: './apps/api/src/db/schema/*.ts',
   out: './drizzle/migrations',
   dialect: 'postgresql',
@@ -20,3 +20,5 @@ export default defineConfig({
   },
   tablesFilter: [],
 });
+
+export default dbConfig;

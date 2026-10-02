@@ -21,7 +21,6 @@ export function AccountPage() {
 
   if (customer == null) {
     return <Navigate to={'/login'} replace />;
-    return null;
   }
 
   const tabs: { key: AccountTab; label: string }[] = [

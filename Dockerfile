@@ -31,7 +31,15 @@ RUN bun build \
     --outfile server \
     apps/api/src/app/index.ts
 
-# ─── runner: production runtime ──────────────────────────────────────────
+# ─── migrator: applies DB migrations at BUILD time ─────────────────────────
+# Requires DATABASE_URL (build arg) reachable from the build environment.
+FROM deps AS migrator
+COPY drizzle ./drizzle
+COPY drizzle.config.ts ./
+ARG DATABASE_URL
+RUN DATABASE_URL="$DATABASE_URL" bun run migrate && touch /app/.migrations-done
+
+# ─── runner: production runtime ────────────────────────────────────────────
 FROM base AS runner
 RUN addgroup -g 1001 -S appgroup && \
     adduser -S appuser -u 1001 -G appgroup
@@ -42,6 +50,10 @@ RUN chmod +x /app/server
 
 # Frontend static assets
 COPY --from=web-builder /app/apps/web/dist ./web/dist
+
+# Build-time dependency on the migrator stage: the marker file only exists
+# after migrations succeeded, so a failed migration fails the image build.
+COPY --from=migrator /app/.migrations-done /app/.migrations-done
 
 RUN chown -R appuser:appgroup /app
 USER appuser
@@ -54,9 +66,3 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
   CMD wget -qO- http://localhost:3000/api/health || exit 1
 
 CMD ["/app/server"]
-
-# ─── migrator: optional target for one-off DB migration job ────────────────
-FROM deps AS migrator
-COPY drizzle ./drizzle
-COPY drizzle.config.ts ./
-CMD ["bun", "run", "db:migrate"]

@@ -20,6 +20,7 @@
     "check": "vp check",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "migrate": "bun run drizzle/migrate.ts",
     "test:contract": "bun test apps/api/tests/contract",
     "doctor": "bunx react-doctor@latest --verbose"
   },
