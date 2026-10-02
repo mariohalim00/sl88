@@ -121,7 +121,7 @@ export function CustomerProfile() {
             {t('customer.memberSince')}
           </span>
           <p className="mt-1 text-[#1c1c15]">
-            {new Date(customer.createdAt).toLocaleDateString()}
+            {new Date(customer.createdAt).toLocaleDateString('en-CA')}
           </p>
         </div>
       </div>

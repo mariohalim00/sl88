@@ -36,7 +36,7 @@ export function OrderHistory() {
               </p>
               <p className="mt-1 text-xs text-[#504533]">
                 {order.processedAt != null
-                  ? new Date(order.processedAt).toLocaleDateString()
+                  ? new Date(order.processedAt).toLocaleDateString('en-CA')
                   : '-'}
               </p>
               <p className="mt-1 text-sm font-medium text-[#1c1c15]">

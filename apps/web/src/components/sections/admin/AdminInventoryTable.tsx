@@ -32,7 +32,7 @@ function statusLabel(
 }
 
 export function AdminInventoryTable({ rows }: AdminInventoryTableProps) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <div className="overflow-x-auto rounded-2xl border border-border/70 bg-card/70">
@@ -64,9 +64,7 @@ export function AdminInventoryTable({ rows }: AdminInventoryTableProps) {
               <td className="px-4 py-3">{row.stock}</td>
               <td className="px-4 py-3">{statusLabel(row.status, t)}</td>
               <td className="px-4 py-3 text-muted-foreground">
-                {new Date(row.lastUpdatedAt).toLocaleDateString(
-                  i18n.resolvedLanguage === 'id' ? 'id-ID' : 'en-US',
-                )}
+                {new Date(row.lastUpdatedAt).toLocaleDateString('en-CA')}
               </td>
             </tr>
           ))}

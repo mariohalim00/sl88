@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from 'react';
 import { fetchCustomerMe, logoutCustomer } from '../api/customer';
 import { startCustomerSignIn } from '../api/customer';
+import { clearLocalCart } from '@/features/catalog/hooks/useCart';
 
 import type { Customer } from '../types/customer';
 
@@ -78,6 +79,9 @@ export function useCustomer() {
 
   const logout = () => {
     update({ isLoading: true, error: null });
+    // Browser forgets its cart; the customer's Shopify cart is preserved
+    // and restored on next sign-in.
+    clearLocalCart();
     // Navigates the browser through Shopify logout; the page unloads, so no
     // local state reset is needed.
     logoutCustomer();

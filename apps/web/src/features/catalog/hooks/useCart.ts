@@ -209,6 +209,18 @@ async function syncCustomerCart() {
   }
 }
 
+/**
+ * Sign-out policy (agreed): the browser forgets its active cart and checkout
+ * backup, but the customer's Shopify cart (and its pointer) is preserved for
+ * their next sign-in.
+ */
+export function clearLocalCart() {
+  if (typeof window === 'undefined') return;
+  window.localStorage.removeItem(CART_STORAGE_KEY);
+  window.sessionStorage.removeItem(CHECKOUT_BACKUP_STORAGE_KEY);
+  updateCartStoreSnapshot({ cart: null });
+}
+
 export function useCart() {
   initializeCartStore();
 
@@ -239,6 +251,14 @@ export function useCart() {
       }
 
       commitCart(nextCart);
+      // Keep the customer cart pointer current when signed in (guests get
+      // null here and are handled by the startup sync instead).
+      void (async () => {
+        const savedCartId = await fetchCustomerCartId().catch(() => null);
+        if (savedCartId != null && savedCartId !== nextCart.id) {
+          await saveCustomerCartId(nextCart.id).catch(() => {});
+        }
+      })();
       return nextCart;
     } finally {
       updateCartStoreSnapshot({ isMutating: false });
