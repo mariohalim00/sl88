@@ -42,8 +42,10 @@ export function startCustomerSignIn(email?: string): void {
   window.location.assign(url.toString());
 }
 
-export async function logoutCustomer(): Promise<void> {
-  await customerApi.logout.post();
+export function logoutCustomer() {
+  // Must be a browser navigation, not a treaty fetch: the route 302s through
+  // Shopify's end_session_endpoint, and fetch cannot end that session.
+  window.location.assign('/api/customer/auth/logout');
 }
 
 export async function fetchCustomerMe(): Promise<Customer | null> {

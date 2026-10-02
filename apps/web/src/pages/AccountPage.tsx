@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { AddressBook } from '@/features/customer/components/AddressBook';
 import { CustomerProfile } from '@/features/customer/components/CustomerProfile';
 import { OrderHistory } from '@/features/customer/components/OrderHistory';
@@ -10,7 +10,6 @@ type AccountTab = 'profile' | 'orders' | 'addresses';
 
 export function AccountPage() {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const { customer, isLoading, logout } = useCustomer();
   const [activeTab, setActiveTab] = useState<AccountTab>('profile');
 
@@ -29,9 +28,8 @@ export function AccountPage() {
     { key: 'addresses', label: t('customer.addresses') },
   ];
 
-  const handleLogout = async () => {
-    await logout();
-    void navigate('/');
+  const handleLogout = () => {
+    logout();
   };
 
   return (

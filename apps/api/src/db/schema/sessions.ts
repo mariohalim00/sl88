@@ -13,6 +13,8 @@ export const customerSessions = pgTable('customer_sessions', {
   }).notNull(),
   // Headless storefront clients receive a refresh token; null for others.
   refreshToken: text('refresh_token'),
+  // OIDC ID token from the initial login; required by Shopify's logout flow.
+  idToken: text('id_token'),
   createdAt: timestamp('created_at', { withTimezone: true })
     .notNull()
     .defaultNow(),

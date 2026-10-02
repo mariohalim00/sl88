@@ -76,16 +76,11 @@ export function useCustomer() {
     startCustomerSignIn(email);
   };
 
-  const logout = async () => {
+  const logout = () => {
     update({ isLoading: true, error: null });
-    try {
-      await logoutCustomer();
-      hasInitialized = false;
-      update({ customer: null, isLoading: false });
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Logout failed';
-      update({ isLoading: false, error: message });
-    }
+    // Navigates the browser through Shopify logout; the page unloads, so no
+    // local state reset is needed.
+    logoutCustomer();
   };
 
   const refreshCustomer = async () => {

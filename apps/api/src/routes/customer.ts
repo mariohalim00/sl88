@@ -9,6 +9,7 @@ import { getAppPublicUrl } from '../env/index.js';
 import {
   buildAuthorizationUrl,
   exchangeAuthorizationCode,
+  getOpenIdConfig,
   runCustomerOperation,
 } from '../services/customer-account/client.js';
 import {
@@ -225,6 +226,7 @@ export const customerRoute = new Elysia({ prefix: '/api/customer' })
           accessToken: token.accessToken,
           accessTokenExpiresAt: token.expiresAt,
           refreshToken: token.refreshToken,
+          idToken: token.idToken,
         })
         .returning();
       const session = inserted[0];
@@ -261,16 +263,36 @@ export const customerRoute = new Elysia({ prefix: '/api/customer' })
       return problemFromError(error, request, set);
     }
   })
-  .post('/logout', async ({ request, set }) => {
+  .get('/auth/logout', async ({ request, set }) => {
+    // Full-page navigation (not fetch): must send the browser through
+    // Shopify's end_session_endpoint to kill its Customer Accounts session.
     const sessionId = parseSessionId(request);
+    let idToken: string | null = null;
     if (sessionId != null) {
-      await db
+      // ponytail: sessions created before id_token was stored have no
+      // idToken and get a local-only sign-out; new sessions always carry it.
+      const [deleted] = await db
         .delete(customerSessions)
         .where(eq(customerSessions.id, sessionId))
-        .catch(() => {});
+        .returning({ idToken: customerSessions.idToken })
+        .catch(() => []);
+      idToken = deleted?.idToken ?? null;
     }
     clearSessionCookie(set.headers as Record<string, unknown>);
-    return { success: true };
+
+    let location = new URL('/login', getAppPublicUrl()).toString();
+    if (idToken != null) {
+      const { end_session_endpoint: endSessionEndpoint } =
+        await getOpenIdConfig();
+      const logoutUrl = new URL(endSessionEndpoint);
+      logoutUrl.searchParams.set('id_token_hint', idToken);
+      logoutUrl.searchParams.set('post_logout_redirect_uri', location);
+      location = logoutUrl.toString();
+    }
+
+    set.status = 302;
+    set.headers['location'] = location;
+    return undefined;
   })
   .get('/me', async ({ request, set }) => {
     try {

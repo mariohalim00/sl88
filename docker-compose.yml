@@ -15,13 +15,13 @@ services:
       SHOPIFY_STOREFRONT_ACCESS_TOKEN: ${SHOPIFY_STOREFRONT_ACCESS_TOKEN:-}
       SHOPIFY_STOREFRONT_PUBLIC_ACCESS_TOKEN: ${SHOPIFY_STOREFRONT_PUBLIC_ACCESS_TOKEN:-}
       SHOPIFY_STOREFRONT_PRIVATE_ACCESS_TOKEN: ${SHOPIFY_STOREFRONT_PRIVATE_ACCESS_TOKEN:-}
-      SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_ID: ${SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_ID:-} 
+      SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_ID: ${SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_ID:-}
       SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_SECRET: ${SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_SECRET:-}
     ports:
       - '${PORT:-3000}:3000'
-    depends_on:
-      postgres:
-        condition: service_healthy
+    # depends_on:
+    #   postgres:
+    #     condition: service_healthy
     restart: unless-stopped
     healthcheck:
       test:
@@ -33,28 +33,29 @@ services:
     networks:
       - internal
 
-  postgres:
-    image: postgres:16-alpine
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      POSTGRES_DB: ${POSTGRES_DB:-sl88}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test:
-        [
-          'CMD-SHELL',
-          'pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-sl88}',
-        ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-    networks:
-      - internal
-    # Port not exposed publicly — only the app container accesses it.
-    # For local DB access, add: ports: ['5432:5432']
+#  CURRENTLY USING SEPARATE PG INSTANCE
+# postgres:
+#   image: postgres:16-alpine
+#   environment:
+#     POSTGRES_USER: ${POSTGRES_USER:-postgres}
+#     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+#     POSTGRES_DB: ${POSTGRES_DB:-sl88}
+#   volumes:
+#     - postgres_data:/var/lib/postgresql/data
+#   healthcheck:
+#     test:
+#       [
+#         'CMD-SHELL',
+#         'pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-sl88}',
+#       ]
+#     interval: 10s
+#     timeout: 5s
+#     retries: 5
+#     start_period: 10s
+#   networks:
+#     - internal
+#   # Port not exposed publicly — only the app container accesses it.
+#   # For local DB access, add: ports: ['5432:5432']
 
 networks:
   internal:
