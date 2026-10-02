@@ -15,7 +15,7 @@ Scripts in this directory support local development workflows.
 | `bun run dev`           | Start Elysia API + Bun fullstack frontend dev server                                             |
 | `bun run db:generate`   | Generate Drizzle migration files from schema changes                                             |
 | `bun run db:migrate`    | Apply pending Drizzle migrations to local Postgres                                               |
-| `bun run migrate`       | Apply migrations via the standalone `drizzle/migrate.ts` script (same one the Docker build runs) |
+| `bun run migrate`       | Apply migrations via the standalone `drizzle/migrate.ts` script (also run at container startup) |
 | `bun run check`         | Format + lint + typecheck in one pass (Vite+)                                                    |
 | `bun run format`        | Format source files with oxfmt via Vite+                                                         |
 | `bun run lint`          | Lint source files with oxlint via Vite+                                                          |
